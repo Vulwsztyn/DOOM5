@@ -21,5 +21,9 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #define CONSTANTS_H
 
 const float PI = 3.141592653589793f;
+const bool yes = !false;
+const bool yesnt = !yes;
+const float playerMovementSpeed = 1;
+const float playerRotationSpeed = 1;
 
 #endif

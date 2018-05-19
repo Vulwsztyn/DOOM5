@@ -15,9 +15,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="vshader.txt" />
-    <Text Include="fshader.txt" />
     <Text Include="gpl.txt" />
+    <Text Include="vshader.glsl" />
+    <Text Include="fshader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="allmodels.h">
@@ -44,6 +44,9 @@
     <ClInclude Include="torus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Gracz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -67,6 +70,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="teapot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Gracz.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
