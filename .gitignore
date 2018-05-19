@@ -1,0 +1,14 @@
+
+.vs/DOOM5/v15/.suo
+*.db
+.vs/DOOM5/v15/Browse.VC.opendb
+*.ipch
+Debug/DOOM5.exe
+Debug/DOOM5.ilk
+Debug/DOOM5.pdb
+DOOM5/Debug/cube.obj
+DOOM5/DOOM5.vcxproj
+DOOM5/Debug/vc141.idb
+DOOM5/Debug/vc141.pdb
+*.tlog
+DOOM5/Debug/cube.obj
