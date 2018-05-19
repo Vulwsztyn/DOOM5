@@ -72,8 +72,8 @@ void error_callback(int error, const char* description) {
 void key_callback(GLFWwindow* window, int key,
 	int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
-		if (key == GLFW_KEY_LEFT) gracz.setRotation(-1);
-		if (key == GLFW_KEY_RIGHT) gracz.setRotation(1);
+		if (key == GLFW_KEY_LEFT) gracz.setRotation(1);
+		if (key == GLFW_KEY_RIGHT) gracz.setRotation(-1);
 
 		if (key == GLFW_KEY_UP) gracz.setMovement(1);
 		if (key == GLFW_KEY_DOWN) gracz.setMovement(-1);

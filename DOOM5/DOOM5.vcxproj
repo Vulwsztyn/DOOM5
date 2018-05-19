@@ -30,6 +30,7 @@
     <ClInclude Include="Gracz.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="shaderprogram.h" />
     <ClInclude Include="teapot.h" />
     <ClInclude Include="torus.h" />
@@ -45,6 +46,7 @@
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main_file.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="shaderprogram.cpp" />
     <ClCompile Include="teapot.cpp" />
   </ItemGroup>
