@@ -12,10 +12,7 @@ Object::~Object()
 }
 
 
-bool Object::loader(const char * path,
-	std::vector < glm::vec3 > & out_vertices,
-	std::vector < glm::vec2 > & out_uvs,
-	std::vector < glm::vec3 > & out_normals) {
+bool Object::loader(const char * path) {
 	std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
 	std::vector< glm::vec3 > temp_vertices;
 	std::vector< glm::vec2 > temp_uvs;
@@ -72,7 +69,19 @@ bool Object::loader(const char * path,
 			for (unsigned int i = 0; i < vertexIndices.size(); i++) {
 				unsigned int vertexIndex = vertexIndices[i];
 				glm::vec3 vertex = temp_vertices[vertexIndex - 1];
-				out_vertices.push_back(vertex);
+				vertices.push_back(vertex);
+			}
+
+			for (unsigned int i = 0; i < uvIndices.size(); i++) {
+				unsigned int uvIndex = uvIndices[i];
+				glm::vec2 uv = temp_uvs[uvIndex - 1];
+				uvs.push_back(uv);
+			}
+
+			for (unsigned int i = 0; i < normalIndices.size(); i++) {
+				unsigned int normalIndex = normalIndices[i];
+				glm::vec3 normal = temp_normals[normalIndex - 1];
+				normals.push_back(normal);
 			}
 		}
 	}
