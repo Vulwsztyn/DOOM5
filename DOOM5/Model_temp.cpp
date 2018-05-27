@@ -90,6 +90,7 @@ bool Model_temp::loader(const char * path) {
 		normals.push_back(normal.x);
 		normals.push_back(normal.y);
 		normals.push_back(normal.z);
-		vertices.push_back(0);
+		normals.push_back(0);
 	}
+
 }
