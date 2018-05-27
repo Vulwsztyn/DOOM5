@@ -13,7 +13,7 @@ in vec4 normal; //wektor normalny w wierzcholku (na razie ignorowany)
 out vec4 colorInput;
 void main(void) {
 	gl_Position=P*V*M*vertex;
-	colorInput=(normal+1)/2;
+	colorInput=vec4(0.5,0.5,0.5,1);
 }
 
 

@@ -1,3 +1,3 @@
-﻿  Object.cpp
-c:\users\luker\documents\github\doom5\doom5\object.cpp(88): warning C4715: "Object::loader”: niewszystkie ścieżki kodu zwracają wartość
-  DOOM5.vcxproj -> C:\Users\Luker\Documents\GitHub\DOOM5\Debug\DOOM5.exe
+﻿  main_file.cpp
+c:\users\luk3r\documents\github\doom5\doom5\main_file.cpp(283): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
+  DOOM5.vcxproj -> C:\Users\Luk3r\Documents\GitHub\DOOM5\Debug\DOOM5.exe

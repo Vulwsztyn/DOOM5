@@ -32,6 +32,7 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "lodepng.h"
 #include "shaderprogram.h"
 #include "Gracz.h"
+#include "Model_temp.h"
 
 using namespace glm;
 using namespace std;
@@ -135,15 +136,27 @@ void prepareObject(ShaderProgram *shaderProgram) {
 	glBindVertexArray(0); //Dezaktywuj VAO
 }
 
+
 //Procedura inicjująca
 void initOpenGLProgram(GLFWwindow* window) {
 	//************Tutaj umieszczaj kod, który należy wykonać raz, na początku programu************
+	Model_temp map;
+	map.loader("untitled.obj");
 	glClearColor(0, 0, 0, 1); //Czyść ekran na czarno
 	glEnable(GL_DEPTH_TEST); //Włącz używanie Z-Bufora
 	glfwSetKeyCallback(window, key_callback); //Zarejestruj procedurę obsługi klawiatury
     glfwSetFramebufferSizeCallback(window,windowResize); //Zarejestruj procedurę obsługi zmiany rozmiaru bufora ramki
 
 	shaderProgram=new ShaderProgram("vshader.glsl",NULL,"fshader.glsl"); //Wczytaj program cieniujący
+
+	vertices = map.getConvertedVertices();
+	normals = map.getConvertedNormals();
+	vertexCount = map.getVertices().size()/4;
+
+	for (int i = 0; i < vertexCount; i=i+4) {
+		cout << "  " << vertices[i] << "  " << vertices[i+1] << "  " << vertices[i + 2] << "  " << vertices[i + 3] << endl;
+	}
+
 
     prepareObject(shaderProgram);
 }
@@ -200,7 +213,7 @@ void drawScene(GLFWwindow* window) {
 		gracz.getPosition().z + 5*cos(gracz.getAngle().x)
 	
 	);//Ogarniecie,że to jest takie łatwe zajeło mi 2h
-	cout << vec.x << " " << vec.y << " " << vec.z << "  " << gracz.getAngle().x << endl;
+	//cout << vec.x << " " << vec.y << " " << vec.z << "  " << gracz.getAngle().x << endl;
 	glm::mat4 V = glm::lookAt( //Wylicz macierz widoku
 		gracz.getPosition(), //kamera znajduje sie w
 		vec, //patrzy na

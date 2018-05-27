@@ -47,7 +47,7 @@
     <ClInclude Include="Gracz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
+    <ClInclude Include="Model_temp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -78,7 +78,7 @@
     <ClCompile Include="Gracz.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
+    <ClCompile Include="Model_temp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
