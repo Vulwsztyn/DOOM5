@@ -20,34 +20,19 @@
     <Text Include="fshader.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="allmodels.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lodepng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="shaderprogram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="teapot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="torus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Gracz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Model_temp.h">
+    <ClInclude Include="Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -57,28 +42,19 @@
     <None Include="glfw3.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lodepng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main_file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="shaderprogram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="teapot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Gracz.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Model_temp.cpp">
+    <ClCompile Include="Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

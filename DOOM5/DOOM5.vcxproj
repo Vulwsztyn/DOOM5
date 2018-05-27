@@ -24,16 +24,11 @@
     <Text Include="vshader.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="allmodels.h" />
     <ClInclude Include="constants.h" />
-    <ClInclude Include="cube.h" />
     <ClInclude Include="Gracz.h" />
     <ClInclude Include="lodepng.h" />
-    <ClInclude Include="model.h" />
-    <ClInclude Include="Model_temp.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="shaderprogram.h" />
-    <ClInclude Include="teapot.h" />
-    <ClInclude Include="torus.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -41,14 +36,11 @@
     <None Include="glfw3.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cube.cpp" />
     <ClCompile Include="Gracz.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main_file.cpp" />
-    <ClCompile Include="model.cpp" />
-    <ClCompile Include="Model_temp.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="shaderprogram.cpp" />
-    <ClCompile Include="teapot.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DD161D24-9326-4AB1-B230-96DA03CA652A}</ProjectGuid>

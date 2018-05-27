@@ -1,30 +1,96 @@
-/*
-Niniejszy program jest wolnym oprogramowaniem; możesz go
-rozprowadzać dalej i / lub modyfikować na warunkach Powszechnej
-Licencji Publicznej GNU, wydanej przez Fundację Wolnego
-Oprogramowania - według wersji 2 tej Licencji lub(według twojego
-wyboru) którejś z późniejszych wersji.
+#include "Model.h"
 
-Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on
-użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej
-gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH
-ZASTOSOWAŃ.W celu uzyskania bliższych informacji sięgnij do
-Powszechnej Licencji Publicznej GNU.
 
-Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz
-Powszechnej Licencji Publicznej GNU(GNU General Public License);
-jeśli nie - napisz do Free Software Foundation, Inc., 59 Temple
-Place, Fifth Floor, Boston, MA  02110 - 1301  USA
-*/
 
-#include "model.h"
+Model::Model()
+{
+}
 
-namespace Models {
-	void Model::drawWire() {
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-		
-		drawSolid();
-		
-		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
+Model::~Model()
+{
+}
+
+float* Model::getConvertedVertices() {
+	float* temp = &vertices[0];
+	return temp;
+}
+
+float* Model::getConvertedNormals() {
+	float* temp = &normals[0];
+	return temp;
+}
+
+bool Model::loader(const char * path) {
+	std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
+	std::vector< glm::vec3 > temp_vertices;
+	std::vector< glm::vec2 > temp_uvs;
+	std::vector< glm::vec3 > temp_normals;
+
+
+	FILE * file = fopen(path, "r");
+	if (file == NULL) {
+		printf("Impossible to open the file !\n");
+		return false;
 	}
+	int test = 0;
+	while (1) {
+		char lineHeader[128];
+		// read the first word of the line
+		int res = fscanf(file, "%s", lineHeader);
+		//std::cout << lineHeader[0] << " " << test << std::endl;
+		if (res == EOF)
+			break; // EOF = End Of File. Quit the loop.
+
+				   // else : parse lineHeader
+		if (strcmp(lineHeader, "v") == 0) {
+			glm::vec3 vertex;
+			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+			temp_vertices.push_back(vertex);
+		}
+		else if (strcmp(lineHeader, "vt") == 0) {
+			glm::vec2 uv;
+			fscanf(file, "%f %f\n", &uv.x, &uv.y);
+			temp_uvs.push_back(uv);
+		}
+		else if (strcmp(lineHeader, "vn") == 0) {
+			glm::vec3 normal;
+			fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
+			temp_normals.push_back(normal);
+		}
+		else if (strcmp(lineHeader, "f") == 0) {
+			unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
+
+			int matches = fscanf(file, "%d//%d %d//%d %d//%d\n", &vertexIndex[0], &normalIndex[0], &vertexIndex[1], &normalIndex[1], &vertexIndex[2], &normalIndex[2]);
+			//std::cout << vertexIndex[0] <<" "<<vertexIndex[1]<<" "<<vertexIndex[2]<< std::endl;
+			vertexIndices.push_back(vertexIndex[0]);
+			vertexIndices.push_back(vertexIndex[1]);
+			vertexIndices.push_back(vertexIndex[2]);
+
+			normalIndices.push_back(normalIndex[0]);
+			normalIndices.push_back(normalIndex[1]);
+			normalIndices.push_back(normalIndex[2]);
+		}
+		test++;
+	}
+	// For each vertex of each triangle
+	for (int i = 0; i < vertexIndices.size(); i++) {
+		int vertexIndex = vertexIndices[i];
+		glm::vec3 vertex = temp_vertices[vertexIndex - 1];
+		vertices.push_back(vertex.x);
+		vertices.push_back(vertex.y);
+		vertices.push_back(vertex.z);
+		vertices.push_back(1);
+	}
+
+
+	for (int i = 0; i < normalIndices.size(); i++) {
+		int normalIndex = normalIndices[i];
+		glm::vec3 normal = temp_normals[normalIndex - 1];
+		normals.push_back(normal.x);
+		normals.push_back(normal.y);
+		normals.push_back(normal.z);
+		normals.push_back(0);
+	}
+
 }

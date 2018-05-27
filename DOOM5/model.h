@@ -1,44 +1,26 @@
-/*
-Niniejszy program jest wolnym oprogramowaniem; możesz go
-rozprowadzać dalej i / lub modyfikować na warunkach Powszechnej
-Licencji Publicznej GNU, wydanej przez Fundację Wolnego
-Oprogramowania - według wersji 2 tej Licencji lub(według twojego
-wyboru) którejś z późniejszych wersji.
-
-Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on
-użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej
-gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH
-ZASTOSOWAŃ.W celu uzyskania bliższych informacji sięgnij do
-Powszechnej Licencji Publicznej GNU.
-
-Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz
-Powszechnej Licencji Publicznej GNU(GNU General Public License);
-jeśli nie - napisz do Free Software Foundation, Inc., 59 Temple
-Place, Fifth Floor, Boston, MA  02110 - 1301  USA
-*/
-
-#ifndef MODEL_H
-#define MODEL_H
-
+#pragma once
 #include <vector>
-#include <glm/glm.hpp>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "constants.h"
+#include <glm/glm.hpp>
+#include <stdlib.h>
+#include <stdio.h>
+#include <iostream>
+class Model
+{
+private:
+	std::vector < float > vertices;
+	std::vector < float > uvs;
+	std::vector < float > normals;
+public:
+	Model();
+	~Model();
+	bool loader(const char * path);
+	std::vector < float > getVertices() { return vertices; }
+	std::vector < float > getUvs() { return uvs; }
+	std::vector < float > getNormals() { return normals; }
+	float* getConvertedVertices();
+	float* getConvertedUvs();
+	float* getConvertedNormals();
+};
 
-namespace Models {
-
-	class Model {
-		public:
-			int vertexCount;
-			float *vertices;
-			float *normals;
-			float *vertexNormals;
-			float *texCoords;
-			float *colors;
-					
-			virtual void drawSolid()=0;
-			virtual void drawWire();
-	};
-}
-
-#endif

@@ -5,7 +5,7 @@
 Gracz::Gracz()
 {
 	angle = vec3(0.0f, 0.0f, 0.0f);
-	position = vec3(0.0f, 0.0f, -5.0f);
+	position = vec3(0.0f, 0.0f, 0.0f);
 	rotation = 0;
 	movement = 0;
 }

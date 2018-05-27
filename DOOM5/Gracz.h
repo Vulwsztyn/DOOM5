@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <iostream>
 #include "constants.h"
-#include "allmodels.h"
 #include "lodepng.h"
 #include "shaderprogram.h"
 

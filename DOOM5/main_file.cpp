@@ -28,11 +28,10 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include <stdio.h>
 #include <iostream>
 #include "constants.h"
-#include "allmodels.h"
 #include "lodepng.h"
 #include "shaderprogram.h"
 #include "Gracz.h"
-#include "Model_temp.h"
+#include "Model.h"
 
 using namespace glm;
 using namespace std;
@@ -57,10 +56,10 @@ int vertexCount2=Models::CubeInternal::vertexCount;
 */
 //Czajnik
 
-float* vertices=Models::TeapotInternal::vertices;
-float* colors=Models::TeapotInternal::colors;
-float* normals=Models::TeapotInternal::vertexNormals;
-int vertexCount=Models::TeapotInternal::vertexCount;
+float* vertices;
+float* colors;
+float* normals;
+int vertexCount;
 
 Gracz gracz = Gracz();
 
@@ -140,7 +139,7 @@ void prepareObject(ShaderProgram *shaderProgram) {
 //Procedura inicjująca
 void initOpenGLProgram(GLFWwindow* window) {
 	//************Tutaj umieszczaj kod, który należy wykonać raz, na początku programu************
-	Model_temp map;
+	Model map;
 	map.loader("untitled.obj");
 	glClearColor(0, 0, 0, 1); //Czyść ekran na czarno
 	glEnable(GL_DEPTH_TEST); //Włącz używanie Z-Bufora
@@ -153,9 +152,6 @@ void initOpenGLProgram(GLFWwindow* window) {
 	normals = map.getConvertedNormals();
 	vertexCount = map.getVertices().size()/4;
 
-	for (int i = 0; i < vertexCount; i=i+4) {
-		cout << "  " << vertices[i] << "  " << vertices[i+1] << "  " << vertices[i + 2] << "  " << vertices[i + 3] << endl;
-	}
 
 
     prepareObject(shaderProgram);
