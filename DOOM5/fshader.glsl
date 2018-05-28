@@ -13,7 +13,7 @@ void main(void) {
     vec4 kd=vec4(0.5,0.5,0.5,1);//Kolor obiektu w swietle rozproszonym
     vec4 ks=vec4(0.5,0.5,0.5,1); //Kolor obiektu w swietle odbitym
 
-    vec4 la=vec4(0.6,0.6,0.6,1); //Kolor swiatla otoczenia
+    vec4 la=vec4(0,0,0,1); //Kolor swiatla otoczenia
     vec4 ld=vec4(1,1,1,1); //Kolor swiatla rozpraszanego
     vec4 ls=vec4(1,1,1,0); //Kolor swiatla odbijanego
 
