@@ -1,7 +1,7 @@
 ﻿  main_file.cpp
 c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(27): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(127): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(128): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(329): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(173): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(174): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(375): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
   DOOM5.vcxproj -> C:\Users\Artur\Documents\Visual Studio 2017\Projects\DOOM6\Debug\DOOM5.exe

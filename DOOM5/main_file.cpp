@@ -77,8 +77,33 @@ void error_callback(int error, const char* description) {
 void key_callback(GLFWwindow* window, int key,
 	int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
-		
-			if (key == GLFW_KEY_LEFT) gracz.addMovementX(1);
+			
+		switch (key) {
+		case GLFW_KEY_A:
+		case GLFW_KEY_LEFT:
+			gracz.addMovementX(1);
+			break;
+		case GLFW_KEY_D:
+		case GLFW_KEY_RIGHT:
+			gracz.addMovementX(-1);
+			break;
+		case GLFW_KEY_W:
+		case GLFW_KEY_UP:
+			gracz.addMovementZ(1);
+			break;
+		case GLFW_KEY_S:
+		case GLFW_KEY_DOWN:
+			gracz.addMovementZ(-1);
+			break;
+		case GLFW_KEY_SPACE:
+			gracz.skocz();
+				break;
+		case GLFW_KEY_P:
+			cout << gracz.getAngle().x << " " << gracz.getPosition().x << " " << gracz.getPosition().y << " " << gracz.getPosition().z << endl;
+			break;
+		}
+		/*
+		if (key == GLFW_KEY_LEFT) gracz.addMovementX(1);
 		if (key == GLFW_KEY_RIGHT) gracz.addMovementX(-1);
 
 			if (key == GLFW_KEY_UP) gracz.addMovementZ(1);
@@ -89,13 +114,34 @@ void key_callback(GLFWwindow* window, int key,
 		if (key == GLFW_KEY_P) {
 			cout << gracz.getAngle().x << " " << gracz.getPosition().x << " " << gracz.getPosition().y << " " << gracz.getPosition().z << endl;
 		}
+		*/
 	}
 
 	if (action == GLFW_RELEASE) {
+		switch (key) {
+		case GLFW_KEY_A:
+		case GLFW_KEY_LEFT:
+			gracz.addMovementX(-1);
+			break;
+		case GLFW_KEY_D:
+		case GLFW_KEY_RIGHT:
+			gracz.addMovementX(1);
+			break;
+		case GLFW_KEY_W:
+		case GLFW_KEY_UP:
+			gracz.addMovementZ(-1);
+			break;
+		case GLFW_KEY_S:
+		case GLFW_KEY_DOWN:
+			gracz.addMovementZ(1);
+			break;
+		}
+		/*
 		if (key == GLFW_KEY_LEFT) gracz.addMovementX(-1);
 		if (key == GLFW_KEY_RIGHT) gracz.addMovementX(1);
 		if (key == GLFW_KEY_UP) gracz.addMovementZ(-1);
 		if (key == GLFW_KEY_DOWN) gracz.addMovementZ(1);
+		*/
 	}
 }
 void joystick_functions() {
