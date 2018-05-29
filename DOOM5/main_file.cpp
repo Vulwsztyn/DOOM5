@@ -63,6 +63,11 @@ int vertexCount;
 
 Gracz gracz = Gracz();
 
+double oldMouseX;
+double oldMouseY;
+bool oldMouseInitiated = false;
+bool joystickConnected = false;
+
 //Procedura obsługi błędów
 void error_callback(int error, const char* description) {
 	fputs(description, stderr);
@@ -72,20 +77,61 @@ void error_callback(int error, const char* description) {
 void key_callback(GLFWwindow* window, int key,
 	int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
-		if (key == GLFW_KEY_LEFT) gracz.setRotation(1);
-		if (key == GLFW_KEY_RIGHT) gracz.setRotation(-1);
+		
+			if (key == GLFW_KEY_LEFT) gracz.addMovementX(1);
+		if (key == GLFW_KEY_RIGHT) gracz.addMovementX(-1);
 
-		if (key == GLFW_KEY_UP) gracz.setMovement(1);
-		if (key == GLFW_KEY_DOWN) gracz.setMovement(-1);
+			if (key == GLFW_KEY_UP) gracz.addMovementZ(1);
+		if (key == GLFW_KEY_DOWN) gracz.addMovementZ(-1);
+		if (key == GLFW_KEY_SPACE) {
+			gracz.skocz();
+		}
+		if (key == GLFW_KEY_P) {
+			cout << gracz.getAngle().x << " " << gracz.getPosition().x << " " << gracz.getPosition().y << " " << gracz.getPosition().z << endl;
+		}
 	}
 
 	if (action == GLFW_RELEASE) {
-		if (key == GLFW_KEY_LEFT) gracz.setRotation(0);
-		if (key == GLFW_KEY_RIGHT) gracz.setRotation(0);
-		if (key == GLFW_KEY_UP) gracz.setMovement(0);
-		if (key == GLFW_KEY_DOWN) gracz.setMovement(0);
+		if (key == GLFW_KEY_LEFT) gracz.addMovementX(-1);
+		if (key == GLFW_KEY_RIGHT) gracz.addMovementX(1);
+		if (key == GLFW_KEY_UP) gracz.addMovementZ(-1);
+		if (key == GLFW_KEY_DOWN) gracz.addMovementZ(1);
 	}
 }
+void joystick_functions() {
+	int count = 2;
+	const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+	gracz.setMovementX(-1 * axes[0]);
+	gracz.setMovementZ(axes[1]);
+	gracz.addRotationX(-axes[2] / stalaDoDzieleniaObrotuZPada);
+	gracz.addRotationY(2 * axes[3] / stalaDoDzieleniaObrotuZPada);
+	count = 14;
+	const unsigned char* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count);
+	if (buttons[0] == GLFW_PRESS) gracz.skocz();
+	//OSIE
+	//X LEWEGO,YLEWEGO,XPRAWEGO,YPRAWEGO,LEWY TRIGGER,PRAWY TRIGGER
+	//GUZIKI
+	//A,B,X,Y,LB,RB,BACK,START,LEWY GRZYBEK,PRAWY GRZYBEK,GORA,PRAWO,DOL,LEWO
+}
+
+void joystick_callback(int joy, int eve) {
+	joystickConnected = eve == GLFW_CONNECTED;
+}
+void cursor_enter_callback(GLFWwindow* window, int entered) {
+	if (!entered) oldMouseInitiated = false;
+}
+
+static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	if (oldMouseInitiated) {
+		gracz.addRotationX((oldMouseX - xpos) / pixelsPerRotation);
+		gracz.addRotationY((oldMouseY - ypos) / pixelsPerRotation);
+	}
+	oldMouseX = xpos;
+	oldMouseY = ypos;
+	oldMouseInitiated = true;
+}
+
 
 //Procedura obługi zmiany rozmiaru bufora ramki
 void windowResize(GLFWwindow* window, int width, int height) {
@@ -144,7 +190,11 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glClearColor(0, 0, 0, 1); //Czyść ekran na czarno
 	glEnable(GL_DEPTH_TEST); //Włącz używanie Z-Bufora
 	glfwSetKeyCallback(window, key_callback); //Zarejestruj procedurę obsługi klawiatury
-    glfwSetFramebufferSizeCallback(window,windowResize); //Zarejestruj procedurę obsługi zmiany rozmiaru bufora ramki
+	glfwSetCursorPosCallback(window, cursor_position_callback);
+	glfwSetCursorEnterCallback(window, cursor_enter_callback);
+	glfwSetJoystickCallback(joystick_callback);
+	joystickConnected = glfwJoystickPresent(0);
+	glfwSetFramebufferSizeCallback(window, windowResize); //Zarejestruj procedurę obsługi zmiany rozmiaru bufora ramki
 
 	shaderProgram=new ShaderProgram("vshader.glsl",NULL,"fshader.glsl"); //Wczytaj program cieniujący
 
@@ -199,23 +249,23 @@ void drawObject(GLuint vao, ShaderProgram *shaderProgram, mat4 mP, mat4 mV, mat4
 void drawScene(GLFWwindow* window) {
 	//************Tutaj umieszczaj kod rysujący obraz******************l
 
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT); //Wykonaj czyszczenie bufora kolorów
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Wykonaj czyszczenie bufora kolorów
 
 	glm::mat4 P = glm::perspective(50 * PI / 180, aspect, 1.0f, 50.0f); //Wylicz macierz rzutowania
-	
+
 	vec3 vec = vec3(
-		gracz.getPosition().x+ 5 * sin(gracz.getAngle().x),
-		gracz.getPosition().y,
-		gracz.getPosition().z + 5*cos(gracz.getAngle().x)
-	
-	);//Ogarniecie,że to jest takie łatwe zajeło mi 2h
-	//cout << vec.x << " " << vec.y << " " << vec.z << "  " << gracz.getAngle().x << endl;
-	glm::mat4 V = glm::lookAt( //Wylicz macierz widoku
-		gracz.getPosition(), //kamera znajduje sie w
-		vec, //patrzy na
-		glm::vec3(0,1,0)//wektor nosa
-		);
-		
+		gracz.getPosition().x + sin(gracz.getAngle().x),
+		gracz.getPosition().y + sin(gracz.getAngle().y),
+		gracz.getPosition().z + cos(gracz.getAngle().x)
+
+	);
+
+	glm::mat4 V = glm::lookAt(					//Wylicz macierz widoku
+		gracz.getPosition(),					//kamera znajduje sie w
+		vec,									//patrzy na
+		glm::vec3(0, 1, 0)						//wektor nosa
+	);
+
 		
 
 		//cout << gracz.getAngle().x << " " << gracz.getAngle().y << " " << gracz.getAngle().z << endl;
