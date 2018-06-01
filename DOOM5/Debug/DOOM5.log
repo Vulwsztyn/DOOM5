@@ -1,13 +1,7 @@
-﻿  Model.cpp
-c:\users\luker\documents\github\doom5\doom5\model.cpp(72): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\luker\documents\github\doom5\doom5\model.cpp(79): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\luker\documents\github\doom5\doom5\model.cpp(57): warning C4101: "uvIndex": lokalna zmienna, do której nie istnieje odwołanie
-  main_file.cpp
+﻿  main_file.cpp
 c:\users\luker\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
 c:\users\luker\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-c:\users\luker\documents\github\doom5\doom5\main_file.cpp(155): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\luker\documents\github\doom5\doom5\main_file.cpp(156): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\luker\documents\github\doom5\doom5\main_file.cpp(308): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
-  Generowanie kodu...
-c:\users\luker\documents\github\doom5\doom5\model.cpp(85): warning C4715: "Model::loader”: niewszystkie ścieżki kodu zwracają wartość
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(160): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(161): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(311): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
   DOOM5.vcxproj -> C:\Users\Luker\Documents\GitHub\DOOM5\Debug\DOOM5.exe

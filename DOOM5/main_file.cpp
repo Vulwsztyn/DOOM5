@@ -41,6 +41,11 @@ float aspect=1; //Stosunek szerokości do wysokości okna
 //Uchwyty na shadery
 ShaderProgram *shaderProgram; //Wskaźnik na obiekt reprezentujący program cieniujący.
 
+GLuint vao;
+GLuint bufVertices;
+GLuint bufColors;
+GLuint bufNormals;
+
 Model map;
 
 Gracz gracz = Gracz();
@@ -171,7 +176,6 @@ void windowResize(GLFWwindow* window, int width, int height) {
     }
 }
 
-
 //Procedura inicjująca
 void initOpenGLProgram(GLFWwindow* window) {
 	//************Tutaj umieszczaj kod, który należy wykonać raz, na początku programu************
@@ -187,8 +191,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 
 	shaderProgram=new ShaderProgram("vshader.glsl",NULL,"fshader.glsl"); //Wczytaj program cieniujący
 
-
-    map.prepareObject(shaderProgram);
+	map.prepareObject(shaderProgram);
 }
 
 //Zwolnienie zasobów zajętych przez program
@@ -196,7 +199,7 @@ void freeOpenGLProgram() {
 	delete shaderProgram; //Usunięcie programu cieniującego
 	}
 
-void drawObject(Model object, ShaderProgram *shaderProgram, mat4 mP, mat4 mV, mat4 mM) {
+void drawObject(Model &object,ShaderProgram *shaderProgram, mat4 mP, mat4 mV, mat4 mM) {
 	//Włączenie programu cieniującego, który ma zostać użyty do rysowania
 	//W tym programie wystarczyłoby wywołać to raz, w setupShaders, ale chodzi o pokazanie,
 	//że mozna zmieniać program cieniujący podczas rysowania jednej sceny
@@ -215,10 +218,10 @@ void drawObject(Model object, ShaderProgram *shaderProgram, mat4 mP, mat4 mV, ma
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("M"),1, false, glm::value_ptr(mM));
 
 	//Uaktywnienie VAO i tym samym uaktywnienie predefiniowanych w tym VAO powiązań slotów atrybutów z tablicami z danymi
-	glBindVertexArray(*object.getVao());
+	glBindVertexArray(object.getVao());
 
 	//Narysowanie obiektu
-	glDrawArrays(GL_TRIANGLES,0, object.getVertices().size()*4);
+	glDrawArrays(GL_TRIANGLES,0, object.getVertices().size()/4);
 
 	//Posprzątanie po sobie (niekonieczne w sumie jeżeli korzystamy z VAO dla każdego rysowanego obiektu)
 	glBindVertexArray(0);

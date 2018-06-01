@@ -72,14 +72,20 @@ bool Model::loader(const char * path) {
 	for (int i = 0; i < vertexIndices.size(); i++) {
 		int vertexIndex = vertexIndices[i];
 		glm::vec3 vertex = temp_vertices[vertexIndex - 1];
-		vertices.push_back(glm::vec4(vertex.x, vertex.y, vertex.z,1 ));
+		vertices.push_back(vertex.x);
+		vertices.push_back(vertex.y);
+		vertices.push_back(vertex.z);
+		vertices.push_back(1);
 	}
 
 
 	for (int i = 0; i < normalIndices.size(); i++) {
 		int normalIndex = normalIndices[i];
 		glm::vec3 normal = temp_normals[normalIndex - 1];
-		normals.push_back(glm::vec4(normal.x, normal.y, normal.z, 0));
+		normals.push_back(normal.x);
+		normals.push_back(normal.y);
+		normals.push_back(normal.z);
+		normals.push_back(0);
 	}
 
 }
@@ -103,10 +109,10 @@ void Model::assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attri
 void Model::prepareObject(ShaderProgram *shaderProgram) {
 	//Zbuduj VBO z danymi obiektu do narysowania
 
-	bufVertices = makeBuffer(&vertices, vertices.size()*4, sizeof(float) * 4); //VBO ze wspó³rzêdnymi wierzcho³ków
-	bufNormals = makeBuffer(&normals, vertices.size() * 4, sizeof(float) * 4);//VBO z wektorami normalnymi wierzcho³ków
+	bufVertices = makeBuffer(&getVertices()[0], getVertices().size() / 4, sizeof(float) * 4); //VBO ze wspó³rzêdnymi wierzcho³ków
+	bufNormals = makeBuffer(&getNormals()[0], getNormals().size() / 4, sizeof(float) * 4);//VBO z wektorami normalnymi wierzcho³ków
 
-																	 //Zbuduj VAO wi¹¿¹cy atrybuty z konkretnymi VBO
+																								  //Zbuduj VAO wi¹¿¹cy atrybuty z konkretnymi VBO
 	glGenVertexArrays(1, &vao); //Wygeneruj uchwyt na VAO i zapisz go do zmiennej globalnej
 
 	glBindVertexArray(vao); //Uaktywnij nowo utworzony VAO
@@ -115,8 +121,4 @@ void Model::prepareObject(ShaderProgram *shaderProgram) {
 	assignVBOtoAttribute(shaderProgram, "normal", bufNormals, 4); //"normal" odnosi siê do deklaracji "in vec4 normal;" w vertex shaderze
 
 	glBindVertexArray(0); //Dezaktywuj VAO
-}
-
-GLuint* Model::getVao() {
-	return &vao;
 }
