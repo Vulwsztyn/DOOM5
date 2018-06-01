@@ -41,25 +41,7 @@ float aspect=1; //Stosunek szerokości do wysokości okna
 //Uchwyty na shadery
 ShaderProgram *shaderProgram; //Wskaźnik na obiekt reprezentujący program cieniujący.
 
-//Uchwyty na VAO i bufory wierzchołków
-GLuint vao;
-GLuint bufVertices; //Uchwyt na bufor VBO przechowujący tablicę współrzędnych wierzchołków
-GLuint bufColors;  //Uchwyt na bufor VBO przechowujący tablicę kolorów
-GLuint bufNormals; //Uchwyt na bufor VBO przechowujący tablickę wektorów normalnych
-
-//Kostka
-/*
-float* vertices2=Models::CubeInternal::vertices;
-float* colors2=Models::CubeInternal::colors;
-float* normals2=Models::CubeInternal::vertexNormals;
-int vertexCount2=Models::CubeInternal::vertexCount;
-*/
-//Czajnik
-
-float* vertices;
-float* colors;
-float* normals;
-int vertexCount;
+Model map;
 
 Gracz gracz = Gracz();
 
@@ -189,49 +171,10 @@ void windowResize(GLFWwindow* window, int width, int height) {
     }
 }
 
-//Tworzy bufor VBO z tablicy
-GLuint makeBuffer(void *data, int vertexCount, int vertexSize) {
-	GLuint handle;
-
-	glGenBuffers(1,&handle);//Wygeneruj uchwyt na Vertex Buffer Object (VBO), który będzie zawierał tablicę danych
-	glBindBuffer(GL_ARRAY_BUFFER,handle);  //Uaktywnij wygenerowany uchwyt VBO
-	glBufferData(GL_ARRAY_BUFFER, vertexCount*vertexSize, data, GL_STATIC_DRAW);//Wgraj tablicę do VBO
-
-	return handle;
-}
-
-//Przypisuje bufor VBO do atrybutu
-void assignVBOtoAttribute(ShaderProgram *shaderProgram,const char* attributeName, GLuint bufVBO, int vertexSize) {
-	GLuint location=shaderProgram->getAttribLocation(attributeName); //Pobierz numer slotu dla atrybutu
-	glBindBuffer(GL_ARRAY_BUFFER,bufVBO);  //Uaktywnij uchwyt VBO
-	glEnableVertexAttribArray(location); //Włącz używanie atrybutu o numerze slotu zapisanym w zmiennej location
-	glVertexAttribPointer(location,vertexSize,GL_FLOAT, GL_FALSE, 0, NULL); //Dane do slotu location mają być brane z aktywnego VBO
-}
-
-//Przygotowanie do rysowania pojedynczego obiektu
-void prepareObject(ShaderProgram *shaderProgram) {
-	//Zbuduj VBO z danymi obiektu do narysowania
-	bufVertices=makeBuffer(vertices, vertexCount, sizeof(float)*4); //VBO ze współrzędnymi wierzchołków
-	bufColors=makeBuffer(colors, vertexCount, sizeof(float)*4);//VBO z kolorami wierzchołków
-	bufNormals=makeBuffer(normals, vertexCount, sizeof(float)*4);//VBO z wektorami normalnymi wierzchołków
-
-	//Zbuduj VAO wiążący atrybuty z konkretnymi VBO
-	glGenVertexArrays(1,&vao); //Wygeneruj uchwyt na VAO i zapisz go do zmiennej globalnej
-
-	glBindVertexArray(vao); //Uaktywnij nowo utworzony VAO
-
-	assignVBOtoAttribute(shaderProgram,"vertex",bufVertices,4); //"vertex" odnosi się do deklaracji "in vec4 vertex;" w vertex shaderze
-	assignVBOtoAttribute(shaderProgram,"color",bufColors,4); //"color" odnosi się do deklaracji "in vec4 color;" w vertex shaderze
-	assignVBOtoAttribute(shaderProgram,"normal",bufNormals,4); //"normal" odnosi się do deklaracji "in vec4 normal;" w vertex shaderze
-
-	glBindVertexArray(0); //Dezaktywuj VAO
-}
-
 
 //Procedura inicjująca
 void initOpenGLProgram(GLFWwindow* window) {
 	//************Tutaj umieszczaj kod, który należy wykonać raz, na początku programu************
-	Model map;
 	map.loader("untitled.obj");
 	glClearColor(0, 0, 0, 1); //Czyść ekran na czarno
 	glEnable(GL_DEPTH_TEST); //Włącz używanie Z-Bufora
@@ -244,26 +187,16 @@ void initOpenGLProgram(GLFWwindow* window) {
 
 	shaderProgram=new ShaderProgram("vshader.glsl",NULL,"fshader.glsl"); //Wczytaj program cieniujący
 
-	vertices = map.getConvertedVertices();
-	normals = map.getConvertedNormals();
-	vertexCount = map.getVertices().size()/4;
 
-
-
-    prepareObject(shaderProgram);
+    map.prepareObject(shaderProgram);
 }
 
 //Zwolnienie zasobów zajętych przez program
 void freeOpenGLProgram() {
 	delete shaderProgram; //Usunięcie programu cieniującego
-
-	glDeleteVertexArrays(1,&vao); //Usunięcie vao
-	glDeleteBuffers(1,&bufVertices); //Usunięcie VBO z wierzchołkami
-	glDeleteBuffers(1,&bufColors); //Usunięcie VBO z kolorami
-	glDeleteBuffers(1,&bufNormals); //Usunięcie VBO z wektorami normalnymi
 	}
 
-void drawObject(GLuint vao, ShaderProgram *shaderProgram, mat4 mP, mat4 mV, mat4 mM) {
+void drawObject(Model object, ShaderProgram *shaderProgram, mat4 mP, mat4 mV, mat4 mM) {
 	//Włączenie programu cieniującego, który ma zostać użyty do rysowania
 	//W tym programie wystarczyłoby wywołać to raz, w setupShaders, ale chodzi o pokazanie,
 	//że mozna zmieniać program cieniujący podczas rysowania jednej sceny
@@ -282,10 +215,10 @@ void drawObject(GLuint vao, ShaderProgram *shaderProgram, mat4 mP, mat4 mV, mat4
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("M"),1, false, glm::value_ptr(mM));
 
 	//Uaktywnienie VAO i tym samym uaktywnienie predefiniowanych w tym VAO powiązań slotów atrybutów z tablicami z danymi
-	glBindVertexArray(vao);
+	glBindVertexArray(*object.getVao());
 
 	//Narysowanie obiektu
-	glDrawArrays(GL_TRIANGLES,0,vertexCount);
+	glDrawArrays(GL_TRIANGLES,0, object.getVertices().size()*4);
 
 	//Posprzątanie po sobie (niekonieczne w sumie jeżeli korzystamy z VAO dla każdego rysowanego obiektu)
 	glBindVertexArray(0);
@@ -325,7 +258,7 @@ void drawScene(GLFWwindow* window) {
 	
 
 	//Narysuj obiekt
-	drawObject(vao,shaderProgram,P,V,M);
+	drawObject(map,shaderProgram,P,V,M);
 
 	//Przerzuć tylny bufor na przedni
 	glfwSwapBuffers(window);
