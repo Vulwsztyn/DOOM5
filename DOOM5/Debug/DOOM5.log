@@ -1,7 +1,17 @@
-﻿  main_file.cpp
+﻿  debugFunctions.cpp
+c:\users\luker\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+c:\users\luker\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+  Gracz.cpp
+c:\users\luker\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+c:\users\luker\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+c:\users\luker\documents\github\doom5\doom5\gracz.cpp(42): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\gracz.cpp(43): warning C4244: "-=": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\gracz.cpp(68): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  main_file.cpp
 c:\users\luker\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
 c:\users\luker\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
 c:\users\luker\documents\github\doom5\doom5\main_file.cpp(160): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
 c:\users\luker\documents\github\doom5\doom5\main_file.cpp(161): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\luker\documents\github\doom5\doom5\main_file.cpp(311): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(285): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
+  Generowanie kodu...
   DOOM5.vcxproj -> C:\Users\Luker\Documents\GitHub\DOOM5\Debug\DOOM5.exe

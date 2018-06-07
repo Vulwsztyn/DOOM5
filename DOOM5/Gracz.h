@@ -12,6 +12,7 @@
 #include "lodepng.h"
 #include "shaderprogram.h"
 #include "debugFunctions.h"
+#include "Model.h"
 
 using namespace glm;
 
@@ -64,5 +65,9 @@ public:
 		if (angle.y < -maksymalnyKatWychyleniaGoraDol) angle.y = -maksymalnyKatWychyleniaGoraDol;
 	}
 
+	bool detectTerrainColision(Model &map);
+	float sign(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3);
+
+	bool PointInTriangle(glm::vec2 position, glm::vec2 triangle[3]);
 };
 

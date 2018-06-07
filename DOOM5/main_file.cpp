@@ -179,7 +179,6 @@ void windowResize(GLFWwindow* window, int width, int height) {
 //Procedura inicjująca
 void initOpenGLProgram(GLFWwindow* window) {
 	//************Tutaj umieszczaj kod, który należy wykonać raz, na początku programu************
-	map.loader("untitled.obj");
 	glClearColor(0, 0, 0, 1); //Czyść ekran na czarno
 	glEnable(GL_DEPTH_TEST); //Włącz używanie Z-Bufora
 	glfwSetKeyCallback(window, key_callback); //Zarejestruj procedurę obsługi klawiatury
@@ -191,6 +190,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 
 	shaderProgram=new ShaderProgram("vshader.glsl",NULL,"fshader.glsl"); //Wczytaj program cieniujący
 
+	map.loader("untitled.obj");
 	map.prepareObject(shaderProgram);
 }
 
@@ -199,33 +199,6 @@ void freeOpenGLProgram() {
 	delete shaderProgram; //Usunięcie programu cieniującego
 	}
 
-void drawObject(Model &object,ShaderProgram *shaderProgram, mat4 mP, mat4 mV, mat4 mM) {
-	//Włączenie programu cieniującego, który ma zostać użyty do rysowania
-	//W tym programie wystarczyłoby wywołać to raz, w setupShaders, ale chodzi o pokazanie,
-	//że mozna zmieniać program cieniujący podczas rysowania jednej sceny
-	shaderProgram->use();
-
-	//Przekaż do shadera macierze P,V i M.
-	//W linijkach poniżej, polecenie:
-	//  shaderProgram->getUniformLocation("P")
-	//pobiera numer slotu odpowiadającego zmiennej jednorodnej o podanej nazwie
-	//UWAGA! "P" w powyższym poleceniu odpowiada deklaracji "uniform mat4 P;" w vertex shaderze,
-	//a mP w glm::value_ptr(mP) odpowiada argumentowi  "mat4 mP;" TYM pliku.
-	//Cała poniższa linijka przekazuje do zmiennej jednorodnej P w vertex shaderze dane z argumentu mP niniejszej funkcji
-	//Pozostałe polecenia działają podobnie.
-	glUniformMatrix4fv(shaderProgram->getUniformLocation("P"),1, false, glm::value_ptr(mP));
-	glUniformMatrix4fv(shaderProgram->getUniformLocation("V"),1, false, glm::value_ptr(mV));
-	glUniformMatrix4fv(shaderProgram->getUniformLocation("M"),1, false, glm::value_ptr(mM));
-
-	//Uaktywnienie VAO i tym samym uaktywnienie predefiniowanych w tym VAO powiązań slotów atrybutów z tablicami z danymi
-	glBindVertexArray(object.getVao());
-
-	//Narysowanie obiektu
-	glDrawArrays(GL_TRIANGLES,0, object.getVertices().size()/4);
-
-	//Posprzątanie po sobie (niekonieczne w sumie jeżeli korzystamy z VAO dla każdego rysowanego obiektu)
-	glBindVertexArray(0);
-}
 
 //Procedura rysująca zawartość sceny
 void drawScene(GLFWwindow* window) {
@@ -261,7 +234,7 @@ void drawScene(GLFWwindow* window) {
 	
 
 	//Narysuj obiekt
-	drawObject(map,shaderProgram,P,V,M);
+	map.drawObject(shaderProgram,P,V,M);
 
 	//Przerzuć tylny bufor na przedni
 	glfwSwapBuffers(window);
@@ -308,6 +281,7 @@ int main(void)
 	{
 		//angle += speed*vec3(glfwGetTime(), glfwGetTime(), glfwGetTime()); //nie mam pojecia czy tak jest lepiej
 		gracz.rusz(glfwGetTime());
+		cout << gracz.detectTerrainColision(map) << endl;
 		sekundnik += glfwGetTime();
 		if (sekundnik > 1) {
 			//jakbyś chciał coś robić co sekunde

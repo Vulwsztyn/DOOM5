@@ -122,3 +122,31 @@ void Model::prepareObject(ShaderProgram *shaderProgram) {
 
 	glBindVertexArray(0); //Dezaktywuj VAO
 }
+
+void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM) {
+	//W³¹czenie programu cieniuj¹cego, który ma zostaæ u¿yty do rysowania
+	//W tym programie wystarczy³oby wywo³aæ to raz, w setupShaders, ale chodzi o pokazanie,
+	//¿e mozna zmieniaæ program cieniuj¹cy podczas rysowania jednej sceny
+	shaderProgram->use();
+
+	//Przeka¿ do shadera macierze P,V i M.
+	//W linijkach poni¿ej, polecenie:
+	//  shaderProgram->getUniformLocation("P")
+	//pobiera numer slotu odpowiadaj¹cego zmiennej jednorodnej o podanej nazwie
+	//UWAGA! "P" w powy¿szym poleceniu odpowiada deklaracji "uniform mat4 P;" w vertex shaderze,
+	//a mP w glm::value_ptr(mP) odpowiada argumentowi  "mat4 mP;" TYM pliku.
+	//Ca³a poni¿sza linijka przekazuje do zmiennej jednorodnej P w vertex shaderze dane z argumentu mP niniejszej funkcji
+	//Pozosta³e polecenia dzia³aj¹ podobnie.
+	glUniformMatrix4fv(shaderProgram->getUniformLocation("P"), 1, false, glm::value_ptr(mP));
+	glUniformMatrix4fv(shaderProgram->getUniformLocation("V"), 1, false, glm::value_ptr(mV));
+	glUniformMatrix4fv(shaderProgram->getUniformLocation("M"), 1, false, glm::value_ptr(mM));
+
+	//Uaktywnienie VAO i tym samym uaktywnienie predefiniowanych w tym VAO powi¹zañ slotów atrybutów z tablicami z danymi
+	glBindVertexArray(vao);
+
+	//Narysowanie obiektu
+	glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 4);
+
+	//Posprz¹tanie po sobie (niekonieczne w sumie je¿eli korzystamy z VAO dla ka¿dego rysowanego obiektu)
+	glBindVertexArray(0);
+}
