@@ -81,8 +81,12 @@ bool Gracz::detectTerrainColision(Model &map) {
 		j++;
 		glm::vec2 planeTriangle[3] = { glm::vec2(triangle[j - 2].x,triangle[j - 2].z),glm::vec2(triangle[j - 1].x,triangle[j - 1].z) ,glm::vec2(triangle[j].x,triangle[j].z) };
 		if (PointInTriangle(glm::vec2(position.x, position.z), planeTriangle)) {
+			return true;
 			glm::vec2 planeTriangle[3] = { glm::vec2(triangle[j - 2].x,triangle[j - 2].y),glm::vec2(triangle[j - 1].x,triangle[j - 1].y) ,glm::vec2(triangle[j].x,triangle[j].y) };
 			if (PointInTriangle(glm::vec2(position.x, position.y), planeTriangle)) {
+				//std::cout << triangle[0].x << " " << triangle[0].z << " " << triangle[0].y << " " << std::endl;
+				//std::cout << triangle[1].x << " " << triangle[1].z << " " << triangle[1].y << " " << std::endl;
+				//std::cout << triangle[2].x << " " << triangle[2].z << " " << triangle[2].y << " " << std::endl;
 				return true;
 			}
 		}

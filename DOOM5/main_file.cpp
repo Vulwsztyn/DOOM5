@@ -281,10 +281,11 @@ int main(void)
 	{
 		//angle += speed*vec3(glfwGetTime(), glfwGetTime(), glfwGetTime()); //nie mam pojecia czy tak jest lepiej
 		gracz.rusz(glfwGetTime());
-		cout << gracz.detectTerrainColision(map) << endl;
 		sekundnik += glfwGetTime();
 		if (sekundnik > 1) {
 			//jakbyś chciał coś robić co sekunde
+			cout << gracz.getPosition().x << " " << gracz.getPosition().z << " " << gracz.getPosition().y << " " << gracz.detectTerrainColision(map) << endl;
+
 			sekundnik = 0.0;
 		}
 		glfwSetTime(0); //Wyzeruj licznik czasu
