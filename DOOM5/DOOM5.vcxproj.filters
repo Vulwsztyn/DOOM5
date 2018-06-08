@@ -16,8 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="gpl.txt" />
-    <Text Include="vshader.glsl" />
-    <Text Include="fshader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -46,6 +44,9 @@
     <None Include="ClassDiagram.cd" />
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
+    <None Include="gshader.glsl" />
+    <None Include="fshader.glsl" />
+    <None Include="vshader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lodepng.cpp">

@@ -19,9 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="fshader.glsl" />
     <Text Include="gpl.txt" />
-    <Text Include="vshader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
@@ -34,8 +32,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="fshader.glsl" />
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
+    <None Include="gshader.glsl" />
+    <None Include="vshader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debugFunctions.cpp" />

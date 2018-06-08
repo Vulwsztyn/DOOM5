@@ -188,7 +188,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 	joystickConnected = glfwJoystickPresent(0);
 	glfwSetFramebufferSizeCallback(window, windowResize); //Zarejestruj procedurę obsługi zmiany rozmiaru bufora ramki
 
-	shaderProgram=new ShaderProgram("vshader.glsl",NULL,"fshader.glsl"); //Wczytaj program cieniujący
+	shaderProgram = new ShaderProgram("vshader.glsl", "gshader.glsl", "fshader.glsl"); //Wczytaj program cieniujący
 
 	map.loader("untitled.obj");
 	map.prepareObject(shaderProgram);
@@ -284,8 +284,8 @@ int main(void)
 		sekundnik += glfwGetTime();
 		if (sekundnik > 1) {
 			//jakbyś chciał coś robić co sekunde
-			cout << gracz.getPosition().x << " " << gracz.getPosition().z << " " << gracz.getPosition().y << " " << gracz.detectTerrainColision(map) << endl;
-
+			//cout << gracz.getPosition().x << " " << gracz.getPosition().z << " " << gracz.getPosition().y << " " << gracz.detectTerrainColision(map) << endl;
+			gracz.detectTerrainColision(map, 1);
 			sekundnik = 0.0;
 		}
 		glfwSetTime(0); //Wyzeruj licznik czasu

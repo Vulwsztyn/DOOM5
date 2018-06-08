@@ -63,32 +63,28 @@ bool Gracz::PointInTriangle(glm::vec2 position, glm::vec2 triangle[3])
 	return ((b1 == b2) && (b2 == b3));
 }
 
-bool Gracz::detectTerrainColision(Model &map) {
+bool Gracz::detectTerrainColision(Model &map,bool debug) {
 	glm::vec3 triangle[3];
 	for(int i = 0; i < map.getVertices().size(); i = i + 12) {
-		int j = 0;
-		triangle[j].x = map.getVertices()[i];
-		triangle[j].y = map.getVertices()[i+1];
-		triangle[j].z = map.getVertices()[i+2];
-		j++;
-		triangle[j].x = map.getVertices()[i+4];
-		triangle[j].y = map.getVertices()[i+4 + 1];
-		triangle[j].z = map.getVertices()[i+4 + 2];
-		j++;
-		triangle[j].x = map.getVertices()[i+8];
-		triangle[j].y = map.getVertices()[i+8 + 1];
-		triangle[j].z = map.getVertices()[i+8 + 2];
-		j++;
-		glm::vec2 planeTriangle[3] = { glm::vec2(triangle[j - 2].x,triangle[j - 2].z),glm::vec2(triangle[j - 1].x,triangle[j - 1].z) ,glm::vec2(triangle[j].x,triangle[j].z) };
+		triangle[0].x = map.getVertices()[i];
+		triangle[0].y = map.getVertices()[i+1];
+		triangle[0].z = map.getVertices()[i+2];
+
+		triangle[1].x = map.getVertices()[i+4];
+		triangle[1].y = map.getVertices()[i+4 + 1];
+		triangle[1].z = map.getVertices()[i+4 + 2];
+
+		triangle[2].x = map.getVertices()[i+8];
+		triangle[2].y = map.getVertices()[i+8 + 1];
+		triangle[2].z = map.getVertices()[i+8 + 2];
+		glm::vec2 planeTriangle[3] = { glm::vec2(triangle[0].x,triangle[0].z),glm::vec2(triangle[1].x,triangle[1].z) ,glm::vec2(triangle[2].x,triangle[2].z) };
+		//glm::vec2 planeTriangle[3] = { glm::vec2(-5,5),glm::vec2(5,5) ,glm::vec2(0,0) };
 		if (PointInTriangle(glm::vec2(position.x, position.z), planeTriangle)) {
-			return true;
-			glm::vec2 planeTriangle[3] = { glm::vec2(triangle[j - 2].x,triangle[j - 2].y),glm::vec2(triangle[j - 1].x,triangle[j - 1].y) ,glm::vec2(triangle[j].x,triangle[j].y) };
-			if (PointInTriangle(glm::vec2(position.x, position.y), planeTriangle)) {
-				//std::cout << triangle[0].x << " " << triangle[0].z << " " << triangle[0].y << " " << std::endl;
-				//std::cout << triangle[1].x << " " << triangle[1].z << " " << triangle[1].y << " " << std::endl;
-				//std::cout << triangle[2].x << " " << triangle[2].z << " " << triangle[2].y << " " << std::endl;
-				return true;
+			if (debug == true) {
+				std::cout << position.x << " " << position.y << std::endl;
+				std::cout << triangle[0].x << " " << triangle[0].z << " " << triangle[1].x << " " << triangle[1].z << " " << triangle[2].x << " " << triangle[2].z << std::endl;
 			}
+			return true;
 		}
 	}
 	return false;
