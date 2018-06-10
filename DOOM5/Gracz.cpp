@@ -77,6 +77,7 @@ bool Gracz::detectTerrainColision(Model &map,bool debug) {
 		triangle[2].x = map.getVertices()[i+8];
 		triangle[2].y = map.getVertices()[i+8 + 1];
 		triangle[2].z = map.getVertices()[i+8 + 2];
+
 		glm::vec2 planeTriangle[3] = { glm::vec2(triangle[0].x,triangle[0].z),glm::vec2(triangle[1].x,triangle[1].z) ,glm::vec2(triangle[2].x,triangle[2].z) };
 		//glm::vec2 planeTriangle[3] = { glm::vec2(-5,5),glm::vec2(5,5) ,glm::vec2(0,0) };
 		if (PointInTriangle(glm::vec2(position.x, position.z), planeTriangle)) {
