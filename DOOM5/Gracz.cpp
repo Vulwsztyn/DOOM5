@@ -23,29 +23,6 @@ Gracz::~Gracz()
 void Gracz::skocz() {
 	speed.y = playerJumpSpeed;
 }
-void Gracz::rusz(double czas)
-{
-
-	if (position.y <= 0.05) {
-		normalisedMovement = normalize(vec3(movement.x*sin(angle.x + PI / 2) + movement.z*sin(angle.x), 0.0f, movement.z*cos(angle.x) + movement.x*cos(angle.x + PI / 2)));
-		if (normalisedMovement.x != normalisedMovement.x || normalisedMovement.y != normalisedMovement.y || normalisedMovement.z != normalisedMovement.z) {
-			normalisedMovement = vec3(0, 0, 0);
-		}
-		speed += vec3((normalisedMovement.x - speed.x)*czas / czasPrzyspieszania, 0, (normalisedMovement.z - speed.z)*czas / czasPrzyspieszania);
-	}
-
-	if (position.y != 0 || speed.y != 0) {
-		if (position.y < 0) {
-			position.y = 0;
-			speed.y = 0;
-		}
-		position.y += speed.y*czas;
-		speed.y -= czas * gravitationalConstant;
-	}
-
-	position += vec3(czas*speed.x, 0.0f, czas*speed.z);
-
-}
 
 float Gracz::sign(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3)  // po której stronie prostej jest punkt
 {
@@ -82,11 +59,40 @@ bool Gracz::detectTerrainColision(Model &map,bool debug) { // detekcja kolizji z
 
 		if (PointInTriangle(glm::vec2(position.x, position.z), planeTriangle)) {  //po wczytaniu takiego trójk¹ta sprawdzam czy pozycja gracza jest w jego wnêtrzu
 			if (debug == true) {                                                  // wypisuje x i z tego trójk¹ta w którym rzekomo jest gracz
-				std::cout << position.x << " " << position.y << std::endl;
+				std::cout << position.x << " " << position.z << std::endl;
 				std::cout << triangle[0].x << " " << triangle[0].z << " " << triangle[1].x << " " << triangle[1].z << " " << triangle[2].x << " " << triangle[2].z << std::endl;
 			}
-			return true;
+			if (triangle[0].y > position.y || triangle[1].y > position.y || triangle[2].y > position.y) {
+				return true;
+			}
 		}
 	}
 	return false;
+}
+
+void Gracz::rusz(Model &map, double czas)
+{
+
+	if (position.y <= 0.05) {
+		normalisedMovement = normalize(vec3(movement.x*sin(angle.x + PI / 2) + movement.z*sin(angle.x), 0.0f, movement.z*cos(angle.x) + movement.x*cos(angle.x + PI / 2)));
+		if (normalisedMovement.x != normalisedMovement.x || normalisedMovement.y != normalisedMovement.y || normalisedMovement.z != normalisedMovement.z) {
+			normalisedMovement = vec3(0, 0, 0);
+		}
+		speed += vec3((normalisedMovement.x - speed.x)*czas / czasPrzyspieszania, 0, (normalisedMovement.z - speed.z)*czas / czasPrzyspieszania);
+	}
+
+	if (position.y != 0 || speed.y != 0) {
+		if (position.y < 0) {
+			position.y = 0;
+			speed.y = 0;
+		}
+		position.y += speed.y*czas;
+		speed.y -= czas * gravitationalConstant;
+	}
+
+	position += vec3(czas*speed.x, 0.0f, czas*speed.z);
+	if (detectTerrainColision(map) == 1) {
+		position -= vec3(czas*speed.x, 0.0f, czas*speed.z);
+	}
+
 }

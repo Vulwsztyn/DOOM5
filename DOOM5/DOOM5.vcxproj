@@ -35,7 +35,6 @@
     <None Include="fshader.glsl" />
     <None Include="glew32.dll" />
     <None Include="glfw3.dll" />
-    <None Include="gshader.glsl" />
     <None Include="vshader.glsl" />
   </ItemGroup>
   <ItemGroup>

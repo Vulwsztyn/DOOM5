@@ -37,7 +37,7 @@ private:
 public:
 	Gracz();
 	~Gracz();
-	void rusz(double czas);
+	void rusz(Model &map,double czas);
 	void skocz();
 
 	vec3 getPosition() { return position; }

@@ -1,126 +1,125 @@
-/*
-Niniejszy program jest wolnym oprogramowaniem; mo¿esz go
-rozprowadzaæ dalej i / lub modyfikowaæ na warunkach Powszechnej
-Licencji Publicznej GNU, wydanej przez Fundacjê Wolnego
-Oprogramowania - wed³ug wersji 2 tej Licencji lub(wed³ug twojego
-wyboru) którejœ z póŸniejszych wersji.
-
-Niniejszy program rozpowszechniany jest z nadziej¹, i¿ bêdzie on
-u¿yteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyœlnej
-gwarancji PRZYDATNOŒCI HANDLOWEJ albo PRZYDATNOŒCI DO OKREŒLONYCH
-ZASTOSOWAÑ.W celu uzyskania bli¿szych informacji siêgnij do
+ï»¿/*
+Niniejszy program jest wolnym oprogramowaniem; moÂ¿esz go
+rozprowadzaÃ¦ dalej i / lub modyfikowaÃ¦ na warunkach Powszechnej
+Licencji Publicznej GNU, wydanej przez FundacjÃª Wolnego
+Oprogramowania - wedÂ³ug wersji 2 tej Licencji lub(wedÂ³ug twojego
+wyboru) ktÃ³rejÅ“ z pÃ³Å¸niejszych wersji.
+Niniejszy program rozpowszechniany jest z nadziejÂ¹, iÂ¿ bÃªdzie on
+uÂ¿yteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyÅ“lnej
+gwarancji PRZYDATNOÅ’CI HANDLOWEJ albo PRZYDATNOÅ’CI DO OKREÅ’LONYCH
+ZASTOSOWAÃ‘.W celu uzyskania bliÂ¿szych informacji siÃªgnij do
 Powszechnej Licencji Publicznej GNU.
-
-Z pewnoœci¹ wraz z niniejszym programem otrzyma³eœ te¿ egzemplarz
+Z pewnoÅ“ciÂ¹ wraz z niniejszym programem otrzymaÂ³eÅ“ teÂ¿ egzemplarz
 Powszechnej Licencji Publicznej GNU(GNU General Public License);
-jeœli nie - napisz do Free Software Foundation, Inc., 59 Temple
+jeÅ“li nie - napisz do Free Software Foundation, Inc., 59 Temple
 Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 */
 
 #include "shaderprogram.h"
 
-//Procedura wczytuje plik do tablicy znaków.
+//Procedura wczytuje plik do tablicy znakÃ³w.
 char* ShaderProgram::readFile(const char* fileName) {
 	int filesize;
 	FILE *plik;
 	char* result;
 
-	plik=fopen(fileName,"rb");
-	fseek(plik,0,SEEK_END);
-	filesize=ftell(plik);
-	fseek(plik,0,SEEK_SET);
-	result=new char[filesize+1];
-	fread(result,1,filesize,plik);
-	result[filesize]=0;
+	plik = fopen(fileName, "rb");
+	fseek(plik, 0, SEEK_END);
+	filesize = ftell(plik);
+	fseek(plik, 0, SEEK_SET);
+	result = new char[filesize + 1];
+	fread(result, 1, filesize, plik);
+	result[filesize] = 0;
 	fclose(plik);
 
 	return result;
 }
 
-//Metoda wczytuje i kompiluje shader, a nastêpnie zwraca jego uchwyt
-GLuint ShaderProgram::loadShader(GLenum shaderType,const char* fileName) {
+//Metoda wczytuje i kompiluje shader, a nastÃªpnie zwraca jego uchwyt
+GLuint ShaderProgram::loadShader(GLenum shaderType, const char* fileName) {
 	//Wygeneruj uchwyt na shader
-	GLuint shader=glCreateShader(shaderType);//shaderType to GL_VERTEX_SHADER, GL_GEOMETRY_SHADER lub GL_FRAGMENT_SHADER
-	//Wczytaj plik ze Ÿród³em shadera do tablicy znaków
-	const GLchar* shaderSource=readFile(fileName);
-	//Powi¹¿ Ÿród³o z uchwytem shadera
-	glShaderSource(shader,1,&shaderSource,NULL);
-	//Skompiluj Ÿród³o
+	GLuint shader = glCreateShader(shaderType);//shaderType to GL_VERTEX_SHADER, GL_GEOMETRY_SHADER lub GL_FRAGMENT_SHADER
+											   //Wczytaj plik ze Å¸rÃ³dÂ³em shadera do tablicy znakÃ³w
+	const GLchar* shaderSource = readFile(fileName);
+	//PowiÂ¹Â¿ Å¸rÃ³dÂ³o z uchwytem shadera
+	glShaderSource(shader, 1, &shaderSource, NULL);
+	//Skompiluj Å¸rÃ³dÂ³o
 	glCompileShader(shader);
-	//Usuñ Ÿród³o shadera z pamiêci (nie bêdzie ju¿ potrzebne)
-	delete []shaderSource;
+	//UsuÃ± Å¸rÃ³dÂ³o shadera z pamiÃªci (nie bÃªdzie juÂ¿ potrzebne)
+	delete[]shaderSource;
 
-	//Pobierz log b³êdów kompilacji i wyœwietl
+	//Pobierz log bÂ³ÃªdÃ³w kompilacji i wyÅ“wietl
 	int infologLength = 0;
-	int charsWritten  = 0;
+	int charsWritten = 0;
 	char *infoLog;
 
-	glGetShaderiv(shader, GL_INFO_LOG_LENGTH,&infologLength);
+	glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infologLength);
 
 	if (infologLength > 1) {
 		infoLog = new char[infologLength];
 		glGetShaderInfoLog(shader, infologLength, &charsWritten, infoLog);
-		printf("%s\n",infoLog);
-		delete []infoLog;
+		printf("%s\n", infoLog);
+		delete[]infoLog;
 	}
 
-	//Zwróæ uchwyt wygenerowanego shadera
+	//ZwrÃ³Ã¦ uchwyt wygenerowanego shadera
 	return shader;
 }
 
-ShaderProgram::ShaderProgram(const char* vertexShaderFile,const char* geometryShaderFile,const char* fragmentShaderFile) {
+ShaderProgram::ShaderProgram(const char* vertexShaderFile, const char* geometryShaderFile, const char* fragmentShaderFile) {
 	//Wczytaj vertex shader
 	printf("Loading vertex shader...\n");
-	vertexShader=loadShader(GL_VERTEX_SHADER,vertexShaderFile);
+	vertexShader = loadShader(GL_VERTEX_SHADER, vertexShaderFile);
 
 	//Wczytaj geometry shader
-	if (geometryShaderFile!=NULL) {
+	if (geometryShaderFile != NULL) {
 		printf("Loading geometry shader...\n");
-		geometryShader=loadShader(GL_GEOMETRY_SHADER,geometryShaderFile);
-	} else {
-		geometryShader=0;
+		geometryShader = loadShader(GL_GEOMETRY_SHADER, geometryShaderFile);
+	}
+	else {
+		geometryShader = 0;
 	}
 
 	//Wczytaj fragment shader
 	printf("Loading fragment shader...\n");
-	fragmentShader=loadShader(GL_FRAGMENT_SHADER,fragmentShaderFile);
+	fragmentShader = loadShader(GL_FRAGMENT_SHADER, fragmentShaderFile);
 
-	//Wygeneruj uchwyt programu cieniuj¹cego
-	shaderProgram=glCreateProgram();
+	//Wygeneruj uchwyt programu cieniujÂ¹cego
+	shaderProgram = glCreateProgram();
 
-	//Pod³¹cz do niego shadery i zlinkuj program
-	glAttachShader(shaderProgram,vertexShader);
-	glAttachShader(shaderProgram,fragmentShader);
-	if (geometryShaderFile!=NULL) glAttachShader(shaderProgram,geometryShader);
+	//PodÂ³Â¹cz do niego shadery i zlinkuj program
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	if (geometryShaderFile != NULL) glAttachShader(shaderProgram, geometryShader);
 	glLinkProgram(shaderProgram);
 
-	//Pobierz log b³êdów linkowania i wyœwietl
+	//Pobierz log bÂ³ÃªdÃ³w linkowania i wyÅ“wietl
 	int infologLength = 0;
-	int charsWritten  = 0;
+	int charsWritten = 0;
 	char *infoLog;
 
-	glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH,&infologLength);
+	glGetProgramiv(shaderProgram, GL_INFO_LOG_LENGTH, &infologLength);
 
 	if (infologLength > 1)
 	{
 		infoLog = new char[infologLength];
 		glGetProgramInfoLog(shaderProgram, infologLength, &charsWritten, infoLog);
-		printf("%s\n",infoLog);
-		delete []infoLog;
+		printf("%s\n", infoLog);
+		delete[]infoLog;
 	}
 
 	printf("Shader program created \n");
 }
 
 ShaderProgram::~ShaderProgram() {
-	//Od³¹cz shadery od programu
+	//OdÂ³Â¹cz shadery od programu
 	glDetachShader(shaderProgram, vertexShader);
-	if (geometryShader!=0) glDetachShader(shaderProgram, geometryShader);
+	if (geometryShader != 0) glDetachShader(shaderProgram, geometryShader);
 	glDetachShader(shaderProgram, fragmentShader);
 
 	//Wykasuj shadery
 	glDeleteShader(vertexShader);
-	if (geometryShader!=0) glDeleteShader(geometryShader);
+	if (geometryShader != 0) glDeleteShader(geometryShader);
 	glDeleteShader(fragmentShader);
 
 	//Wykasuj program
@@ -128,17 +127,17 @@ ShaderProgram::~ShaderProgram() {
 }
 
 
-//W³¹cz u¿ywanie programu cieniuj¹cego reprezentowanego przez aktualny obiekt
+//WÂ³Â¹cz uÂ¿ywanie programu cieniujÂ¹cego reprezentowanego przez aktualny obiekt
 void ShaderProgram::use() {
 	glUseProgram(shaderProgram);
 }
 
-//Pobierz numer slotu odpowiadaj¹cego zmiennej jednorodnej o nazwie variableName
+//Pobierz numer slotu odpowiadajÂ¹cego zmiennej jednorodnej o nazwie variableName
 GLuint ShaderProgram::getUniformLocation(const char* variableName) {
-	return glGetUniformLocation(shaderProgram,variableName);
+	return glGetUniformLocation(shaderProgram, variableName);
 }
 
-//Pobierz numer slotu odpowiadaj¹cego atrybutowi o nazwie variableName
+//Pobierz numer slotu odpowiadajÂ¹cego atrybutowi o nazwie variableName
 GLuint ShaderProgram::getAttribLocation(const char* variableName) {
-	return glGetAttribLocation(shaderProgram,variableName);
+	return glGetAttribLocation(shaderProgram, variableName);
 }

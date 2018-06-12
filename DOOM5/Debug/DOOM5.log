@@ -1,1 +1,7 @@
-﻿  DOOM5.vcxproj -> C:\Users\Luker\Documents\GitHub\DOOM5\Debug\DOOM5.exe
+﻿  main_file.cpp
+c:\users\luker\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+c:\users\luker\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(160): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(161): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(284): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
+  DOOM5.vcxproj -> C:\Users\Luker\Documents\GitHub\DOOM5\Debug\DOOM5.exe
