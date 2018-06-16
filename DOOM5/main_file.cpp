@@ -34,7 +34,7 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "Model.h"
 
 using namespace glm;
-using namespace std;
+//using namespace std;
 
 float aspect=1; //Stosunek szerokości do wysokości okna
 
@@ -61,10 +61,8 @@ void error_callback(int error, const char* description) {
 }
 
 //Procedura obsługi klawiatury
-void key_callback(GLFWwindow* window, int key,
-	int scancode, int action, int mods) {
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
-			
 		switch (key) {
 		case GLFW_KEY_A:
 		case GLFW_KEY_LEFT:
@@ -84,24 +82,11 @@ void key_callback(GLFWwindow* window, int key,
 			break;
 		case GLFW_KEY_SPACE:
 			gracz.skocz();
-				break;
+			break;
 		case GLFW_KEY_P:
-			cout << gracz.getAngle().x << " " << gracz.getPosition().x << " " << gracz.getPosition().y << " " << gracz.getPosition().z << endl;
+			//tutaj jakieś memy do debugu jak wcisniesz P
 			break;
 		}
-		/*
-		if (key == GLFW_KEY_LEFT) gracz.addMovementX(1);
-		if (key == GLFW_KEY_RIGHT) gracz.addMovementX(-1);
-
-			if (key == GLFW_KEY_UP) gracz.addMovementZ(1);
-		if (key == GLFW_KEY_DOWN) gracz.addMovementZ(-1);
-		if (key == GLFW_KEY_SPACE) {
-			gracz.skocz();
-		}
-		if (key == GLFW_KEY_P) {
-			cout << gracz.getAngle().x << " " << gracz.getPosition().x << " " << gracz.getPosition().y << " " << gracz.getPosition().z << endl;
-		}
-		*/
 	}
 
 	if (action == GLFW_RELEASE) {
@@ -123,12 +108,6 @@ void key_callback(GLFWwindow* window, int key,
 			gracz.addMovementZ(1);
 			break;
 		}
-		/*
-		if (key == GLFW_KEY_LEFT) gracz.addMovementX(-1);
-		if (key == GLFW_KEY_RIGHT) gracz.addMovementX(1);
-		if (key == GLFW_KEY_UP) gracz.addMovementZ(-1);
-		if (key == GLFW_KEY_DOWN) gracz.addMovementZ(1);
-		*/
 	}
 }
 void joystick_functions() {
@@ -255,7 +234,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 	
-	window = glfwCreateWindow(500, 500, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
+	window = glfwCreateWindow(1000, 1000, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
 
 	if (!window) //Jeżeli okna nie udało się utworzyć, to zamknij program
 	{
@@ -276,6 +255,7 @@ int main(void)
 
 	glfwSetTime(0); //Wyzeruj licznik czasu
 	float sekundnik = 0.0;
+	
 	//Główna pętla
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{

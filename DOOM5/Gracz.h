@@ -51,7 +51,7 @@ public:
 	void setMovementZ(float value) { movement.z = value; }
 
 
-	void addRotationX(float value) {angle.x += value;	}
+	void addRotationX(float value) {angle.x += value;}
 	void addRotationY(float value) {
 		angle.y += value;
 		if (angle.y > maksymalnyKatWychyleniaGoraDol) angle.y = maksymalnyKatWychyleniaGoraDol;
@@ -69,5 +69,6 @@ public:
 	float sign(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3);
 
 	bool PointInTriangle(glm::vec2 position, glm::vec2 triangle[3]);
+	float wysokoscPunktuTrojkata(glm::vec3 position, glm::vec3 triangle[3]);
 };
 
