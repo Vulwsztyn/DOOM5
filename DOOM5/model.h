@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "shaderprogram.h"
 #include <iostream>
+#include "lodepng.h"
 class Model
 {
 private:
@@ -31,5 +32,6 @@ public:
 	void prepareObject(ShaderProgram *shaderProgram);
 	GLuint getVao() { return vao; }
 	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM);
+	GLuint Model::readTexture(char* filename);
 };
 
