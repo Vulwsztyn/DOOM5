@@ -99,6 +99,64 @@ bool Model::loader(const char * path) {
 
 }
 
+void Model::computeTangentBasis() {
+	int j = 0;
+	for (int i = 0; i < vertices.size(); i += 12) {
+
+		// Shortcuts for vertices
+		glm::vec3 v0 = glm::vec3(vertices[i+0], vertices[i+1], vertices[i+2]);
+		glm::vec3 v1 = glm::vec3(vertices[i + 4], vertices[i + 5], vertices[i + 6]);
+		glm::vec3 v2 = glm::vec3(vertices[i + 8], vertices[i + 9], vertices[i + 10]);
+
+		// Shortcuts for UVs
+		glm::vec2 uv0 = glm::vec3(uvs[j+0]+ uvs[j + 1]);
+		glm::vec2 uv1 = glm::vec3(uvs[j + 2] + uvs[j + 3]);
+		glm::vec2 uv2 = glm::vec3(uvs[j + 4] + uvs[j + 5]);
+
+		// Edges of the triangle : position delta
+		glm::vec3 deltaPos1 = v1 - v0;
+		glm::vec3 deltaPos2 = v2 - v0;
+
+		// UV delta
+		glm::vec2 deltaUV1 = uv1 - uv0;
+		glm::vec2 deltaUV2 = uv2 - uv0;
+
+		float r = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+		glm::vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y)*r;
+		glm::vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x)*r;
+
+		// Set the same tangent for all three vertices of the triangle.
+		// They will be merged later, in vboindexer.cpp
+		tangents.push_back(tangent.x);
+		tangents.push_back(tangent.y);
+		tangents.push_back(tangent.z);
+		tangents.push_back(0);
+		tangents.push_back(tangent.x);
+		tangents.push_back(tangent.y);
+		tangents.push_back(tangent.z);
+		tangents.push_back(0);
+		tangents.push_back(tangent.x);
+		tangents.push_back(tangent.y);
+		tangents.push_back(tangent.z);
+		tangents.push_back(0);
+
+		// Same thing for bitangents
+		bitangents.push_back(bitangent.x);
+		bitangents.push_back(bitangent.y);
+		bitangents.push_back(bitangent.z);
+		tangents.push_back(0);
+		bitangents.push_back(bitangent.x);
+		bitangents.push_back(bitangent.y);
+		bitangents.push_back(bitangent.z);
+		tangents.push_back(0);
+		bitangents.push_back(bitangent.x);
+		bitangents.push_back(bitangent.y);
+		bitangents.push_back(bitangent.z);
+		tangents.push_back(0);
+		j += 6;
+	}
+}
+
 GLuint Model::readTexture(char* filename) {
 	GLuint tex;
 	glActiveTexture(GL_TEXTURE0);
