@@ -29,7 +29,7 @@ return tc;
 
 void main(void) {
 	vec4 v=normalize(i_v);
-	vec2 newCoords=parallaxTexCoords(v,iTexCoord0,0.1,100);
+	vec2 newCoords=parallaxTexCoords(v,iTexCoord0,0.05,100);
     vec4 n=normalize(vec4(texture(normalMap,newCoords).rgb*2-1,0));
     vec4 l=normalize(i_l);
     vec4 r=reflect(-l,n);

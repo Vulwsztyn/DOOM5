@@ -23,13 +23,13 @@ out vec2 iTexCoord0; //wspolrzedne teksturowania
 
 void main(void) {
 
-	mat4 itbn=(mat4(c1,c2,c3,vec4(0,0,0,1)));
+	mat4 itbn=mat4(c1,c2,c3,vec4(0,0,0,1));
 
-    vec4 lp=vec4(0,6,-6,1); //Wspolrzedne swiatla w przestrzeni swiata
+    vec4 lp=vec4(0,0,-6,1); //Wspolrzedne swiatla w przestrzeni swiata
 
-    i_l=normalize(V*lp-V*M*vertex);
-    i_v=normalize(vec4(0,0,0,1)-V*M*vertex);
-    i_n=normalize(V*M*normal);
+    i_l=normalize(itbn*inverse(M)*lp-itbn*vertex);
+    i_v=normalize(itbn*inverse(V*M)*vec4(0,0,0,1)-itbn*vertex);
+    i_n=normalize(itbn*normal);
 
     iTexCoord0=texCoord0;
 
