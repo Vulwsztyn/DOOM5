@@ -30,12 +30,12 @@ return tc;
 void main(void) {
 	vec4 v=normalize(i_v);
 	vec2 newCoords=parallaxTexCoords(v,iTexCoord0,0.05,100);
-    vec4 n=normalize(vec4(texture(normalMap,newCoords).rgb*2-1,0));
+    vec4 n=normalize(vec4(texture(normalMap,iTexCoord0).rgb*2-1,0));
     vec4 l=normalize(i_l);
     vec4 r=reflect(-l,n);
 
     vec4 ka=vec4(0,0,0,0); //Kolor obiektu w swietle otoczenia
-    vec4 kd=texture(diffuseMap,newCoords); //Kolor obiektu w swietle rozproszonym
+    vec4 kd=texture(diffuseMap,iTexCoord0); //Kolor obiektu w swietle rozproszonym
     vec4 ks=vec4(1,1,1,0); //Kolor obiektu w swietle odbitym
 
     vec4 la=vec4(0,0,0,0); //Kolor swiatla otoczenia

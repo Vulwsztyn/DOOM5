@@ -116,7 +116,9 @@ void Model::computeTangentBasis() {
 		glm::vec3 v1 = glm::vec3(vertices[i + 4], vertices[i + 5], vertices[i + 6]);
 		glm::vec3 v2 = glm::vec3(vertices[i + 8], vertices[i + 9], vertices[i + 10]);
 
-
+		glm::vec3 vn0 = glm::vec3(vertexNormals[i + 0], vertexNormals[i + 1], vertexNormals[i + 2]);
+		glm::vec3 vn1 = glm::vec3(vertexNormals[i + 4], vertexNormals[i + 5], vertexNormals[i + 6]);
+		glm::vec3 vn2 = glm::vec3(vertexNormals[i + 8], vertexNormals[i + 9], vertexNormals[i + 10]);
 		// Shortcuts for UVs
 		glm::vec2 uv0 = glm::vec2(uvs[j+0], uvs[j + 1]);
 		glm::vec2 uv1 = glm::vec2(uvs[j + 2] , uvs[j + 3]);
@@ -132,11 +134,12 @@ void Model::computeTangentBasis() {
 		//std::cout << deltaUV1.x<<" "<<deltaUV1.y<<" " << deltaUV2.x << " " << deltaUV2.y << " " << std::endl;
 		float r = 1 / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
 		//std::cout << r << std::endl;
-
-		glm::vec3 normal = normalize(cross(deltaPos1, deltaPos2));
-		std::cout << normal.x << " " << normal.y << " " << normal.z << std::endl;
+		glm::vec3 normal = normalize(vn0+vn1+vn2);
+		//std::cout << normal.x << " " << normal.y << " " << normal.z << std::endl;
 		glm::vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y)*r;
+		//std::cout << tangent.x << " " << tangent.y << " " << tangent.z << std::endl;
 		glm::vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x)*r;
+		//std::cout << bitangent.x << " " << bitangent.y << " " << bitangent.z << std::endl;
 
 		//std::cout << tangent.x << " " << tangent.y << " " << tangent.z << " " << bitangent.x << " " << bitangent.y << " " << bitangent.z << " " << std::endl;
 

@@ -34,6 +34,6 @@ void main(void) {
     iTexCoord0=texCoord0;
 
 	gl_Position=P*V*M*vertex;
-}
+} 
 
 
