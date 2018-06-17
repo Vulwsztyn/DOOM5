@@ -190,6 +190,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 
 	shaderProgram = new ShaderProgram("vshader.glsl",NULL, "fshader.glsl"); //Wczytaj program cieniujący
 
+
 	map.loader("Untitled.obj");
 	map.prepareObject(shaderProgram);
 }

@@ -72,4 +72,27 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="bricks2_height.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bricks2_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bricks3b_diffuse.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bricks3b_height.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bricks3b_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bricks3b_specular.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bricks2_diffuse.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

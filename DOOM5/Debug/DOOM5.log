@@ -1,6 +1,7 @@
 ﻿  Model.cpp
-c:\users\luker\documents\github\doom5\doom5\model.cpp(74): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\luker\documents\github\doom5\doom5\model.cpp(83): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\luker\documents\github\doom5\doom5\model.cpp(82): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
 c:\users\luker\documents\github\doom5\doom5\model.cpp(91): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\luker\documents\github\doom5\doom5\model.cpp(100): warning C4715: "Model::loader”: niewszystkie ścieżki kodu zwracają wartość
+c:\users\luker\documents\github\doom5\doom5\model.cpp(100): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\luker\documents\github\doom5\doom5\model.cpp(113): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\luker\documents\github\doom5\doom5\model.cpp(109): warning C4715: "Model::loader”: niewszystkie ścieżki kodu zwracają wartość
   DOOM5.vcxproj -> C:\Users\Luker\Documents\GitHub\DOOM5\Debug\DOOM5.exe

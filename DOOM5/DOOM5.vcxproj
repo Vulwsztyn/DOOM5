@@ -48,6 +48,15 @@
   <ItemGroup>
     <ResourceCompile Include="DOOM5.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="bricks2_diffuse.png" />
+    <Image Include="bricks2_height.png" />
+    <Image Include="bricks2_normal.png" />
+    <Image Include="bricks3b_diffuse.png" />
+    <Image Include="bricks3b_height.png" />
+    <Image Include="bricks3b_normal.png" />
+    <Image Include="bricks3b_specular.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DD161D24-9326-4AB1-B230-96DA03CA652A}</ProjectGuid>
     <RootNamespace>DOOM5</RootNamespace>

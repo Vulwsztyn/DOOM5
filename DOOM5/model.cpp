@@ -13,6 +13,14 @@ Model::~Model()
 	glDeleteBuffers(1, &bufVertices); //Usuniêcie VBO z wierzcho³kami
 	glDeleteBuffers(1, &bufColors); //Usuniêcie VBO z kolorami
 	glDeleteBuffers(1, &bufNormals); //Usuniêcie VBO z wektorami normalnymi
+	glDeleteBuffers(1, &bufC1);
+	glDeleteBuffers(1, &bufC2);
+	glDeleteBuffers(1, &bufC3);
+
+	//Wykasuj tekstury
+	glDeleteTextures(1, &diffTex);
+	glDeleteTextures(1, &normalTex);
+	glDeleteTextures(1, &heightTex);
 }
 
 
@@ -85,6 +93,7 @@ bool Model::loader(const char * path) {
 		glm::vec2 uv = temp_uvs[uvIndex - 1];
 		uvs.push_back(uv.x);
 		uvs.push_back(uv.y);
+		//std::cout << uv.x << " " << uv.y << std::endl;
 	}
 
 
@@ -102,17 +111,16 @@ bool Model::loader(const char * path) {
 void Model::computeTangentBasis() {
 	int j = 0;
 	for (int i = 0; i < vertices.size(); i += 12) {
-
 		// Shortcuts for vertices
 		glm::vec3 v0 = glm::vec3(vertices[i+0], vertices[i+1], vertices[i+2]);
 		glm::vec3 v1 = glm::vec3(vertices[i + 4], vertices[i + 5], vertices[i + 6]);
 		glm::vec3 v2 = glm::vec3(vertices[i + 8], vertices[i + 9], vertices[i + 10]);
 
 		// Shortcuts for UVs
-		glm::vec2 uv0 = glm::vec3(uvs[j+0]+ uvs[j + 1]);
-		glm::vec2 uv1 = glm::vec3(uvs[j + 2] + uvs[j + 3]);
-		glm::vec2 uv2 = glm::vec3(uvs[j + 4] + uvs[j + 5]);
-
+		glm::vec2 uv0 = glm::vec2(uvs[j+0], uvs[j + 1]);
+		glm::vec2 uv1 = glm::vec2(uvs[j + 2] , uvs[j + 3]);
+		glm::vec2 uv2 = glm::vec2(uvs[j + 4] , uvs[j + 5]);
+		//std::cout << uv0.x << " " << uv0.y << " " << uv1.x << " " << uv1.y << " " << uv2.x << " " << uv2.y << " " << std::endl;
 		// Edges of the triangle : position delta
 		glm::vec3 deltaPos1 = v1 - v0;
 		glm::vec3 deltaPos2 = v2 - v0;
@@ -120,10 +128,13 @@ void Model::computeTangentBasis() {
 		// UV delta
 		glm::vec2 deltaUV1 = uv1 - uv0;
 		glm::vec2 deltaUV2 = uv2 - uv0;
-
-		float r = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+		//std::cout << deltaUV1.x<<" "<<deltaUV1.y<<" " << deltaUV2.x << " " << deltaUV2.y << " " << std::endl;
+		float r = 1 / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+		//std::cout << r << std::endl;
 		glm::vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y)*r;
 		glm::vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x)*r;
+
+		std::cout << tangent.x << " " << tangent.y << " " << tangent.z << " " << bitangent.x << " " << bitangent.y << " " << bitangent.z << " " << std::endl;
 
 		// Set the same tangent for all three vertices of the triangle.
 		// They will be merged later, in vboindexer.cpp
@@ -198,10 +209,13 @@ void Model::assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attri
 }
 void Model::prepareObject(ShaderProgram *shaderProgram) {
 	//Zbuduj VBO z danymi obiektu do narysowania
-
+	computeTangentBasis();
 	bufVertices = makeBuffer(&getVertices()[0], getVertices().size() / 4, sizeof(float) * 4); //VBO ze wspó³rzêdnymi wierzcho³ków
 	bufNormals = makeBuffer(&getNormals()[0], getNormals().size() / 4, sizeof(float) * 4);//VBO z wektorami normalnymi wierzcho³ków
-
+	bufTexCoords = makeBuffer(&getUvs()[0], getUvs().size(), sizeof(float) * 2);//VBO ze wspó³rzêdnymi teksturowania
+	bufC1 = makeBuffer(&getTangents()[0], getTangents().size() / 4, sizeof(float) * 4);//VBO z pierwsz¹ kolumn¹ macierzy TBN^-1 dla ka¿dego wierzcho³a
+	bufC2 = makeBuffer(&getBitangents()[0], getBitangents().size() / 4, sizeof(float) * 4);//VBO z drug¹ kolumn¹ macierzy TBN^-1 dla ka¿dego wierzcho³a
+	bufC3 = makeBuffer(&getNormals()[0], getNormals().size() / 4, sizeof(float) * 4);//VBO z trzeci¹ kolumn¹ macierzy TBN^-1 dla ka¿dego wierzcho³a
 																								  //Zbuduj VAO wi¹¿¹cy atrybuty z konkretnymi VBO
 	glGenVertexArrays(1, &vao); //Wygeneruj uchwyt na VAO i zapisz go do zmiennej globalnej
 
@@ -209,8 +223,16 @@ void Model::prepareObject(ShaderProgram *shaderProgram) {
 
 	assignVBOtoAttribute(shaderProgram, "vertex", bufVertices, 4); //"vertex" odnosi siê do deklaracji "in vec4 vertex;" w vertex shaderze
 	assignVBOtoAttribute(shaderProgram, "normal", bufNormals, 4); //"normal" odnosi siê do deklaracji "in vec4 normal;" w vertex shaderze
+	assignVBOtoAttribute(shaderProgram, "texCoord0", bufTexCoords, 2); //"texCoord0" odnosi siê do deklaracji "in vec2 texCoord0;" w vertex shaderze
+	assignVBOtoAttribute(shaderProgram, "c1", bufC1, 4); //"c1" odnosi siê do deklaracji "in vec4 c1;" w vertex shaderze
+	assignVBOtoAttribute(shaderProgram, "c2", bufC2, 4); //"c2" odnosi siê do deklaracji "in vec4 c2;" w vertex shaderze
+	assignVBOtoAttribute(shaderProgram, "c3", bufC3, 4); //"c3" odnosi siê do deklaracji "in vec4 c3;" w vertex shaderze
 
 	glBindVertexArray(0); //Dezaktywuj VAO
+
+	diffTex = readTexture("bricks2_diffuse.png");
+	normalTex = readTexture("bricks2_normal.png");
+	heightTex = readTexture("bricks2_height.png");
 }
 
 void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM) {
@@ -230,6 +252,20 @@ void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV,
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("P"), 1, false, glm::value_ptr(mP));
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("V"), 1, false, glm::value_ptr(mV));
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("M"), 1, false, glm::value_ptr(mM));
+
+	//Powi¹¿ zmienne typu sampler2D z jednostkami teksturuj¹cymi
+	glUniform1i(shaderProgram->getUniformLocation("diffuseMap"), 0);
+	glUniform1i(shaderProgram->getUniformLocation("normalMap"), 1);
+	glUniform1i(shaderProgram->getUniformLocation("heightMap"), 2);
+
+
+	//Przypisz tekstury do jednostek teksturuj¹cych
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, diffTex);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, normalTex);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, heightTex);
 
 	//Uaktywnienie VAO i tym samym uaktywnienie predefiniowanych w tym VAO powi¹zañ slotów atrybutów z tablicami z danymi
 	glBindVertexArray(vao);

@@ -18,10 +18,17 @@ private:
 	std::vector <float> normals;
 	std::vector<float> tangents;
 	std::vector<float> bitangents;
+	GLuint diffTex; //Zmienna reprezentujaca teksturê
+	GLuint normalTex; //Zmienna reprezentujaca teksturê
+	GLuint heightTex; //Zmienna reprezentuj¹ca teksturê
 	GLuint vao;
 	GLuint bufVertices;
 	GLuint bufColors;
 	GLuint bufNormals;
+	GLuint bufTexCoords;
+	GLuint bufC1;
+	GLuint bufC2;
+	GLuint bufC3;
 public:
 	Model();
 	~Model();
@@ -29,6 +36,8 @@ public:
 	std::vector <float> getVertices() { return vertices; }
 	std::vector <float> getUvs() { return uvs; }
 	std::vector <float> getNormals() { return normals; }
+	std::vector <float> getTangents() { return tangents; }
+	std::vector <float> getBitangents() { return bitangents; }
 	GLuint makeBuffer(void *data, int vertexCount, int vertexSize);
 	void assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attributeName, GLuint bufVBO, int vertexSize);
 	void prepareObject(ShaderProgram *shaderProgram);
