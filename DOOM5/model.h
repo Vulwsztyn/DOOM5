@@ -16,6 +16,8 @@ private:
 	std::vector <float> vertices;
 	std::vector <float> uvs;
 	std::vector <float> normals;
+	std::vector<float> tangents;
+	std::vector<float> bitangents;
 	GLuint vao;
 	GLuint bufVertices;
 	GLuint bufColors;
@@ -33,5 +35,6 @@ public:
 	GLuint getVao() { return vao; }
 	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM);
 	GLuint Model::readTexture(char* filename);
+	void computeTangentBasis();
 };
 
