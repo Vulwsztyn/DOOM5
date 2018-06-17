@@ -65,10 +65,5 @@ public:
 		if (angle.y < -maksymalnyKatWychyleniaGoraDol) angle.y = -maksymalnyKatWychyleniaGoraDol;
 	}
 
-	bool detectTerrainColision(Model &map, bool debug = false);
-	float sign(glm::vec2 p1, glm::vec2 p2, glm::vec2 p3);
-
-	bool PointInTriangle(glm::vec2 position, glm::vec2 triangle[3]);
-	float wysokoscPunktuTrojkata(glm::vec3 position, glm::vec3 triangle[3]);
 };
 

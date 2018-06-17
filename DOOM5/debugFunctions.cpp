@@ -15,7 +15,7 @@ using namespace std;
 using namespace glm;
 
 void wypiszvec3(vec3 a) {
-	cout << a.x << ' ' << a.y << ' ' << a.z << ' ' << std::endl;
+	cout << a[0] << ' ' << a[1] << ' ' << a[2] << ' ' << std::endl;
 }
 void wypiszvec2(vec2 a) {
 	cout << a.x << ' ' << a.y << ' ' << std::endl;

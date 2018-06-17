@@ -32,6 +32,7 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "shaderprogram.h"
 #include "Gracz.h"
 #include "Model.h"
+#include "naszaMatematyka.h"
 
 using namespace glm;
 //using namespace std;
@@ -256,6 +257,14 @@ int main(void)
 	glfwSetTime(0); //Wyzeruj licznik czasu
 	float sekundnik = 0.0;
 	
+	//debuguj tutaj jeśli jednorazowo
+	glm::vec3 a = glm::vec3(50, 4.5, 50);
+	glm::vec3 b[3];
+	b[0]= glm::vec3(0, 3, 100);
+	b[1] = glm::vec3(0, 3, 0);
+	b[2] = glm::vec3(100, 6, 0);
+	std::cout<<trzeciWymiarTrojkata(a,b,0) << std::endl;
+
 	//Główna pętla
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{

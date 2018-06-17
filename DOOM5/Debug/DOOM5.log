@@ -1,7 +1,6 @@
-﻿  main_file.cpp
+﻿  naszaMatematyka.cpp
 c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(27): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(139): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(140): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(270): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\naszamatematyka.cpp(42): warning C4018: '<': signed/unsigned mismatch
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\naszamatematyka.cpp(79): warning C4305: 'initializing': truncation from 'double' to 'float'
   DOOM5.vcxproj -> C:\Users\Artur\Documents\Visual Studio 2017\Projects\DOOM6\Debug\DOOM5.exe
