@@ -15,6 +15,7 @@ class Model
 private:
 	std::vector <float> vertices;
 	std::vector <float> uvs;
+	std::vector <float> vertexNormals;
 	std::vector <float> normals;
 	std::vector<float> tangents;
 	std::vector<float> bitangents;
@@ -35,6 +36,7 @@ public:
 	bool loader(const char * path);
 	std::vector <float> getVertices() { return vertices; }
 	std::vector <float> getUvs() { return uvs; }
+	std::vector <float> getvertexNormals() { return vertexNormals; }
 	std::vector <float> getNormals() { return normals; }
 	std::vector <float> getTangents() { return tangents; }
 	std::vector <float> getBitangents() { return bitangents; }

@@ -100,10 +100,10 @@ bool Model::loader(const char * path) {
 	for (int i = 0; i < normalIndices.size(); i++) {
 		int normalIndex = normalIndices[i];
 		glm::vec3 normal = temp_normals[normalIndex - 1];
-		normals.push_back(normal.x);
-		normals.push_back(normal.y);
-		normals.push_back(normal.z);
-		normals.push_back(0);
+		vertexNormals.push_back(normal.x);
+		vertexNormals.push_back(normal.y);
+		vertexNormals.push_back(normal.z);
+		vertexNormals.push_back(0);
 	}
 
 }
@@ -115,6 +115,7 @@ void Model::computeTangentBasis() {
 		glm::vec3 v0 = glm::vec3(vertices[i+0], vertices[i+1], vertices[i+2]);
 		glm::vec3 v1 = glm::vec3(vertices[i + 4], vertices[i + 5], vertices[i + 6]);
 		glm::vec3 v2 = glm::vec3(vertices[i + 8], vertices[i + 9], vertices[i + 10]);
+
 
 		// Shortcuts for UVs
 		glm::vec2 uv0 = glm::vec2(uvs[j+0], uvs[j + 1]);
@@ -131,10 +132,13 @@ void Model::computeTangentBasis() {
 		//std::cout << deltaUV1.x<<" "<<deltaUV1.y<<" " << deltaUV2.x << " " << deltaUV2.y << " " << std::endl;
 		float r = 1 / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
 		//std::cout << r << std::endl;
+
+		glm::vec3 normal = normalize(cross(deltaPos1, deltaPos2));
+		std::cout << normal.x << " " << normal.y << " " << normal.z << std::endl;
 		glm::vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y)*r;
 		glm::vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x)*r;
 
-		std::cout << tangent.x << " " << tangent.y << " " << tangent.z << " " << bitangent.x << " " << bitangent.y << " " << bitangent.z << " " << std::endl;
+		//std::cout << tangent.x << " " << tangent.y << " " << tangent.z << " " << bitangent.x << " " << bitangent.y << " " << bitangent.z << " " << std::endl;
 
 		// Set the same tangent for all three vertices of the triangle.
 		// They will be merged later, in vboindexer.cpp
@@ -155,15 +159,28 @@ void Model::computeTangentBasis() {
 		bitangents.push_back(bitangent.x);
 		bitangents.push_back(bitangent.y);
 		bitangents.push_back(bitangent.z);
-		tangents.push_back(0);
+		bitangents.push_back(0);
 		bitangents.push_back(bitangent.x);
 		bitangents.push_back(bitangent.y);
 		bitangents.push_back(bitangent.z);
-		tangents.push_back(0);
+		bitangents.push_back(0);
 		bitangents.push_back(bitangent.x);
 		bitangents.push_back(bitangent.y);
 		bitangents.push_back(bitangent.z);
-		tangents.push_back(0);
+		bitangents.push_back(0);
+
+		normals.push_back(normal.x);
+		normals.push_back(normal.y);
+		normals.push_back(normal.z);
+		normals.push_back(0);
+		normals.push_back(normal.x);
+		normals.push_back(normal.y);
+		normals.push_back(normal.z);
+		normals.push_back(0);
+		normals.push_back(normal.x);
+		normals.push_back(normal.y);
+		normals.push_back(normal.z);
+		normals.push_back(0);
 		j += 6;
 	}
 }
@@ -211,7 +228,7 @@ void Model::prepareObject(ShaderProgram *shaderProgram) {
 	//Zbuduj VBO z danymi obiektu do narysowania
 	computeTangentBasis();
 	bufVertices = makeBuffer(&getVertices()[0], getVertices().size() / 4, sizeof(float) * 4); //VBO ze wspó³rzêdnymi wierzcho³ków
-	bufNormals = makeBuffer(&getNormals()[0], getNormals().size() / 4, sizeof(float) * 4);//VBO z wektorami normalnymi wierzcho³ków
+	bufNormals = makeBuffer(&getvertexNormals()[0], getvertexNormals().size() / 4, sizeof(float) * 4);//VBO z wektorami normalnymi wierzcho³ków
 	bufTexCoords = makeBuffer(&getUvs()[0], getUvs().size(), sizeof(float) * 2);//VBO ze wspó³rzêdnymi teksturowania
 	bufC1 = makeBuffer(&getTangents()[0], getTangents().size() / 4, sizeof(float) * 4);//VBO z pierwsz¹ kolumn¹ macierzy TBN^-1 dla ka¿dego wierzcho³a
 	bufC2 = makeBuffer(&getBitangents()[0], getBitangents().size() / 4, sizeof(float) * 4);//VBO z drug¹ kolumn¹ macierzy TBN^-1 dla ka¿dego wierzcho³a

@@ -23,7 +23,7 @@ out vec2 iTexCoord0; //wspolrzedne teksturowania
 
 void main(void) {
 
-	mat4 itbn=inverse(mat4(c1,c2,c3,vec4(0,0,0,1)));
+	mat4 itbn=(mat4(c1,c2,c3,vec4(0,0,0,1)));
 
     vec4 lp=vec4(0,6,-6,1); //Wspolrzedne swiatla w przestrzeni swiata
 
