@@ -16,21 +16,20 @@ float temph=h;
 vec2 tc=t;
 vec2 ti =-h*v.xy/s;
 float hi=-h/s;
-while(h*texture(heightMap,tc).r<temph)
-{
-	tc=tc+ti;
-	if(tc.x>1 || tc.y>1 || tc.y<0 || tc.x<0) discard;
-	temph=temph+hi;
-
-
-}
+//while(h*texture(heightMap,tc).r<temph)
+//{
+//	tc=tc+ti;
+//	if(tc.x>1 || tc.y>1 || tc.y<0 || tc.x<0) discard;
+//	temph=temph+hi;
+//}
 return tc;
 }
 
 void main(void) {
 	vec4 v=normalize(i_v);
 	vec2 newCoords=parallaxTexCoords(v,iTexCoord0,0.05,100);
-    vec4 n=normalize(vec4(texture(normalMap,iTexCoord0).rgb*2-1,0));
+    //vec4 n=normalize(vec4(texture(normalMap,iTexCoord0).rgb*2-1,0));
+	vec4 n=normalize(i_n);
     vec4 l=normalize(i_l);
     vec4 r=reflect(-l,n);
 
