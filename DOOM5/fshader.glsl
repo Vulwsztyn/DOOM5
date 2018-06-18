@@ -31,13 +31,15 @@ return tc;
 
 void main(void) {
 	vec4 viewDir=normalize(iviewDir);
-	vec2 newCoords=parallaxTexCoords(viewDir,iTexCoord0,0.1,100);
-    vec4 normalDir=normalize(vec4(texture(normalMap,newCoords).rgb*2-1,0));
+	//vec2 newCoords=parallaxTexCoords(viewDir,iTexCoord0,0.1,100);
+    //vec4 normalDir=normalize(vec4(texture(normalMap,iTexCoord0).rgb*2-1,0));
+	vec4 normalDir=normalize(inormalDir);
     vec4 lightDir=normalize(ilightDir);
     vec4 refclectDir=reflect(-lightDir,normalDir);
 
     vec4 ambientColor=vec4(0,0,0,0); //Kolor obiektu w swietle otoczenia
-    vec4 diffuseColor=texture(diffuseMap,newCoords); //Kolor obiektu w swietle rozproszonym
+   // vec4 diffuseColor=texture(diffuseMap,iTexCoord0); //Kolor obiektu w swietle rozproszonym
+   vec4 diffuseColor=vec4(0.6,0.6,0.6,1);
     vec4 specColor=vec4(1,1,1,0); //Kolor obiektu w swietle odbitym
 
     vec4 lightColor=vec4(1,0.6,0.6,1); //Kolor swiatla rozpraszanego
@@ -62,9 +64,9 @@ void main(void) {
   vec4 colorLinear = ambientColor +
                      diffuseColor * lambertian * lightColor * lightPower / distance +
                      specColor * specular * lightColor * lightPower / distance;
-  // apply gamma correction (assume ambientColor, diffuseColor and specColor
-  // have been linearized, i.e. have no gamma correction in them)
+  //apply gamma correction (assume ambientColor, diffuseColor and specColor
+  //have been linearized, i.e. have no gamma correction in them)
   vec4 colorGammaCorrected = pow(colorLinear, vec4(1.0/screenGamma));
-  // use the gamma corrected color in the fragment
+  //use the gamma corrected color in the fragment
   pixelColor=colorGammaCorrected;
 }
