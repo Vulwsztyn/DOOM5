@@ -15,9 +15,10 @@ in vec4 c2; //Druga kolumna macierzy TBN^-1 (na razie ignorowana)
 in vec4 c3; //Trzecia kolumna macierzy TBN^-1 (na razie ignorowana)
 
 //Zmienne interpolowane
-out vec4 i_l; //wektor do swiatla(przestrzen oka)
-out vec4 i_v; //wektor do obserwatora(przestrzen oka)
-out vec4 i_n; //wektor normalny (przestrzen oka)
+out vec4 lightDist;
+out vec4 ilightDir; //wektor do swiatla(przestrzen oka)
+out vec4 iviewDir; //wektor do obserwatora(przestrzen oka)
+out vec4 inormalDir; //wektor normalny (przestrzen oka)
 out vec2 iTexCoord0; //wspolrzedne teksturowania
 
 
@@ -27,9 +28,10 @@ void main(void) {
 
     vec4 lp=vec4(0,0,-6,1); //Wspolrzedne swiatla w przestrzeni swiata
 
-    i_l=normalize(itbn*inverse(M)*lp-itbn*vertex);
-    i_v=normalize(itbn*inverse(V*M)*vec4(0,0,0,1)-itbn*vertex);
-    i_n=normalize(itbn*normal);
+    ilightDir=normalize(itbn*inverse(M)*lp-itbn*vertex);
+	lightDist=itbn*inverse(M)*lp-itbn*vertex;
+    iviewDir=normalize(itbn*inverse(V*M)*vec4(0,0,0,1)-itbn*vertex);
+    inormalDir=normalize(itbn*normal);
 
     iTexCoord0=texCoord0;
 
