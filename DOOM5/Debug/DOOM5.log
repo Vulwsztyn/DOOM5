@@ -1,6 +1,6 @@
-﻿  naszaMatematyka.cpp
-c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(27): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\naszamatematyka.cpp(42): warning C4018: '<': signed/unsigned mismatch
-c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\naszamatematyka.cpp(79): warning C4305: 'initializing': truncation from 'double' to 'float'
-  DOOM5.vcxproj -> C:\Users\Artur\Documents\Visual Studio 2017\Projects\DOOM6\Debug\DOOM5.exe
+﻿  Model.cpp
+c:\users\luker\documents\github\doom5\doom5\model.cpp(72): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\luker\documents\github\doom5\doom5\model.cpp(82): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+c:\users\luker\documents\github\doom5\doom5\model.cpp(57): warning C4101: "uvIndex": lokalna zmienna, do której nie istnieje odwołanie
+c:\users\luker\documents\github\doom5\doom5\model.cpp(91): warning C4715: "Model::loader”: niewszystkie ścieżki kodu zwracają wartość
+  DOOM5.vcxproj -> C:\Users\Luker\Documents\GitHub\DOOM5\Debug\DOOM5.exe

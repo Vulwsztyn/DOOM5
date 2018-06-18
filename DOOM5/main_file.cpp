@@ -168,7 +168,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 	joystickConnected = glfwJoystickPresent(0);
 	glfwSetFramebufferSizeCallback(window, windowResize); //Zarejestruj procedurę obsługi zmiany rozmiaru bufora ramki
 
-	shaderProgram = new ShaderProgram("vshader.glsl",NULL, "fshader.glsl"); //Wczytaj program cieniujący
+	shaderProgram = new ShaderProgram("vshader.glsl", "gshader.glsl", "fshader.glsl"); //Wczytaj program cieniujący
 
 	map.loader("Untitled.obj");
 	map.prepareObject(shaderProgram);
