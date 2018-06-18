@@ -25,8 +25,9 @@ out vec2 iTexCoord0; //wspolrzedne teksturowania
 void main(void) {
 
 	mat4 itbn=mat4(c1,c2,c3,vec4(0,0,0,1));
+	//itbn=mat4(vec4(1,1,1,1),vec4(1,1,1,1),vec4(1,1,1,1),vec4(0,0,0,1));
 
-    vec4 lp=vec4(0,0,-6,1); //Wspolrzedne swiatla w przestrzeni swiata
+    vec4 lp=vec4(0,6,-6,1); //Wspolrzedne swiatla w przestrzeni swiata
 
     ilightDir=normalize(itbn*inverse(M)*lp-itbn*vertex);
 	lightDist=itbn*inverse(M)*lp-itbn*vertex;

@@ -1,25 +1,7 @@
-﻿  Gracz.cpp
-c:\users\luk3r\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-c:\users\luk3r\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-c:\users\luk3r\documents\github\doom5\doom5\gracz.cpp(45): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\luk3r\documents\github\doom5\doom5\gracz.cpp(89): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
-c:\users\luk3r\documents\github\doom5\doom5\gracz.cpp(90): warning C4244: "-=": konwersja z "double" do "float", możliwa utrata danych
-  Model.cpp
+﻿  Model.cpp
 c:\users\luk3r\documents\github\doom5\doom5\model.cpp(82): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
 c:\users\luk3r\documents\github\doom5\doom5\model.cpp(91): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
 c:\users\luk3r\documents\github\doom5\doom5\model.cpp(100): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
 c:\users\luk3r\documents\github\doom5\doom5\model.cpp(113): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-  debugFunctions.cpp
-c:\users\luk3r\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-c:\users\luk3r\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-  main_file.cpp
-c:\users\luk3r\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-c:\users\luk3r\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-c:\users\luk3r\documents\github\doom5\doom5\main_file.cpp(160): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\luk3r\documents\github\doom5\doom5\main_file.cpp(161): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\luk3r\documents\github\doom5\doom5\main_file.cpp(285): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
-  Generowanie kodu...
 c:\users\luk3r\documents\github\doom5\doom5\model.cpp(109): warning C4715: "Model::loader”: niewszystkie ścieżki kodu zwracają wartość
-  LINK : nie znaleziono elementu C:\Users\Luk3r\Documents\GitHub\DOOM5\Debug\DOOM5.exe ani nie został on skompilowany podczas ostatniego konsolidowania przyrostowego; zostanie wykonana pełna konsolidacja
-LINK : warning LNK4098: domyślna biblioteka „MSVCRT” powoduje konflikt z innymi bibliotekami; użyj opcji /NODEFAULTLIB:biblioteka
   DOOM5.vcxproj -> C:\Users\Luk3r\Documents\GitHub\DOOM5\Debug\DOOM5.exe

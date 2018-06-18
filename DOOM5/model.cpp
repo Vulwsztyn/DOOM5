@@ -134,11 +134,11 @@ void Model::computeTangentBasis() {
 		//std::cout << deltaUV1.x<<" "<<deltaUV1.y<<" " << deltaUV2.x << " " << deltaUV2.y << " " << std::endl;
 		float r = 1 / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
 		//std::cout << r << std::endl;
-		glm::vec3 normal = normalize(vn0+vn1+vn2);
+		glm::vec3 normal = glm::normalize(glm::cross(deltaPos2, deltaPos1));
 		//std::cout << normal.x << " " << normal.y << " " << normal.z << std::endl;
-		glm::vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y)*r;
+		glm::vec3 tangent = glm::normalize((deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y)*r);
 		//std::cout << tangent.x << " " << tangent.y << " " << tangent.z << std::endl;
-		glm::vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x)*r;
+		glm::vec3 bitangent = glm::normalize((deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x)*r);
 		//std::cout << bitangent.x << " " << bitangent.y << " " << bitangent.z << std::endl;
 
 		//std::cout << tangent.x << " " << tangent.y << " " << tangent.z << " " << bitangent.x << " " << bitangent.y << " " << bitangent.z << " " << std::endl;
@@ -186,6 +186,9 @@ void Model::computeTangentBasis() {
 		normals.push_back(0);
 		j += 6;
 	}
+	
+
+
 }
 
 GLuint Model::readTexture(char* filename) {
