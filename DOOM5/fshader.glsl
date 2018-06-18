@@ -13,8 +13,8 @@ in vec4 inormalDir; //wektor normalny (przestrzen oka)
 in vec2 iTexCoord0; //wspolrzedne teksturowania
 
 vec2 parallaxTexCoords(vec4 viewDir, vec2 t, float h, float s){
-vec2 ti =-viewDir.xy/s;
-float hi=-viewDir.z/s;
+vec2 ti =-h*viewDir.xy/s;
+float hi=-h/s;
 vec2 tc=t;
 float hc=h;
 float ht=h*texture(heightMap,tc).r;
@@ -40,11 +40,11 @@ void main(void) {
     vec4 diffuseColor=texture(diffuseMap,newCoords); //Kolor obiektu w swietle rozproszonym
     vec4 specColor=vec4(1,1,1,0); //Kolor obiektu w swietle odbitym
 
-    vec4 lightColor=vec4(1,1,1,1); //Kolor swiatla rozpraszanego
+    vec4 lightColor=vec4(1,0.6,0.6,1); //Kolor swiatla rozpraszanego
 
-	float shininess = 16.0;
-	float lightPower = 40.0;
-	float screenGamma = 2.2;
+	float shininess = 64.0;
+	float lightPower = 100.0;
+	float screenGamma = 1.5;
 
   float distance = length(lightDist);
   distance = distance * distance;
@@ -54,7 +54,6 @@ void main(void) {
 
   if(lambertian > 0.0) {
 
-    // this is blinn phong
     vec4 halfDir = normalize(lightDir + viewDir);
     float specAngle = max(dot(halfDir, normalDir), 0.0);
     specular = pow(specAngle, shininess);

@@ -106,6 +106,7 @@ bool Model::loader(const char * path) {
 		vertexNormals.push_back(0);
 	}
 
+
 }
 
 void Model::computeTangentBasis() {
