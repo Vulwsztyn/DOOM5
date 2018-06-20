@@ -191,7 +191,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 	shaderProgram = new ShaderProgram("vshader.glsl",NULL, "fshader.glsl"); //Wczytaj program cieniujący
 
 
-	map.loader("Untitled.obj");
+	map.loader("cube.obj");
 	map.prepareObject(shaderProgram);
 }
 
@@ -235,7 +235,7 @@ void drawScene(GLFWwindow* window) {
 	
 
 	//Narysuj obiekt
-	map.drawObject(shaderProgram,P,V,M);
+	map.drawObject(shaderProgram,P,V,M,gracz);
 
 	//Przerzuć tylny bufor na przedni
 	glfwSwapBuffers(window);

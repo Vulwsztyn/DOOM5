@@ -38,8 +38,8 @@ void main(void) {
     vec4 refclectDir=reflect(-lightDir,normalDir);
 
     vec4 ambientColor=vec4(0,0,0,0); //Kolor obiektu w swietle otoczenia
-   // vec4 diffuseColor=texture(diffuseMap,iTexCoord0); //Kolor obiektu w swietle rozproszonym
-   vec4 diffuseColor=vec4(0.6,0.6,0.6,1);
+    vec4 diffuseColor=texture(diffuseMap,iTexCoord0); //Kolor obiektu w swietle rozproszonym
+    //vec4 diffuseColor=vec4(0.6,0.6,0.6,1);
     vec4 specColor=vec4(1,1,1,0); //Kolor obiektu w swietle odbitym
 
     vec4 lightColor=vec4(1,0.6,0.6,1); //Kolor swiatla rozpraszanego

@@ -259,7 +259,7 @@ void Model::prepareObject(ShaderProgram *shaderProgram) {
 	heightTex = readTexture("bricks2_height.png");
 }
 
-void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM) {
+void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM,Gracz gracz) {
 	//W³¹czenie programu cieniuj¹cego, który ma zostaæ u¿yty do rysowania
 	//W tym programie wystarczy³oby wywo³aæ to raz, w setupShaders, ale chodzi o pokazanie,
 	//¿e mozna zmieniaæ program cieniuj¹cy podczas rysowania jednej sceny
@@ -276,6 +276,7 @@ void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV,
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("P"), 1, false, glm::value_ptr(mP));
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("V"), 1, false, glm::value_ptr(mV));
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("M"), 1, false, glm::value_ptr(mM));
+	glUniform3f(shaderProgram->getUniformLocation("player"),gracz.getPosition().x, gracz.getPosition().y, gracz.getPosition().z);
 
 	//Powi¹¿ zmienne typu sampler2D z jednostkami teksturuj¹cymi
 	glUniform1i(shaderProgram->getUniformLocation("diffuseMap"), 0);
