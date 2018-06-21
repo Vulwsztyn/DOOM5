@@ -91,8 +91,5 @@ void Gracz::rusz(Model &map, double czas)
 	}
 
 	position += vec3(czas*speed.x, 0.0f, czas*speed.z);
-	if (detectTerrainColision(map) == 1) {
-		position -= vec3(czas*speed.x, 0.0f, czas*speed.z);
-	}
 
 }

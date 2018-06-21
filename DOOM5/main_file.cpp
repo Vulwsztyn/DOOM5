@@ -36,7 +36,7 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 using namespace glm;
 using namespace std;
 
-float aspect=1; //Stosunek szerokości do wysokości okna
+float aspect=16/9; //Stosunek szerokości do wysokości okna
 
 //Uchwyty na shadery
 ShaderProgram *shaderProgram; //Wskaźnik na obiekt reprezentujący program cieniujący.
@@ -191,7 +191,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 	shaderProgram = new ShaderProgram("vshader.glsl",NULL, "fshader.glsl"); //Wczytaj program cieniujący
 
 
-	map.loader("cube.obj");
+	map.loader("e1m1.obj");
 	map.prepareObject(shaderProgram);
 }
 
@@ -235,7 +235,7 @@ void drawScene(GLFWwindow* window) {
 	
 
 	//Narysuj obiekt
-	map.drawObject(shaderProgram,P,V,M,gracz);
+	map.drawObject(shaderProgram,P,V,M);
 
 	//Przerzuć tylny bufor na przedni
 	glfwSwapBuffers(window);

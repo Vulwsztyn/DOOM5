@@ -10,7 +10,6 @@
 #include "shaderprogram.h"
 #include <iostream>
 #include "lodepng.h"
-#include "Gracz.h"
 class Model
 {
 private:
@@ -45,7 +44,7 @@ public:
 	void assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attributeName, GLuint bufVBO, int vertexSize);
 	void prepareObject(ShaderProgram *shaderProgram);
 	GLuint getVao() { return vao; }
-	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM, Gracz gracz);
+	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM);
 	GLuint Model::readTexture(char* filename);
 	void computeTangentBasis();
 };
