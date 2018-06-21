@@ -46,6 +46,8 @@
     <None Include="glfw3.dll" />
     <None Include="fshader.glsl" />
     <None Include="vshader.glsl" />
+    <None Include="lightvshader.glsl" />
+    <None Include="lightfshader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lodepng.cpp">

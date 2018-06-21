@@ -231,7 +231,7 @@ void Model::assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attri
 	glEnableVertexAttribArray(location); //W³¹cz u¿ywanie atrybutu o numerze slotu zapisanym w zmiennej location
 	glVertexAttribPointer(location, vertexSize, GL_FLOAT, GL_FALSE, 0, NULL); //Dane do slotu location maj¹ byæ brane z aktywnego VBO
 }
-void Model::prepareObject(ShaderProgram *shaderProgram) {
+void Model::prepareObject(ShaderProgram *shaderProgram,char* diff, char* normal, char* height) {
 	//Zbuduj VBO z danymi obiektu do narysowania
 	computeTangentBasis();
 	bufVertices = makeBuffer(&getVertices()[0], getVertices().size() / 4, sizeof(float) * 4); //VBO ze wspó³rzêdnymi wierzcho³ków
@@ -254,9 +254,9 @@ void Model::prepareObject(ShaderProgram *shaderProgram) {
 
 	glBindVertexArray(0); //Dezaktywuj VAO
 
-	diffTex = readTexture("Textures/CliffJagged004_COL_VAR1_1K.png");
-	normalTex = readTexture("Textures/CliffJagged004_NRM_1K.png");
-	heightTex = readTexture("Textures/CliffJagged004_DISP_VAR1_1K.png");
+	diffTex = readTexture(diff);
+	normalTex = readTexture(normal);
+	heightTex = readTexture(height);
 }
 
 void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM) {

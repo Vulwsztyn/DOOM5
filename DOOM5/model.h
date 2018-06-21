@@ -42,7 +42,7 @@ public:
 	std::vector <float> getBitangents() { return bitangents; }
 	GLuint makeBuffer(void *data, int vertexCount, int vertexSize);
 	void assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attributeName, GLuint bufVBO, int vertexSize);
-	void prepareObject(ShaderProgram *shaderProgram);
+	void prepareObject(ShaderProgram *shaderProgram, char* diff, char* normal, char* height);
 	GLuint getVao() { return vao; }
 	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM);
 	GLuint Model::readTexture(char* filename);

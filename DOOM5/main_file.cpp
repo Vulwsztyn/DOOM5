@@ -40,13 +40,14 @@ float aspect=16/9; //Stosunek szerokości do wysokości okna
 
 //Uchwyty na shadery
 ShaderProgram *shaderProgram; //Wskaźnik na obiekt reprezentujący program cieniujący.
-
+ShaderProgram *lightShader;
 GLuint vao;
 GLuint bufVertices;
 GLuint bufColors;
 GLuint bufNormals;
 
 Model map;
+Model lights;
 
 Gracz gracz = Gracz();
 
@@ -189,10 +190,13 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glfwSetFramebufferSizeCallback(window, windowResize); //Zarejestruj procedurę obsługi zmiany rozmiaru bufora ramki
 
 	shaderProgram = new ShaderProgram("vshader.glsl",NULL, "fshader.glsl"); //Wczytaj program cieniujący
+	lightShader = new ShaderProgram("lightvshader.glsl", NULL, "lightfshader.glsl"); //Wczytaj program cieniujący
 
 
 	map.loader("e1m1.obj");
-	map.prepareObject(shaderProgram);
+	lights.loader("light.obj");
+	map.prepareObject(shaderProgram,"Textures/CliffJagged004_COL_VAR1_1K.png","Textures/CliffJagged004_NRM_1K.png","Textures/CliffJagged004_DISP_VAR1_1K.png");
+	lights.prepareObject(lightShader, "light.png", "light.png", "light.png");
 }
 
 //Zwolnienie zasobów zajętych przez program
@@ -236,6 +240,8 @@ void drawScene(GLFWwindow* window) {
 
 	//Narysuj obiekt
 	map.drawObject(shaderProgram,P,V,M);
+	M = glm::translate(M, vec3(5, 6, 0));
+	lights.drawObject(shaderProgram, P, V, M);
 
 	//Przerzuć tylny bufor na przedni
 	glfwSwapBuffers(window);
