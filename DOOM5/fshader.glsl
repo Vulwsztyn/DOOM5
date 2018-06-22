@@ -53,7 +53,7 @@ while(currentLayerDepth < currentDepthMapValue)
     // get depth of next layer
     currentLayerDepth += layerDepth;  
 }
-return currentTexCoords;
+//return currentTexCoords;
 // get texture coordinates before collision (reverse operations)
 vec2 prevTexCoords = currentTexCoords + deltaTexCoords;
 
