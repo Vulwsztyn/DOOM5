@@ -33,7 +33,7 @@ in vec4 TangentFragPos;
 vec2 ParallaxMapping(vec2 texCoords, vec4 viewDir)
 { 
     // number of depth layers
-    const float numLayers = 20;
+    const float numLayers = 200;
     // calculate the size of each layer
     float layerDepth = 1.0 / numLayers;
     // depth of current layer
@@ -47,12 +47,13 @@ float currentDepthMapValue = texture(material.heightMap, currentTexCoords).r;
 while(currentLayerDepth < currentDepthMapValue)
 {
     // shift texture coordinates along direction of P
-    currentTexCoords -= deltaTexCoords;
+    currentTexCoords += deltaTexCoords;
     // get depthmap value at current texture coordinates
     currentDepthMapValue = texture(material.heightMap, currentTexCoords).r;  
     // get depth of next layer
     currentLayerDepth += layerDepth;  
 }
+return currentTexCoords;
 // get texture coordinates before collision (reverse operations)
 vec2 prevTexCoords = currentTexCoords + deltaTexCoords;
 

@@ -10,6 +10,7 @@
 #include "shaderprogram.h"
 #include <iostream>
 #include "lodepng.h"
+#include "Lights.h"
 class Model
 {
 private:
@@ -19,6 +20,10 @@ private:
 	std::vector <float> normals;
 	std::vector<float> tangents;
 	std::vector<float> bitangents;
+
+	glm::vec4 ambient;
+	float shininess;
+	float roughness;
 	GLuint diffTex; //Zmienna reprezentujaca teksturê
 	GLuint normalTex; //Zmienna reprezentujaca teksturê
 	GLuint heightTex; //Zmienna reprezentuj¹ca teksturê
@@ -43,9 +48,9 @@ public:
 	std::vector <float> getBitangents() { return bitangents; }
 	GLuint makeBuffer(void *data, int vertexCount, int vertexSize);
 	void assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attributeName, GLuint bufVBO, int vertexSize);
-	void prepareObject(ShaderProgram *shaderProgram, char* diff, char* normal, char* height,char* spec);
+	void prepareObject(ShaderProgram *shaderProgram, char* diff, char* normal, char* height, char* spec, glm::vec4 mambient, float mshininess, float mroughness);
 	GLuint getVao() { return vao; }
-	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM,float posx, float posy, float posz);
+	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM, glm::vec3 playerPosition,Light &lights);
 	GLuint Model::readTexture(char* filename);
 	void computeTangentBasis();
 };

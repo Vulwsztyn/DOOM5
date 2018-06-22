@@ -25,6 +25,7 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="debugFunctions.h" />
     <ClInclude Include="Gracz.h" />
+    <ClInclude Include="Lights.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="resource.h" />

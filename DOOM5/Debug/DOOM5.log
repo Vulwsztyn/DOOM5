@@ -1,7 +1,9 @@
-﻿  Model.cpp
-c:\users\luk3r\documents\github\doom5\doom5\model.cpp(82): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\luk3r\documents\github\doom5\doom5\model.cpp(91): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\luk3r\documents\github\doom5\doom5\model.cpp(100): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\luk3r\documents\github\doom5\doom5\model.cpp(114): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-c:\users\luk3r\documents\github\doom5\doom5\model.cpp(110): warning C4715: "Model::loader”: niewszystkie ścieżki kodu zwracają wartość
+﻿  main_file.cpp
+c:\users\luk3r\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+c:\users\luk3r\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+c:\users\luk3r\documents\github\doom5\doom5\main_file.cpp(163): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luk3r\documents\github\doom5\doom5\main_file.cpp(164): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luk3r\documents\github\doom5\doom5\main_file.cpp(201): warning C4305: "argument": obcięcie z "double" do "float"
+c:\users\luk3r\documents\github\doom5\doom5\main_file.cpp(202): warning C4305: "argument": obcięcie z "double" do "float"
+c:\users\luk3r\documents\github\doom5\doom5\main_file.cpp(295): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
   DOOM5.vcxproj -> C:\Users\Luk3r\Documents\GitHub\DOOM5\Debug\DOOM5.exe
