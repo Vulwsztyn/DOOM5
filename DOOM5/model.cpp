@@ -135,7 +135,7 @@ void Model::computeTangentBasis() {
 		//std::cout << deltaUV1.x<<" "<<deltaUV1.y<<" " << deltaUV2.x << " " << deltaUV2.y << " " << std::endl;
 		float r = 1 / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
 		//std::cout << r << std::endl;
-		glm::vec3 normal = glm::normalize(glm::cross(deltaPos2, deltaPos1));
+		glm::vec3 normal = glm::normalize(glm::cross(deltaPos1,deltaPos2));
 		//std::cout << normal.x << " " << normal.y << " " << normal.z << std::endl;
 		glm::vec3 tangent = glm::normalize((deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y)*r);
 		//std::cout << tangent.x << " " << tangent.y << " " << tangent.z << std::endl;
@@ -260,7 +260,7 @@ void Model::prepareObject(ShaderProgram *shaderProgram,char* diff, char* normal,
 	specTex = readTexture(spec);
 }
 
-void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM) {
+void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM, float posx, float posy, float posz) {
 	//W³¹czenie programu cieniuj¹cego, który ma zostaæ u¿yty do rysowania
 	//W tym programie wystarczy³oby wywo³aæ to raz, w setupShaders, ale chodzi o pokazanie,
 	//¿e mozna zmieniaæ program cieniuj¹cy podczas rysowania jednej sceny
@@ -282,13 +282,18 @@ void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV,
 	glUniform1i(shaderProgram->getUniformLocation("material.diffuseMap"), 0);
 	glUniform1i(shaderProgram->getUniformLocation("material.normalMap"), 1);
 	glUniform1i(shaderProgram->getUniformLocation("material.heightMap"), 2);
+	glUniform1i(shaderProgram->getUniformLocation("material.specMap"), 3);
 	glUniform4f(shaderProgram->getUniformLocation("material.ambient"), 0.2f, 0.2f, 0.2f,1);
-	glUniform4f(shaderProgram->getUniformLocation("material.shininess"), 0.4f, 0.4f, 0.4f, 1);
+	glUniform1f(shaderProgram->getUniformLocation("material.shininess"), 32.0f);
+	glUniform1f(shaderProgram->getUniformLocation("material.roughness"), 0.02f);
 
-	glUniform4f(shaderProgram->getUniformLocation("light.position"), 0.2f, 0.2f, 0.2f,1);
-	glUniform4f(shaderProgram->getUniformLocation("light.ambient"), 0.2f, 0.2f, 0.2f,1);
-	glUniform4f(shaderProgram->getUniformLocation("light.diffuse"), 1.0f, 1.0f, 1.0f,1); // darken the light a bit to fit the scene
+	glUniform4f(shaderProgram->getUniformLocation("viewPos"), posx, posy,posz, 1);
+
+	glUniform4f(shaderProgram->getUniformLocation("light.position"), 5,6, 0,1);
+	glUniform4f(shaderProgram->getUniformLocation("light.ambient"), 0.1f, 0.1f, 0.1f,1);
+	glUniform4f(shaderProgram->getUniformLocation("light.diffuse"), 0.8f, 0.8f, 0.8f,1); // darken the light a bit to fit the scene
 	glUniform4f(shaderProgram->getUniformLocation("light.specular"), 1.0f, 1.0f, 1.0f,1);
+	glUniform4f(shaderProgram->getUniformLocation("light.color"), 1.0f, 1.0f, 1.0f, 1);
 
 
 	//Przypisz tekstury do jednostek teksturuj¹cych
@@ -298,6 +303,8 @@ void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV,
 	glBindTexture(GL_TEXTURE_2D, normalTex);
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, heightTex);
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, specTex);
 
 	//Uaktywnienie VAO i tym samym uaktywnienie predefiniowanych w tym VAO powi¹zañ slotów atrybutów z tablicami z danymi
 	glBindVertexArray(vao);

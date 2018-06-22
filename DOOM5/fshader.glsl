@@ -6,43 +6,90 @@ struct Material {
     sampler2D specMap;
 	sampler2D normalMap;
 	sampler2D heightMap;
-    vec4 shininess;
+    float shininess;
+	float roughness;
 }; 
 struct Light {
     vec4 position;
     vec4 ambient;
     vec4 diffuse;
     vec4 specular;
+	vec4 lightColor;
 };
 
 uniform Light light;  
-  
+uniform vec4 viewPos; 
 uniform Material material;
 
 out vec4 pixelColor; //Zmienna wyjsciowa fragment shadera. Zapisuje sie do niej ostateczny (prawie) kolor piksela
 
-in vec4 i_l; //wektor do swiatla(przestrzen oka)
-in vec4 i_v; //wektor do obserwatora(przestrzen oka)
-in vec4 i_n; //wektor normalny (przestrzen oka)
+in vec4 FragPos; 
+in vec4 Normal; 
 in vec2 iTexCoord0; //wspolrzedne teksturowania
+in vec4 TangentLightPos;
+in vec4 TangentViewPos;
+in vec4 TangentFragPos;
 
+vec2 ParallaxMapping(vec2 texCoords, vec4 viewDir)
+{ 
+    // number of depth layers
+    const float numLayers = 20;
+    // calculate the size of each layer
+    float layerDepth = 1.0 / numLayers;
+    // depth of current layer
+    float currentLayerDepth = 0.0;
+    // the amount to shift the texture coordinates per layer (from vector P)
+    vec2 P = viewDir.xy * material.roughness; 
+    vec2 deltaTexCoords = P / numLayers;
+	vec2  currentTexCoords     = texCoords;
+float currentDepthMapValue = texture(material.heightMap, currentTexCoords).r;
+  
+while(currentLayerDepth < currentDepthMapValue)
+{
+    // shift texture coordinates along direction of P
+    currentTexCoords -= deltaTexCoords;
+    // get depthmap value at current texture coordinates
+    currentDepthMapValue = texture(material.heightMap, currentTexCoords).r;  
+    // get depth of next layer
+    currentLayerDepth += layerDepth;  
+}
+// get texture coordinates before collision (reverse operations)
+vec2 prevTexCoords = currentTexCoords + deltaTexCoords;
+
+// get depth after and before collision for linear interpolation
+float afterDepth  = currentDepthMapValue - currentLayerDepth;
+float beforeDepth = texture(material.heightMap, prevTexCoords).r - currentLayerDepth + layerDepth;
+ 
+// interpolation of texture coordinates
+float weight = afterDepth / (afterDepth - beforeDepth);
+vec2 finalTexCoords = prevTexCoords * weight + currentTexCoords * (1.0 - weight);
+
+return finalTexCoords; 
+      
+} 
 
 void main(void) {
-	vec4 v=normalize(i_v);
-    vec4 n=normalize(i_n);
-    vec4 l=normalize(i_l);
-    vec4 r=reflect(-l,n);
+	//ambient
+	vec4 ambient  = light.ambient * material.ambient;
 
-    vec4 ka=material.ambient; //Kolor obiektu w swietle otoczenia
-    vec4 kd=texture(material.diffuseMap,iTexCoord0); //Kolor obiektu w swietle rozproszonym
-    vec4 ks=material.shininess*texture(material.specMap,iTexCoord0); //Kolor obiektu w swietle odbitym
+	vec4 viewDir    = normalize(TangentViewPos - TangentFragPos);
+	vec2 newiTexCoord0=ParallaxMapping(iTexCoord0,  viewDir);
 
-    vec4 la=light.ambient; //Kolor swiatla otoczenia
-    vec4 ld=light.diffuse; //Kolor swiatla rozpraszanego
-    vec4 ls=light.specular; //Kolor swiatla odbijanego
+	// diffuse 
+	vec4 normal = vec4(texture(material.normalMap, newiTexCoord0).rgb,1);
+    normal = normalize(normal * 2.0 - 1.0);
+	//normal=normalize(Normal);
+	vec4 lightDir   = normalize(TangentLightPos - TangentFragPos);
+	float diff = max(dot(normal, lightDir), 0.0);
+    vec4 diffuse = light.diffuse * (diff * texture(material.diffuseMap,newiTexCoord0));
 
-    float nl=max(dot(n,l),0); //Kosinus kata pomiedzy wektorami do swiatla i normalnym
-    float rv=pow(max(dot(r,v),0),32); //Kosinus kata pomiedzy wektorami do obserwatora i odbitym, podniesiony do wykladnika Phonga
+	// specular
+	viewDir    = normalize(viewPos - FragPos);
+	lightDir   = normalize(light.position - FragPos);
+	vec4 halfwayDir = normalize(lightDir + viewDir);
+	normal=normalize(Normal);
+	float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
+	vec4 specular = light.specular * (spec * texture(material.specMap,newiTexCoord0)); 
 
-	pixelColor=ka*la+kd*ld*vec4(nl,nl,nl,1)+ks*ls*vec4(rv,rv,rv,0);
+	pixelColor=specular+ambient+diffuse;
 }

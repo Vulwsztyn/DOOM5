@@ -36,7 +36,7 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 using namespace glm;
 using namespace std;
 
-float aspect=16/9; //Stosunek szerokości do wysokości okna
+float aspect=1; //Stosunek szerokości do wysokości okna
 
 //Uchwyty na shadery
 ShaderProgram *shaderProgram; //Wskaźnik na obiekt reprezentujący program cieniujący.
@@ -46,13 +46,10 @@ GLuint bufVertices;
 GLuint bufColors;
 GLuint bufNormals;
 
-Model map;
+Model map[2];
 Model lights;
 
 Gracz gracz = Gracz();
-
-float Width= 1600;
-float Height=900;
 
 double oldMouseX;
 double oldMouseY;
@@ -172,8 +169,7 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
 
 //Procedura obługi zmiany rozmiaru bufora ramki
 void windowResize(GLFWwindow* window, int width, int height) {
-	Width = width;
-		Height = height; //Obraz ma być generowany w oknie o tej rozdzielczości
+	glViewport(0, 0, width, height);
     if (height!=0) {
         aspect=(float)width/(float)height; //Stosunek szerokości do wysokości okna
     } else {
@@ -197,9 +193,11 @@ void initOpenGLProgram(GLFWwindow* window) {
 	lightShader = new ShaderProgram("vshader.glsl", NULL, "lightfshader.glsl"); //Wczytaj program cieniujący
 
 
-	map.loader("e1m1.obj");
+	map[0].loader("e1m1_walls.obj");
+	map[1].loader("e1m1_floor.obj");
 	lights.loader("light.obj");
-	map.prepareObject(shaderProgram,"Textures/CliffJagged004_COL_VAR1_1K.png","Textures/CliffJagged004_NRM_1K.png","Textures/CliffJagged004_DISP_VAR1_1K.png","Textures/CliffJagged004_GLOSS_1K.png");
+	map[0].prepareObject(shaderProgram,"Textures/CliffJagged004_COL_VAR1_1K.png","Textures/CliffJagged004_NRM_1K.png","Textures/CliffJagged004_DISP_VAR1_1K.png","Textures/CliffJagged004_GLOSS_1K.png");
+	map[1].prepareObject(shaderProgram, "Textures/GroundClay002_COL_VAR1_1K.png", "Textures/GroundClay002_NRM_1K.png", "Textures/GroundClay002_DISP_1K.png", "Textures/GroundClay002_GLOSS_1K.png");
 	lights.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png");
 }
 
@@ -244,46 +242,15 @@ void drawScene(GLFWwindow* window) {
 	
 
 	//Narysuj obiekt
-	map.drawObject(shaderProgram,P,V,M);
+	map[0].drawObject(shaderProgram,P,V,M, gracz.getPosition().x, gracz.getPosition().y, gracz.getPosition().z);
+	map[1].drawObject(shaderProgram, P, V, M, gracz.getPosition().x, gracz.getPosition().y, gracz.getPosition().z);
 	M = glm::translate(M, vec3(5, 6, 0));
-	lights.drawObject(shaderProgram, P, V, M);
+	lights.drawObject(lightShader, P, V, M, gracz.getPosition().x, gracz.getPosition().y, gracz.getPosition().z);
 
 	//Przerzuć tylny bufor na przedni
 
 }
 
-void shadowGeneration(GLFWwindow* window) {
-	unsigned int depthMapFBO;
-	glGenFramebuffers(1, &depthMapFBO);
-	const unsigned int SHADOW_WIDTH = 512, SHADOW_HEIGHT = 512;
-
-	unsigned int depthMap;
-	glGenTextures(1, &depthMap);
-	glBindTexture(GL_TEXTURE_2D, depthMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
-		SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// 1. first render to depth map
-	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	drawScene(window);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, Width, Height);
-	glBindTexture(GL_TEXTURE_2D, depthMap);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-}
 
 int main(void)
 {
@@ -297,7 +264,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 	
-	window = glfwCreateWindow(Width, Height, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
+	window = glfwCreateWindow(1600, 900, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
 
 	if (!window) //Jeżeli okna nie udało się utworzyć, to zamknij program
 	{
@@ -322,7 +289,7 @@ int main(void)
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
 		//angle += speed*vec3(glfwGetTime(), glfwGetTime(), glfwGetTime()); //nie mam pojecia czy tak jest lepiej
-		gracz.rusz(map,glfwGetTime());
+		gracz.rusz(map[0],glfwGetTime());
 		sekundnik += glfwGetTime();
 		if (sekundnik > 1) {
 			//jakbyś chciał coś robić co sekunde

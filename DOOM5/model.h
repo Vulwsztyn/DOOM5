@@ -45,7 +45,7 @@ public:
 	void assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attributeName, GLuint bufVBO, int vertexSize);
 	void prepareObject(ShaderProgram *shaderProgram, char* diff, char* normal, char* height,char* spec);
 	GLuint getVao() { return vao; }
-	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM);
+	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM,float posx, float posy, float posz);
 	GLuint Model::readTexture(char* filename);
 	void computeTangentBasis();
 };
