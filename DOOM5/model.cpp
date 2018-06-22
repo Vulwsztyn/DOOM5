@@ -231,7 +231,7 @@ void Model::assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attri
 	glEnableVertexAttribArray(location); //W³¹cz u¿ywanie atrybutu o numerze slotu zapisanym w zmiennej location
 	glVertexAttribPointer(location, vertexSize, GL_FLOAT, GL_FALSE, 0, NULL); //Dane do slotu location maj¹ byæ brane z aktywnego VBO
 }
-void Model::prepareObject(ShaderProgram *shaderProgram,char* diff, char* normal, char* height) {
+void Model::prepareObject(ShaderProgram *shaderProgram,char* diff, char* normal, char* height,char* spec) {
 	//Zbuduj VBO z danymi obiektu do narysowania
 	computeTangentBasis();
 	bufVertices = makeBuffer(&getVertices()[0], getVertices().size() / 4, sizeof(float) * 4); //VBO ze wspó³rzêdnymi wierzcho³ków
@@ -257,6 +257,7 @@ void Model::prepareObject(ShaderProgram *shaderProgram,char* diff, char* normal,
 	diffTex = readTexture(diff);
 	normalTex = readTexture(normal);
 	heightTex = readTexture(height);
+	specTex = readTexture(spec);
 }
 
 void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM) {
@@ -278,9 +279,16 @@ void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV,
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("M"), 1, false, glm::value_ptr(mM));
 
 	//Powi¹¿ zmienne typu sampler2D z jednostkami teksturuj¹cymi
-	glUniform1i(shaderProgram->getUniformLocation("diffuseMap"), 0);
-	glUniform1i(shaderProgram->getUniformLocation("normalMap"), 1);
-	glUniform1i(shaderProgram->getUniformLocation("heightMap"), 2);
+	glUniform1i(shaderProgram->getUniformLocation("material.diffuseMap"), 0);
+	glUniform1i(shaderProgram->getUniformLocation("material.normalMap"), 1);
+	glUniform1i(shaderProgram->getUniformLocation("material.heightMap"), 2);
+	glUniform4f(shaderProgram->getUniformLocation("material.ambient"), 0.2f, 0.2f, 0.2f,1);
+	glUniform4f(shaderProgram->getUniformLocation("material.shininess"), 0.4f, 0.4f, 0.4f, 1);
+
+	glUniform4f(shaderProgram->getUniformLocation("light.position"), 0.2f, 0.2f, 0.2f,1);
+	glUniform4f(shaderProgram->getUniformLocation("light.ambient"), 0.2f, 0.2f, 0.2f,1);
+	glUniform4f(shaderProgram->getUniformLocation("light.diffuse"), 1.0f, 1.0f, 1.0f,1); // darken the light a bit to fit the scene
+	glUniform4f(shaderProgram->getUniformLocation("light.specular"), 1.0f, 1.0f, 1.0f,1);
 
 
 	//Przypisz tekstury do jednostek teksturuj¹cych

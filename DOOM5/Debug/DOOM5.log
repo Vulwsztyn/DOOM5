@@ -1,7 +1,11 @@
 ﻿  main_file.cpp
 c:\users\luker\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
 c:\users\luker\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-c:\users\luker\documents\github\doom5\doom5\main_file.cpp(161): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\luker\documents\github\doom5\doom5\main_file.cpp(162): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
-c:\users\luker\documents\github\doom5\doom5\main_file.cpp(291): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(164): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(165): warning C4244: "argument": konwersja z "double" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(175): warning C4244: "=": konwersja z "int" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(176): warning C4244: "=": konwersja z "int" do "float", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(282): warning C4244: "argument": konwersja z "float" do "GLsizei", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(300): warning C4244: "argument": konwersja z "float" do "int", możliwa utrata danych
+c:\users\luker\documents\github\doom5\doom5\main_file.cpp(326): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
   DOOM5.vcxproj -> C:\Users\Luker\Documents\GitHub\DOOM5\Debug\DOOM5.exe

@@ -51,6 +51,9 @@ Model lights;
 
 Gracz gracz = Gracz();
 
+float Width= 1600;
+float Height=900;
+
 double oldMouseX;
 double oldMouseY;
 bool oldMouseInitiated = false;
@@ -169,7 +172,8 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
 
 //Procedura obługi zmiany rozmiaru bufora ramki
 void windowResize(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height); //Obraz ma być generowany w oknie o tej rozdzielczości
+	Width = width;
+		Height = height; //Obraz ma być generowany w oknie o tej rozdzielczości
     if (height!=0) {
         aspect=(float)width/(float)height; //Stosunek szerokości do wysokości okna
     } else {
@@ -190,19 +194,20 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glfwSetFramebufferSizeCallback(window, windowResize); //Zarejestruj procedurę obsługi zmiany rozmiaru bufora ramki
 
 	shaderProgram = new ShaderProgram("vshader.glsl",NULL, "fshader.glsl"); //Wczytaj program cieniujący
-	lightShader = new ShaderProgram("lightvshader.glsl", NULL, "lightfshader.glsl"); //Wczytaj program cieniujący
+	lightShader = new ShaderProgram("vshader.glsl", NULL, "lightfshader.glsl"); //Wczytaj program cieniujący
 
 
 	map.loader("e1m1.obj");
 	lights.loader("light.obj");
-	map.prepareObject(shaderProgram,"Textures/CliffJagged004_COL_VAR1_1K.png","Textures/CliffJagged004_NRM_1K.png","Textures/CliffJagged004_DISP_VAR1_1K.png");
-	lights.prepareObject(lightShader, "light.png", "light.png", "light.png");
+	map.prepareObject(shaderProgram,"Textures/CliffJagged004_COL_VAR1_1K.png","Textures/CliffJagged004_NRM_1K.png","Textures/CliffJagged004_DISP_VAR1_1K.png","Textures/CliffJagged004_GLOSS_1K.png");
+	lights.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png");
 }
 
 //Zwolnienie zasobów zajętych przez program
 void freeOpenGLProgram() {
 	delete shaderProgram; //Usunięcie programu cieniującego
 	}
+
 
 
 //Procedura rysująca zawartość sceny
@@ -244,11 +249,41 @@ void drawScene(GLFWwindow* window) {
 	lights.drawObject(shaderProgram, P, V, M);
 
 	//Przerzuć tylny bufor na przedni
-	glfwSwapBuffers(window);
 
 }
 
+void shadowGeneration(GLFWwindow* window) {
+	unsigned int depthMapFBO;
+	glGenFramebuffers(1, &depthMapFBO);
+	const unsigned int SHADOW_WIDTH = 512, SHADOW_HEIGHT = 512;
 
+	unsigned int depthMap;
+	glGenTextures(1, &depthMap);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
+		SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// 1. first render to depth map
+	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	drawScene(window);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, Width, Height);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+}
 
 int main(void)
 {
@@ -262,7 +297,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 	
-	window = glfwCreateWindow(500, 500, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
+	window = glfwCreateWindow(Width, Height, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
 
 	if (!window) //Jeżeli okna nie udało się utworzyć, to zamknij program
 	{
@@ -295,7 +330,9 @@ int main(void)
 			sekundnik = 0.0;
 		}
 		glfwSetTime(0); //Wyzeruj licznik czasu
+		//shadowGeneration(window);
 		drawScene(window); //Wykonaj procedurę rysującą
+		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
 	}
 
