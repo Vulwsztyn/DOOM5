@@ -15,6 +15,7 @@
 using namespace std;
 using namespace glm;
 
+void wypiszvec4(vec4 a);
 void wypiszvec3(vec3 a);
 void wypiszvec2(vec2 a);
 void wypiszGuzikiPada();

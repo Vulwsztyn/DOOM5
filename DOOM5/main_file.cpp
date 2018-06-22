@@ -84,8 +84,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		case GLFW_KEY_SPACE:
 			gracz.skocz();
 			break;
+			
+		case GLFW_KEY_O:
+			gracz.setPositon(vec3(3.0f, 20.0f, 0.0f));
+			break;
+		
 		case GLFW_KEY_P:
-			//tutaj jakieś memy do debugu jak wcisniesz P
+			//terrainCollision(map, gracz.getPosition(),1);
 			break;
 		}
 	}
@@ -214,6 +219,7 @@ void drawScene(GLFWwindow* window) {
 	
 
 	//Narysuj obiekt
+	map.setPozycja(gracz.getPosition());
 	map.drawObject(shaderProgram,P,V,M);
 
 	//Przerzuć tylny bufor na przedni
@@ -258,25 +264,30 @@ int main(void)
 	float sekundnik = 0.0;
 	
 	//debuguj tutaj jeśli jednorazowo
-	glm::vec3 a = glm::vec3(50, 4.5, 50);
-	glm::vec3 b[3];
-	b[0]= glm::vec3(0, 3, 100);
-	b[1] = glm::vec3(0, 3, 0);
-	b[2] = glm::vec3(100, 6, 0);
-	std::cout<<trzeciWymiarTrojkata(a,b,0) << std::endl;
+
+	glm::vec3 a[3];
+	glm::vec3 b[2];
+	//a[0] = glm::vec3(0, 0, 0);
+	//a[1] = glm::vec3(0, 1, 1);
+	//a[2] = glm::vec3(1, 1, 0);
+	//b[0] = glm::vec3(0.5, 0, 0.5);
+	//b[1] = glm::vec3(0, 1, 0);
+	a[0] = glm::vec3(0, 0, 2);
+	a[1] = glm::vec3(2, 200, -6);
+	a[2] = glm::vec3(3, 900, -10);
+	b[0] = glm::vec3(-1, 5, 1);
+	b[1] = glm::vec3(3, 5, 2);
+	//cout << triangleSegmentIntersection(a, b) << endl;
+	terrainCollision(map, gracz.getPosition());
 
 	//Główna pętla
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
 		//angle += speed*vec3(glfwGetTime(), glfwGetTime(), glfwGetTime()); //nie mam pojecia czy tak jest lepiej
-		gracz.rusz(map,glfwGetTime());
-		sekundnik += glfwGetTime();
-		if (sekundnik > 1) {
-			//jakbyś chciał coś robić co sekunde
-			//cout << gracz.getPosition().x << " " << gracz.getPosition().z << " " << gracz.getPosition().y << " " << gracz.detectTerrainColision(map) << endl;
-			sekundnik = 0.0;
+		if (glfwGetTime()>1/60) {
+			gracz.rusz(map, glfwGetTime());
+			glfwSetTime(0); //Wyzeruj licznik czasu
 		}
-		glfwSetTime(0); //Wyzeruj licznik czasu
 		drawScene(window); //Wykonaj procedurę rysującą
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
 	}

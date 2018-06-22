@@ -40,6 +40,10 @@ public:
 	void rusz(Model &map,double czas);
 	void skocz();
 
+	void setPositon(vec3 p) {
+		cout << "zmiana pozycji" << endl;
+		position = p;
+	}
 	vec3 getPosition() { return position; }
 	vec2 getAngle() { return angle; }
 	vec3 getSpeed() { return speed; }

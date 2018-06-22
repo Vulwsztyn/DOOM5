@@ -19,6 +19,7 @@ private:
 	GLuint bufVertices;
 	GLuint bufColors;
 	GLuint bufNormals;
+	glm::vec3 pozycja;
 public:
 	Model();
 	~Model();
@@ -31,5 +32,6 @@ public:
 	void prepareObject(ShaderProgram *shaderProgram);
 	GLuint getVao() { return vao; }
 	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM);
+	void setPozycja(glm::vec3 a) { pozycja = a; }
 };
 

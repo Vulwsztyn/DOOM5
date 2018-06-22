@@ -5,7 +5,7 @@
 Gracz::Gracz()
 {
 	angle = vec2(4.6f, 0.0f);
-	position = vec3(5.0f, 0.0f, 0.0f);
+	position = vec3(3.0f, 20.0f, 0.0f);
 	rotation = vec2(0.0f, 0.0f);
 	normalisedRotation = vec2(0, 0);
 	movement = vec3(0, 0, 0);
@@ -28,7 +28,8 @@ void Gracz::skocz() {
 
 void Gracz::rusz(Model &map, double czas)
 {
-	if (position.y <= 0.05) {
+	//je¿eli nie leci
+	if (!speed.y) {
 		normalisedMovement = normalize(vec3(movement.x*sin(angle.x + PI / 2) + movement.z*sin(angle.x), 0.0f, movement.z*cos(angle.x) + movement.x*cos(angle.x + PI / 2)));
 		if (normalisedMovement.x != normalisedMovement.x || normalisedMovement.y != normalisedMovement.y || normalisedMovement.z != normalisedMovement.z) {
 			normalisedMovement = vec3(0, 0, 0);
@@ -36,18 +37,18 @@ void Gracz::rusz(Model &map, double czas)
 		speed += vec3((normalisedMovement.x - speed.x)*czas / czasPrzyspieszania, 0, (normalisedMovement.z - speed.z)*czas / czasPrzyspieszania);
 	}
 
-	if (position.y != 0 || speed.y != 0) {
-		if (position.y < 0) {
-			position.y = 0;
-			speed.y = 0;
-		}
+	speed.y -= czas * gravitationalConstant;
+	if (!terrainCollision(map, vec3(position.x, position.y + speed.y*czas*2, position.z))) {
 		position.y += speed.y*czas;
-		speed.y -= czas * gravitationalConstant;
+	}
+	else {
+		speed.y = 0;
 	}
 
-	if (detectTerrainColision(map,position) != 1) {
-		position += vec3(czas*playerMovementSpeed*speed.x, 0.0f, czas*playerMovementSpeed*speed.z);
+	vec3 move = vec3(czas*playerMovementSpeed*speed.x, 0.0f, czas*playerMovementSpeed*speed.z);
+	if (!terrainCollision(map, position + move)) {
+		position += move;
 	}
 
 }
-
+	
