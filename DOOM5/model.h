@@ -32,14 +32,10 @@ private:
 	GLuint bufVertices;
 	GLuint bufColors;
 	GLuint bufNormals;
-<<<<<<< HEAD
 	GLuint bufTexCoords;
 	GLuint bufC1;
 	GLuint bufC2;
 	GLuint bufC3;
-=======
-	glm::vec3 pozycja;
->>>>>>> A-Kolizja
 public:
 	Model();
 	~Model();
@@ -54,13 +50,8 @@ public:
 	void assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attributeName, GLuint bufVBO, int vertexSize);
 	void prepareObject(ShaderProgram *shaderProgram, char* diff, char* normal, char* height, char* spec, glm::vec4 mambient, float mshininess, float mroughness);
 	GLuint getVao() { return vao; }
-<<<<<<< HEAD
 	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM, glm::vec3 playerPosition,Light &lights);
 	GLuint Model::readTexture(char* filename);
 	void computeTangentBasis();
-=======
-	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM);
-	void setPozycja(glm::vec3 a) { pozycja = a; }
->>>>>>> A-Kolizja
 };
 

@@ -5,7 +5,7 @@
 Gracz::Gracz()
 {
 	angle = vec2(4.6f, 0.0f);
-	position = vec3(0.0f, 5.0f, 25.0f);
+	position = vec3(0.0f, 5.0f, 0.0f);
 	rotation = vec2(3.2f, 0.0f);
 	normalisedRotation = vec2(0, 0);
 	movement = vec3(0, 0, 0);
@@ -26,7 +26,7 @@ void Gracz::skocz() {
 
 
 
-void Gracz::rusz(Model &map, double czas)
+void Gracz::rusz(Model map[2], double czas)
 {
 	
 	//je¿eli nie leci
@@ -39,21 +39,16 @@ void Gracz::rusz(Model &map, double czas)
 	}
 
 	speed.y -= czas * gravitationalConstant;
-	if (!terrainCollision(map, vec3(position.x, position.y + speed.y*czas*2, position.z))) {
+	if (!terrainCollision(map[1], vec3(position.x, position.y + speed.y*czas*2, position.z))) {
 		position.y += speed.y*czas;
 	}
 	else {
 		speed.y = 0;
 	}
 
-<<<<<<< HEAD
-	position += vec3(czas*speed.x, 0.0f, czas*speed.z);
-=======
 	vec3 move = vec3(czas*playerMovementSpeed*speed.x, 0.0f, czas*playerMovementSpeed*speed.z);
-	if (!terrainCollision(map, position + move)) {
+	if (!terrainCollision(map[0], position + move)) {
 		position += move;
 	}
->>>>>>> A-Kolizja
-
 }
 	

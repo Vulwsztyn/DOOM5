@@ -278,7 +278,6 @@ void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV,
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("P"), 1, false, glm::value_ptr(mP));
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("V"), 1, false, glm::value_ptr(mV));
 	glUniformMatrix4fv(shaderProgram->getUniformLocation("M"), 1, false, glm::value_ptr(mM));
-<<<<<<< HEAD
 
 	//Powi¹¿ zmienne typu sampler2D z jednostkami teksturuj¹cymi
 	glUniform1i(shaderProgram->getUniformLocation("material.diffuseMap"), 0);
@@ -308,11 +307,6 @@ void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV,
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, specTex);
 
-=======
-	glUniform3f(shaderProgram->getUniformLocation("debug1"), pozycja.x, pozycja.y, pozycja.z);
-	/*glUniform3f(shaderProgram->getUniformLocation("debug2"), vertices[4], vertices[5], vertices[6]);
-	glUniform3f(shaderProgram->getUniformLocation("debug3"), vertices[8], vertices[9], vertices[10]);*/
->>>>>>> A-Kolizja
 	//Uaktywnienie VAO i tym samym uaktywnienie predefiniowanych w tym VAO powi¹zañ slotów atrybutów z tablicami z danymi
 	glBindVertexArray(vao);
 

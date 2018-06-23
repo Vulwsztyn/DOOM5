@@ -32,11 +32,8 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "shaderprogram.h"
 #include "Gracz.h"
 #include "Model.h"
-<<<<<<< HEAD
 #include "Lights.h"
-=======
 #include "naszaMatematyka.h"
->>>>>>> A-Kolizja
 
 using namespace glm;
 //using namespace std;
@@ -179,14 +176,8 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glfwSetJoystickCallback(joystick_callback);
 	joystickConnected = glfwJoystickPresent(0);
 	glfwSetFramebufferSizeCallback(window, windowResize); //Zarejestruj procedurę obsługi zmiany rozmiaru bufora ramki
-
-<<<<<<< HEAD
 	shaderProgram = new ShaderProgram("vshader.glsl",NULL, "fshader.glsl"); //Wczytaj program cieniujący
 	lightShader = new ShaderProgram("vshader.glsl", NULL, "lightfshader.glsl"); //Wczytaj program cieniujący
-
-=======
-	shaderProgram = new ShaderProgram("vshader.glsl", "gshader.glsl", "fshader.glsl"); //Wczytaj program cieniujący
->>>>>>> A-Kolizja
 
 	map[0].loader("e1m1_walls.obj");
 	map[1].loader("e1m1_floor.obj");
@@ -237,15 +228,10 @@ void drawScene(GLFWwindow* window) {
 	
 
 	//Narysuj obiekt
-<<<<<<< HEAD
 	map[0].drawObject(shaderProgram,P,V,M, gracz.getPosition(),lights);
 	map[1].drawObject(shaderProgram, P, V, M, gracz.getPosition(), lights);
 	M = glm::translate(M, vec3(5, 2, 0));
 	lightsObj.drawObject(lightShader, P, V, M, gracz.getPosition(), lights);
-=======
-	map.setPozycja(gracz.getPosition());
-	map.drawObject(shaderProgram,P,V,M);
->>>>>>> A-Kolizja
 
 	//Przerzuć tylny bufor na przedni
 
@@ -264,11 +250,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 	
-<<<<<<< HEAD
-	window = glfwCreateWindow(1600, 900, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
-=======
 	window = glfwCreateWindow(1000, 1000, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
->>>>>>> A-Kolizja
 
 	if (!window) //Jeżeli okna nie udało się utworzyć, to zamknij program
 	{
@@ -305,29 +287,15 @@ int main(void)
 	b[0] = glm::vec3(-1, 5, 1);
 	b[1] = glm::vec3(3, 5, 2);
 	//cout << triangleSegmentIntersection(a, b) << endl;
-	terrainCollision(map, gracz.getPosition());
-
 	//Główna pętla
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
 		//angle += speed*vec3(glfwGetTime(), glfwGetTime(), glfwGetTime()); //nie mam pojecia czy tak jest lepiej
-<<<<<<< HEAD
-		gracz.rusz(map[0],glfwGetTime());
-		sekundnik += glfwGetTime();
-		if (sekundnik > 1) {
-			//jakbyś chciał coś robić co sekunde
-			//cout << gracz.getPosition().x << " " << gracz.getPosition().z << " " << gracz.getPosition().y << " " << gracz.detectTerrainColision(map) << endl;
-			sekundnik = 0.0;
-		}
-		glfwSetTime(0); //Wyzeruj licznik czasu
-		//shadowGeneration(window);
-=======
 		if (60*glfwGetTime()>1) {
 			cout << glfwGetTime() << endl;
 			gracz.rusz(map, glfwGetTime());
 			glfwSetTime(0); //Wyzeruj licznik czasu
 		}
->>>>>>> A-Kolizja
 		drawScene(window); //Wykonaj procedurę rysującą
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
