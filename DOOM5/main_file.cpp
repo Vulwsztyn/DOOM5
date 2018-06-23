@@ -32,10 +32,14 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "shaderprogram.h"
 #include "Gracz.h"
 #include "Model.h"
+<<<<<<< HEAD
 #include "Lights.h"
+=======
+#include "naszaMatematyka.h"
+>>>>>>> A-Kolizja
 
 using namespace glm;
-using namespace std;
+//using namespace std;
 
 float aspect=1; //Stosunek szerokości do wysokości okna
 
@@ -64,10 +68,8 @@ void error_callback(int error, const char* description) {
 }
 
 //Procedura obsługi klawiatury
-void key_callback(GLFWwindow* window, int key,
-	int scancode, int action, int mods) {
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
-			
 		switch (key) {
 		case GLFW_KEY_A:
 		case GLFW_KEY_LEFT:
@@ -87,24 +89,17 @@ void key_callback(GLFWwindow* window, int key,
 			break;
 		case GLFW_KEY_SPACE:
 			gracz.skocz();
-				break;
+			break;
+			
+		case GLFW_KEY_O:
+			gracz.setPositon(vec3(3.0f, 20.0f, 0.0f));
+			break;
+		
 		case GLFW_KEY_P:
-			cout << gracz.getAngle().x << " " << gracz.getPosition().x << " " << gracz.getPosition().y << " " << gracz.getPosition().z << endl;
+			wypiszvec3(gracz.getPosition());
+			wypiszvec2(gracz.getAngle());
 			break;
 		}
-		/*
-		if (key == GLFW_KEY_LEFT) gracz.addMovementX(1);
-		if (key == GLFW_KEY_RIGHT) gracz.addMovementX(-1);
-
-			if (key == GLFW_KEY_UP) gracz.addMovementZ(1);
-		if (key == GLFW_KEY_DOWN) gracz.addMovementZ(-1);
-		if (key == GLFW_KEY_SPACE) {
-			gracz.skocz();
-		}
-		if (key == GLFW_KEY_P) {
-			cout << gracz.getAngle().x << " " << gracz.getPosition().x << " " << gracz.getPosition().y << " " << gracz.getPosition().z << endl;
-		}
-		*/
 	}
 
 	if (action == GLFW_RELEASE) {
@@ -126,12 +121,6 @@ void key_callback(GLFWwindow* window, int key,
 			gracz.addMovementZ(1);
 			break;
 		}
-		/*
-		if (key == GLFW_KEY_LEFT) gracz.addMovementX(-1);
-		if (key == GLFW_KEY_RIGHT) gracz.addMovementX(1);
-		if (key == GLFW_KEY_UP) gracz.addMovementZ(-1);
-		if (key == GLFW_KEY_DOWN) gracz.addMovementZ(1);
-		*/
 	}
 }
 void joystick_functions() {
@@ -191,9 +180,13 @@ void initOpenGLProgram(GLFWwindow* window) {
 	joystickConnected = glfwJoystickPresent(0);
 	glfwSetFramebufferSizeCallback(window, windowResize); //Zarejestruj procedurę obsługi zmiany rozmiaru bufora ramki
 
+<<<<<<< HEAD
 	shaderProgram = new ShaderProgram("vshader.glsl",NULL, "fshader.glsl"); //Wczytaj program cieniujący
 	lightShader = new ShaderProgram("vshader.glsl", NULL, "lightfshader.glsl"); //Wczytaj program cieniujący
 
+=======
+	shaderProgram = new ShaderProgram("vshader.glsl", "gshader.glsl", "fshader.glsl"); //Wczytaj program cieniujący
+>>>>>>> A-Kolizja
 
 	map[0].loader("e1m1_walls.obj");
 	map[1].loader("e1m1_floor.obj");
@@ -238,16 +231,21 @@ void drawScene(GLFWwindow* window) {
 
 	//Wylicz macierz modelu rysowanego obiektu
 	glm::mat4 M = glm::mat4(1.0f);
-	//M = glm::rotate(M, 1.0f, glm::vec3(1, 0, 0));
-	//M = glm::rotate(M, angle.y, glm::vec3(0, 1, 0));
+	//M = glm::rotate(M, gracz.getPosition().x, glm::vec3(1, 0, 0));
+	//M = glm::rotate(M, gracz.getPosition().z, glm::vec3(0, 1, 0));
 	//M = glm::translate(M,position);
 	
 
 	//Narysuj obiekt
+<<<<<<< HEAD
 	map[0].drawObject(shaderProgram,P,V,M, gracz.getPosition(),lights);
 	map[1].drawObject(shaderProgram, P, V, M, gracz.getPosition(), lights);
 	M = glm::translate(M, vec3(5, 2, 0));
 	lightsObj.drawObject(lightShader, P, V, M, gracz.getPosition(), lights);
+=======
+	map.setPozycja(gracz.getPosition());
+	map.drawObject(shaderProgram,P,V,M);
+>>>>>>> A-Kolizja
 
 	//Przerzuć tylny bufor na przedni
 
@@ -266,7 +264,11 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 	
+<<<<<<< HEAD
 	window = glfwCreateWindow(1600, 900, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
+=======
+	window = glfwCreateWindow(1000, 1000, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
+>>>>>>> A-Kolizja
 
 	if (!window) //Jeżeli okna nie udało się utworzyć, to zamknij program
 	{
@@ -287,10 +289,29 @@ int main(void)
 
 	glfwSetTime(0); //Wyzeruj licznik czasu
 	float sekundnik = 0.0;
+	
+	//debuguj tutaj jeśli jednorazowo
+
+	glm::vec3 a[3];
+	glm::vec3 b[2];
+	//a[0] = glm::vec3(0, 0, 0);
+	//a[1] = glm::vec3(0, 1, 1);
+	//a[2] = glm::vec3(1, 1, 0);
+	//b[0] = glm::vec3(0.5, 0, 0.5);
+	//b[1] = glm::vec3(0, 1, 0);
+	a[0] = glm::vec3(0, 0, 2);
+	a[1] = glm::vec3(2, 200, -6);
+	a[2] = glm::vec3(3, 900, -10);
+	b[0] = glm::vec3(-1, 5, 1);
+	b[1] = glm::vec3(3, 5, 2);
+	//cout << triangleSegmentIntersection(a, b) << endl;
+	terrainCollision(map, gracz.getPosition());
+
 	//Główna pętla
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
 		//angle += speed*vec3(glfwGetTime(), glfwGetTime(), glfwGetTime()); //nie mam pojecia czy tak jest lepiej
+<<<<<<< HEAD
 		gracz.rusz(map[0],glfwGetTime());
 		sekundnik += glfwGetTime();
 		if (sekundnik > 1) {
@@ -300,6 +321,13 @@ int main(void)
 		}
 		glfwSetTime(0); //Wyzeruj licznik czasu
 		//shadowGeneration(window);
+=======
+		if (60*glfwGetTime()>1) {
+			cout << glfwGetTime() << endl;
+			gracz.rusz(map, glfwGetTime());
+			glfwSetTime(0); //Wyzeruj licznik czasu
+		}
+>>>>>>> A-Kolizja
 		drawScene(window); //Wykonaj procedurę rysującą
 		glfwSwapBuffers(window);
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.

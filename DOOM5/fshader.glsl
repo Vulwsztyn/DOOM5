@@ -1,4 +1,5 @@
 #version 330
+<<<<<<< HEAD
 
 struct Material {
     vec4 ambient;
@@ -94,3 +95,12 @@ void main(void) {
 
 	pixelColor=specular+ambient+diffuse;
 }
+=======
+ 
+out vec4 pixelColor;
+in vec4 iColor;
+ 
+void main(void) {
+    pixelColor=iColor;
+}
+>>>>>>> A-Kolizja

@@ -33,10 +33,13 @@
     <ClInclude Include="Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="debugFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="naszaMatematyka.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Lights.h">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="debugFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="naszaMatematyka.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

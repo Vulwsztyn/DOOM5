@@ -28,6 +28,7 @@
     <ClInclude Include="Lights.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="naszaMatematyka.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="shaderprogram.h" />
   </ItemGroup>
@@ -46,6 +47,7 @@
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main_file.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="naszaMatematyka.cpp" />
     <ClCompile Include="shaderprogram.cpp" />
   </ItemGroup>
   <ItemGroup>
