@@ -30,5 +30,7 @@ const int windowDimension = 1000;
 const int pixelsPerRotation = 100;
 const int stalaDoDzieleniaObrotuZPada = 100;
 const float maksymalnyKatWychyleniaGoraDol = PI-0.5;
+const float wysokoscGracza = 2;
+const float szerokoscGracza = 1.5;
 
 #endif

@@ -90,7 +90,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		
 		case GLFW_KEY_P:
-			//terrainCollision(map, gracz.getPosition(),1);
+			wypiszvec3(gracz.getPosition());
+			wypiszvec2(gracz.getAngle());
 			break;
 		}
 	}
@@ -213,8 +214,8 @@ void drawScene(GLFWwindow* window) {
 
 	//Wylicz macierz modelu rysowanego obiektu
 	glm::mat4 M = glm::mat4(1.0f);
-	//M = glm::rotate(M, 1.0f, glm::vec3(1, 0, 0));
-	//M = glm::rotate(M, angle.y, glm::vec3(0, 1, 0));
+	//M = glm::rotate(M, gracz.getPosition().x, glm::vec3(1, 0, 0));
+	//M = glm::rotate(M, gracz.getPosition().z, glm::vec3(0, 1, 0));
 	//M = glm::translate(M,position);
 	
 
@@ -284,7 +285,8 @@ int main(void)
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
 		//angle += speed*vec3(glfwGetTime(), glfwGetTime(), glfwGetTime()); //nie mam pojecia czy tak jest lepiej
-		if (glfwGetTime()>1/60) {
+		if (60*glfwGetTime()>1) {
+			cout << glfwGetTime() << endl;
 			gracz.rusz(map, glfwGetTime());
 			glfwSetTime(0); //Wyzeruj licznik czasu
 		}

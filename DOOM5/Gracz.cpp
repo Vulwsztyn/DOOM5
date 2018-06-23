@@ -5,8 +5,8 @@
 Gracz::Gracz()
 {
 	angle = vec2(4.6f, 0.0f);
-	position = vec3(3.0f, 20.0f, 0.0f);
-	rotation = vec2(0.0f, 0.0f);
+	position = vec3(0.0f, 5.0f, 25.0f);
+	rotation = vec2(3.2f, 0.0f);
 	normalisedRotation = vec2(0, 0);
 	movement = vec3(0, 0, 0);
 	normalisedMovement = vec3(0, 0, 0);
@@ -28,8 +28,9 @@ void Gracz::skocz() {
 
 void Gracz::rusz(Model &map, double czas)
 {
+	
 	//je¿eli nie leci
-	if (!speed.y) {
+	if (1||!speed.y) {
 		normalisedMovement = normalize(vec3(movement.x*sin(angle.x + PI / 2) + movement.z*sin(angle.x), 0.0f, movement.z*cos(angle.x) + movement.x*cos(angle.x + PI / 2)));
 		if (normalisedMovement.x != normalisedMovement.x || normalisedMovement.y != normalisedMovement.y || normalisedMovement.z != normalisedMovement.z) {
 			normalisedMovement = vec3(0, 0, 0);

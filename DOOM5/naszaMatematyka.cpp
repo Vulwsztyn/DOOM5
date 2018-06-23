@@ -216,8 +216,8 @@ bool triangleSegmentIntersection(glm::vec3 triangle[3], glm::vec3 mins,vec3 maxs
 
 bool terrainCollision(Model &map, glm::vec3 position,bool debug) {
 	vec3 seg[2];
-	int wysokosc = 2;
-	int szerokosc = 1.3;
+	int wysokosc = wysokoscGracza;
+	int szerokosc = szerokoscGracza;
 	seg[0] = vec3(position.x - szerokosc, position.y - wysokosc, position.z - szerokosc);
 	seg[1] = seg[0] + vec3(szerokosc * 2, wysokosc * 2, szerokosc * 2);
 	vec3 mins=seg[0];
