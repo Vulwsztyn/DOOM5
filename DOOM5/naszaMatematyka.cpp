@@ -178,35 +178,11 @@ float trzeciWymiarTrojkata(glm::vec3 position, glm::vec3 triangle[3],int w) {
 }
 
 bool areBothFloatsOutside(float a, float b, float c1, float c2) {
-	return (a < c1&&a < c2&&b < c1&&b < c2) || (a > c1&&a > c2&&b > c1&&b > c2);
+	//b>a i c2>c1
+	return (b < c1) || (a > c2);
 }
 
-bool triangleSegmentIntersection(glm::vec3 triangle[3], glm::vec3 mins,vec3 maxs,bool debug) {
-	vec3 mint=triangle[0],maxt= triangle[0];
-	for (int i = 1; i < 3; i++) {
-		for (int j = 0; j < 3; j++) {
-			if (mint[j] > triangle[i][j]) mint[j] = triangle[i][j];
-			if (maxt[j] < triangle[i][j]) maxt[j] = triangle[i][j];
-		}
-	}
-
-	if (debug) {
-		cout << "trojkat: " << endl;
-		for (int i = 0; i < 3; i++) {
-			wypiszvec3(triangle[i]);
-		}
-		cout << "odcinek: " << endl;
-		cout << "mint: ";
-		wypiszvec3(mint);
-		cout << "maxt: ";
-		wypiszvec3(maxt);
-		cout << "mins: ";
-		wypiszvec3(mins);
-		cout << "maxs: ";
-		wypiszvec3(maxs);
-
-	}
-	
+bool triangleSegmentIntersection(vec3 mins,vec3 maxs,vec3 mint,vec3 maxt) {
 	for (int i = 0; i < 3; i++) {
 		if (areBothFloatsOutside(mins[i], maxs[i], mint[i], maxt[i])) return false;
 	}
@@ -214,26 +190,20 @@ bool triangleSegmentIntersection(glm::vec3 triangle[3], glm::vec3 mins,vec3 maxs
 }
 
 
-bool terrainCollision(Model &map, glm::vec3 position,bool debug) {
-	vec3 seg[2];
-	int wysokosc = wysokoscGracza;
-	int szerokosc = szerokoscGracza;
-	seg[0] = vec3(position.x - szerokosc, position.y - wysokosc, position.z - szerokosc);
-	seg[1] = seg[0] + vec3(szerokosc * 2, wysokosc * 2, szerokosc * 2);
-	vec3 mins=seg[0];
-	vec3 maxs=seg[1];
+bool terrainCollision(Model &map, glm::vec3 position) {
 
-	for (int i = 0; i < map.getVertices().size(); i = i + 12) {
-		vec3 triangle[3];
-		for (int j = 0; j < 3; j++) {
-			triangle[j][0] = map.getVertices()[i + 4 * j];
-			triangle[j][1] = map.getVertices()[i + 4 * j + 1];
-			triangle[j][2] = map.getVertices()[i + 4 * j + 2];
-		}
-		if (triangleSegmentIntersection(triangle, mins,maxs,debug) ){
-			//cout << i << endl;
+	int wysokosc = wysokoscGracza/2;
+	int szerokosc = szerokoscGracza/2;
+
+	vec3 mins= vec3(position.x - szerokosc, position.y - wysokosc, position.z - szerokosc);
+	vec3 maxs = mins + vec3(szerokosc *2, wysokosc * 2, szerokosc * 2);
+	
+	for (int i= 0; i < map.getBrzegowe(0).size(); i++) {
+		
+		if (triangleSegmentIntersection(mins,maxs, map.getBrzegowe(0)[i], map.getBrzegowe(1)[i]) ){
 			return true;
 		}
 	}
 	return false;
 }
+

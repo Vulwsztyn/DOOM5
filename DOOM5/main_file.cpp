@@ -176,15 +176,17 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glfwSetJoystickCallback(joystick_callback);
 	joystickConnected = glfwJoystickPresent(0);
 	glfwSetFramebufferSizeCallback(window, windowResize); //Zarejestruj procedurę obsługi zmiany rozmiaru bufora ramki
-	shaderProgram = new ShaderProgram("vshader.glsl",NULL, "fshader.glsl"); //Wczytaj program cieniujący
+	shaderProgram = new ShaderProgram("vshader.glsl", NULL, "fshader.glsl"); //Wczytaj program cieniujący
 	lightShader = new ShaderProgram("vshader.glsl", NULL, "lightfshader.glsl"); //Wczytaj program cieniujący
 
 	map[0].loader("e1m1_walls.obj");
 	map[1].loader("e1m1_floor.obj");
 	lightsObj.loader("light.obj");
-	map[0].prepareObject(shaderProgram,"Textures/CliffJagged004_COL_VAR1_1K.png","Textures/CliffJagged004_NRM_1K.png","Textures/CliffJagged004_DISP_VAR1_1K.png","Textures/CliffJagged004_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.05);
-	map[1].prepareObject(shaderProgram, "Textures/GroundClay002_COL_VAR1_1K.png", "Textures/GroundClay002_NRM_1K.png", "Textures/GroundClay002_DISP_1K.png", "Textures/GroundClay002_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.02);
-	lightsObj.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png",vec4(1,1,1,1),1,1);
+	map[0].prepareObject(shaderProgram, "Textures/CliffJagged004_COL_VAR1_1K.png", "Textures/CliffJagged004_NRM_1K.png", "Textures/CliffJagged004_DISP_VAR1_1K.png", "Textures/CliffJagged004_GLOSS_1K.png", vec4(0.2, 0.2, 0.2, 1), 32, 0.05);
+	map[1].prepareObject(shaderProgram, "Textures/GroundClay002_COL_VAR1_1K.png", "Textures/GroundClay002_NRM_1K.png", "Textures/GroundClay002_DISP_1K.png", "Textures/GroundClay002_GLOSS_1K.png", vec4(0.2, 0.2, 0.2, 1), 32, 0.02);
+	lightsObj.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png", vec4(1, 1, 1, 1), 1, 1);
+	map[0].countBrzegowe();
+	map[1].countBrzegowe();
 }
 
 //Zwolnienie zasobów zajętych przez program
@@ -292,7 +294,7 @@ int main(void)
 	{
 		//angle += speed*vec3(glfwGetTime(), glfwGetTime(), glfwGetTime()); //nie mam pojecia czy tak jest lepiej
 		if (60*glfwGetTime()>1) {
-			cout << glfwGetTime() << endl;
+			//cout << glfwGetTime() << endl;
 			gracz.rusz(map, glfwGetTime());
 			glfwSetTime(0); //Wyzeruj licznik czasu
 		}

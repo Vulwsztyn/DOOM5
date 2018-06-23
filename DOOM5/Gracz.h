@@ -58,15 +58,15 @@ public:
 	void addRotationX(float value) {angle.x += value;}
 	void addRotationY(float value) {
 		angle.y += value;
-		if (angle.y > maksymalnyKatWychyleniaGoraDol) angle.y = maksymalnyKatWychyleniaGoraDol;
-		if (angle.y < -maksymalnyKatWychyleniaGoraDol) angle.y = -maksymalnyKatWychyleniaGoraDol;
+		//if (angle.y > maksymalnyKatWychyleniaGoraDol) angle.y = maksymalnyKatWychyleniaGoraDol;
+		//if (angle.y < -maksymalnyKatWychyleniaGoraDol) angle.y = -maksymalnyKatWychyleniaGoraDol;
 	}
 
 	void setRotationX(float value) {angle.x = value;}
 	void setRotationY(float value) {
 		angle.y = value;
-		if (angle.y > maksymalnyKatWychyleniaGoraDol) angle.y = maksymalnyKatWychyleniaGoraDol;
-		if (angle.y < -maksymalnyKatWychyleniaGoraDol) angle.y = -maksymalnyKatWychyleniaGoraDol;
+		//if (angle.y > maksymalnyKatWychyleniaGoraDol) angle.y = maksymalnyKatWychyleniaGoraDol;
+		//if (angle.y < -maksymalnyKatWychyleniaGoraDol) angle.y = -maksymalnyKatWychyleniaGoraDol;
 	}
 
 };

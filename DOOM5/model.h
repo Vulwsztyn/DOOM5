@@ -11,6 +11,7 @@
 #include <iostream>
 #include "lodepng.h"
 #include "Lights.h"
+//#include "debugFunctions.h"
 class Model
 {
 private:
@@ -20,6 +21,7 @@ private:
 	std::vector <float> normals;
 	std::vector<float> tangents;
 	std::vector<float> bitangents;
+	std::vector<glm::vec3> brzegoweWspolrzedneScian[2];
 
 	glm::vec4 ambient;
 	float shininess;
@@ -46,9 +48,11 @@ public:
 	std::vector <float> getNormals() { return normals; }
 	std::vector <float> getTangents() { return tangents; }
 	std::vector <float> getBitangents() { return bitangents; }
+	std::vector <glm::vec3> getBrzegowe(int i) { return brzegoweWspolrzedneScian[i]; }
 	GLuint makeBuffer(void *data, int vertexCount, int vertexSize);
 	void assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attributeName, GLuint bufVBO, int vertexSize);
 	void prepareObject(ShaderProgram *shaderProgram, char* diff, char* normal, char* height, char* spec, glm::vec4 mambient, float mshininess, float mroughness);
+	void countBrzegowe();
 	GLuint getVao() { return vao; }
 	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM, glm::vec3 playerPosition,Light &lights);
 	GLuint Model::readTexture(char* filename);

@@ -316,3 +316,28 @@ void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV,
 	//Posprz¹tanie po sobie (niekonieczne w sumie je¿eli korzystamy z VAO dla ka¿dego rysowanego obiektu)
 	glBindVertexArray(0);
 }
+
+
+
+void Model::countBrzegowe() {
+
+	for (int i = 0; i < vertices.size(); i = i + 12) {
+		glm::vec3 brzeg[2];
+		for (int j = 0; j < 2; j++) {
+			for (int k = 0; k < 3; k++) {
+				brzeg[j][k] = vertices[i + k];
+			}
+		}
+
+		for (int j = 1; j < 3; j++) {
+			for (int k = 0; k < 3; k++) {
+				float c = vertices[i + 4 * j + k];
+				if (c < brzeg[0][k]) brzeg[0][k] = c;
+				else if (c > brzeg[1][k])brzeg[1][k] = c;
+			}
+		}
+
+		for(int j=0;j<2;j++)brzegoweWspolrzedneScian[j].push_back(brzeg[j]);
+	}
+	
+}

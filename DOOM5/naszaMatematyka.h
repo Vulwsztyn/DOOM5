@@ -24,6 +24,6 @@ bool detectTerrainColision(Model &map, glm::vec3 position, int w = 1, bool debug
 bool areFloatsEqual(float a, float b);
 bool isFloatBetween(float a, float p1, float p2);
 float trzeciWymiarTrojkata(glm::vec3 position, glm::vec3 triangle[3], int w=1);
-bool triangleSegmentIntersection(glm::vec3 triangle[3], glm::vec3 mins, vec3 maxs,bool debug=0);
-bool terrainCollision(Model &map, glm::vec3 position,bool debug=0);
+bool triangleSegmentIntersection(vec3 mins, vec3 maxs, vec3 mint, vec3 maxt);
+bool terrainCollision(Model &map, glm::vec3 position);
 
