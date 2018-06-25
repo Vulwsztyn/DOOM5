@@ -17,7 +17,7 @@ Gracz::Gracz()
 
 Gracz::~Gracz()
 {
-	//nie umiem robi? destruktorow
+	//nie umiem robic destruktorow
 }
 
 void Gracz::skocz() {
@@ -25,6 +25,24 @@ void Gracz::skocz() {
 }
 
 
+bool Gracz::setTrojkat(std::vector<float> a) {
+	for (int i = 0; i < a.size(); i = i + 12) {
+		vec2 triangle[3];
+		for (int j = 0; j < 3; j++) {
+			triangle[j].x = a[i + 4 * j];
+			triangle[j].y = a[i + 4 * j + 2];
+		}
+		if (PointInTriangle(vec2(position.x, position.z), triangle)) {
+			cout << i << endl;
+			for (int j = 0; j < 3; j++) {
+				trojkat[j] = triangle[j];
+			}
+			minWysokosc = maxZvec3(vec3(a[i + 1], a[i + 5], a[i + 9]));
+			return true;
+		}
+	}
+	return false;
+}
 
 void Gracz::rusz(Model map[2], double czas)
 {
@@ -39,7 +57,7 @@ void Gracz::rusz(Model map[2], double czas)
 	}
 
 	speed.y -= czas * gravitationalConstant;
-	if (!terrainCollision(map[1], vec3(position.x, position.y + speed.y*czas*2, position.z))) {
+	if (position.y+sign(speed.y)*1.5>minWysokosc) {
 		position.y += speed.y*czas;
 	}
 	else {
@@ -47,8 +65,16 @@ void Gracz::rusz(Model map[2], double czas)
 	}
 
 	vec3 move = vec3(czas*playerMovementSpeed*speed.x, 0.0f, czas*playerMovementSpeed*speed.z);
-	if (!terrainCollision(map[0], position + move)) {
+	
+	
+	//opuszczamTrojkat(map[1], );
+	if (PointInTriangle(vec2(position.x + sign(speed.x)/3, position.z + sign(speed.z)/3), trojkat)) {
+		position += move;
+	}
+	else if (setTrojkat(map[1].getVertices()) ){
 		position += move;
 	}
 }
+
+
 	

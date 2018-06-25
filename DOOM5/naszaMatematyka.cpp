@@ -237,3 +237,21 @@ bool terrainCollision(Model &map, glm::vec3 position,bool debug) {
 	}
 	return false;
 }
+float minZvec3(vec3 a) {
+	float w = a.x;
+	if (a.y < w) w = a.y;
+	if (a.z < w) return a.z;
+	return w;
+}
+float maxZvec3(vec3 a) {
+	float w = a.x;
+	if (a.y > w) w = a.y;
+	if (a.z > w) return a.z;
+	return w;
+}
+int sign(float a) {
+	if (a > 0) return 1;
+	if (a < 0) return -1;
+	return 0;
+}
+

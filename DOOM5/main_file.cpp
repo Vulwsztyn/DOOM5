@@ -270,7 +270,6 @@ int main(void)
 	initOpenGLProgram(window); //Operacje inicjujące
 
 	glfwSetTime(0); //Wyzeruj licznik czasu
-	float sekundnik = 0.0;
 	
 	//debuguj tutaj jeśli jednorazowo
 
@@ -287,12 +286,13 @@ int main(void)
 	b[0] = glm::vec3(-1, 5, 1);
 	b[1] = glm::vec3(3, 5, 2);
 	//cout << triangleSegmentIntersection(a, b) << endl;
+	gracz.setTrojkat(map[1].getVertices());
 	//Główna pętla
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
 		//angle += speed*vec3(glfwGetTime(), glfwGetTime(), glfwGetTime()); //nie mam pojecia czy tak jest lepiej
 		if (60*glfwGetTime()>1) {
-			cout << glfwGetTime() << endl;
+			//cout << glfwGetTime() << endl;
 			gracz.rusz(map, glfwGetTime());
 			glfwSetTime(0); //Wyzeruj licznik czasu
 		}

@@ -1,6 +1,27 @@
 ﻿  Gracz.cpp
-c:\users\luk3r\documents\github\doom5\doom5\constants.h(27): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-c:\users\luk3r\documents\github\doom5\doom5\constants.h(28): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-c:\users\luk3r\documents\github\doom5\doom5\gracz.cpp(41): warning C4244: "-=": konwersja z "double" do "float", możliwa utrata danych
-c:\users\luk3r\documents\github\doom5\doom5\gracz.cpp(43): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
-  DOOM5.vcxproj -> C:\Users\Luk3r\Documents\GitHub\DOOM5\Debug\DOOM5.exe
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(27): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\gracz.cpp(29): warning C4018: '<': signed/unsigned mismatch
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\gracz.cpp(59): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\gracz.cpp(61): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+  debugFunctions.cpp
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(27): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
+  main_file.cpp
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(27): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(149): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(150): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(185): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\main_file.cpp(186): warning C4305: 'argument': truncation from 'double' to 'float'
+  naszaMatematyka.cpp
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(27): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\constants.h(28): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\naszamatematyka.cpp(42): warning C4018: '<': signed/unsigned mismatch
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\naszamatematyka.cpp(79): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\naszamatematyka.cpp(219): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\naszamatematyka.cpp(220): warning C4244: 'initializing': conversion from 'const float' to 'int', possible loss of data
+c:\users\artur\documents\visual studio 2017\projects\doom6\doom5\naszamatematyka.cpp(226): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  DOOM5.vcxproj -> C:\Users\Artur\Documents\Visual Studio 2017\Projects\DOOM6\Debug\DOOM5.exe

@@ -27,3 +27,6 @@ float trzeciWymiarTrojkata(glm::vec3 position, glm::vec3 triangle[3], int w=1);
 bool triangleSegmentIntersection(glm::vec3 triangle[3], glm::vec3 mins, vec3 maxs,bool debug=0);
 bool terrainCollision(Model &map, glm::vec3 position,bool debug=0);
 
+float minZvec3(vec3 a);
+float maxZvec3(vec3 a);
+int sign(float a);

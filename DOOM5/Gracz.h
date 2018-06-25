@@ -34,10 +34,13 @@ private:
 	vec3 speed;
 	vec2 rotationSpeed;
 
+	vec2 trojkat[3];
+	float minWysokosc;
+
 public:
 	Gracz();
 	~Gracz();
-	void rusz(Model map[2],double czas);
+	void rusz(Model map[2], double czas);
 	void skocz();
 
 	void setPositon(vec3 p) {
@@ -55,19 +58,19 @@ public:
 	void setMovementZ(float value) { movement.z = value; }
 
 
-	void addRotationX(float value) {angle.x += value;}
+	void addRotationX(float value) { angle.x += value; }
 	void addRotationY(float value) {
 		angle.y += value;
 		if (angle.y > maksymalnyKatWychyleniaGoraDol) angle.y = maksymalnyKatWychyleniaGoraDol;
 		if (angle.y < -maksymalnyKatWychyleniaGoraDol) angle.y = -maksymalnyKatWychyleniaGoraDol;
 	}
 
-	void setRotationX(float value) {angle.x = value;}
+	void setRotationX(float value) { angle.x = value; }
 	void setRotationY(float value) {
 		angle.y = value;
 		if (angle.y > maksymalnyKatWychyleniaGoraDol) angle.y = maksymalnyKatWychyleniaGoraDol;
 		if (angle.y < -maksymalnyKatWychyleniaGoraDol) angle.y = -maksymalnyKatWychyleniaGoraDol;
 	}
 
+	bool setTrojkat(std::vector<float> a);
 };
-

@@ -23,7 +23,7 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 const float PI = 3.141592653589793f;
 const float playerMovementSpeed = 10;
 const float playerRotationSpeed = 10;
-const float playerJumpSpeed = 4;
+const float playerJumpSpeed = 40;
 const float gravitationalConstant = 9.81*3;
 const float czasPrzyspieszania = 0.1;
 const int windowDimension = 1000;
