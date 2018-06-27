@@ -50,9 +50,11 @@ GLuint bufNormals;
 Light lights[2] ={ vec4(5,2, 0,1),vec4 (0.1f, 0.1f, 0.1f,1),vec4 (1, 1, 1,1),vec4( 1.0f, 1.0f, 1.0f,1),vec4(1.0f, 1.0f, 1.0f, 1),vec4(22,2, 0,1),vec4(0.1f, 0.1f, 0.1f,1),vec4(1, 1, 1,1),vec4(1.0f, 1.0f, 1.0f,1),vec4(1.0f, 1.0f, 1.0f, 1) };
 int numberOfLights = 2;
 
+Model bullet;
 Model map[2];
 Model lightsObj;
-
+vec3 bulletMeme[2];
+int bulletTTL;
 Gracz gracz = Gracz();
 
 double oldMouseX;
@@ -97,9 +99,20 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			std::cout << "dist1: " << glm::distance(glm::vec4(gracz.getPosition(), 1), lights[0].position) << std::endl;
 			std::cout << "dist2: " << glm::distance(glm::vec4(gracz.getPosition(), 1), lights[1].position) << std::endl;
 			break;
+		case GLFW_KEY_Q:
+			bulletTTL = 100;
+			bulletMeme[0] = gracz.getPosition();
+			bulletMeme[1] = vec3(sin(gracz.getAngle().x), sin(gracz.getAngle().y), cos(gracz.getAngle().x));
+			break;
 		}
 	}
-
+	if (action == GLFW_REPEAT) {
+		switch (key) {
+		case GLFW_KEY_SPACE:
+			gracz.skocz();
+			break;
+		}
+	}
 	if (action == GLFW_RELEASE) {
 		switch (key) {
 		case GLFW_KEY_A:
@@ -131,6 +144,7 @@ void joystick_functions() {
 	count = 14;
 	const unsigned char* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count);
 	if (buttons[0] == GLFW_PRESS) gracz.skocz();
+	if (buttons[4] == GLFW_PRESS) bulletTTL = 100;
 	//OSIE
 	//X LEWEGO,YLEWEGO,XPRAWEGO,YPRAWEGO,LEWY TRIGGER,PRAWY TRIGGER
 	//GUZIKI
@@ -183,15 +197,24 @@ void initOpenGLProgram(GLFWwindow* window) {
 	map[0].loader("e1m1_walls.obj");
 	map[1].loader("e1m1_floor.obj");
 	lightsObj.loader("light.obj");
+<<<<<<< HEAD
 	map[0].prepareObject(shaderProgram,"Textures/MetalGrime011_COL_VAR1_3K.png","Textures/MetalGrime011_NRM_3K.png","MetalGrime011_DISP_VAR1_3K.png","Textures/MetalGrime011_GLOSS_3K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.1,0.7);
 	map[1].prepareObject(shaderProgram, "Textures/TilesOnyxOpaloHexagonalBlack001_COL_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_NRM_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_DISP_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_GLOSS_4K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.02,1);
 	lightsObj.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png",vec4(1,1,1,1),1,1,1);
+=======
+	bullet.loader("light.obj");
+	map[0].prepareObject(shaderProgram,"Textures/CliffJagged004_COL_VAR1_1K.png","Textures/CliffJagged004_NRM_1K.png","Textures/CliffJagged004_DISP_VAR1_1K.png","Textures/CliffJagged004_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.1);
+	map[1].prepareObject(shaderProgram, "Textures/GroundClay002_COL_VAR1_1K.png", "Textures/GroundClay002_NRM_1K.png", "Textures/GroundClay002_DISP_1K.png", "Textures/GroundClay002_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.02);
+	bullet.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png", vec4(1, 1, 1, 1), 1, 1);
+	lightsObj.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png",vec4(1,1,1,1),1,1);
+	bulletTTL = 0;
+>>>>>>> 650e8687496c65b5856f82bb13b5392ee26d4bef
 }
 
 //Zwolnienie zasobów zajętych przez program
 void freeOpenGLProgram() {
 	delete shaderProgram; //Usunięcie programu cieniującego
-	}
+}
 
 
 
@@ -231,11 +254,21 @@ void drawScene(GLFWwindow* window) {
 	//Narysuj obiekt
 	map[0].drawObject(shaderProgram,P,V,M, gracz.getPosition(),lights,numberOfLights);
 	map[1].drawObject(shaderProgram, P, V, M, gracz.getPosition(), lights, numberOfLights);
+
 	M = glm::translate(M, vec3(5, 2, 0));
 	lightsObj.drawObject(lightShader, P, V, M, gracz.getPosition(), lights, numberOfLights);
+
 	M = glm::mat4(1.0f);
 	M = glm::translate(M, vec3(22, 2, 0));
 	lightsObj.drawObject(lightShader, P, V, M, gracz.getPosition(), lights, numberOfLights);
+	if (bulletTTL>0) {
+		M = glm::mat4(1.0f);
+		M = glm::translate(M, bulletMeme[0]);
+		M = glm::scale(M, vec3(0.1, 0.1, 0.1));
+		bullet.drawObject(lightShader, P, V, M, gracz.getPosition(), lights, numberOfLights);
+		bulletMeme[0] += bulletMeme[1];
+		bulletTTL--;
+	}
 
 	//Przerzuć tylny bufor na przedni
 
@@ -277,6 +310,7 @@ int main(void)
 	
 	//debuguj tutaj jeśli jednorazowo
 
+<<<<<<< HEAD
 	glm::vec3 a[3];
 	glm::vec3 b[2];
 	//a[0] = glm::vec3(0, 0, 0);
@@ -291,6 +325,8 @@ int main(void)
 	b[1] = glm::vec3(3, 5, 2);
 	//cout << triangleSegmentIntersection(a, b) << endl;
 	gracz.setTrojkat(map[1].getVertices());	
+=======
+>>>>>>> 650e8687496c65b5856f82bb13b5392ee26d4bef
 	//Główna pętla
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
