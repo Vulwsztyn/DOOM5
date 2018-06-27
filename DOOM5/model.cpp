@@ -261,7 +261,7 @@ void Model::prepareObject(ShaderProgram *shaderProgram,char* diff, char* normal,
 	specTex = readTexture(spec);
 }
 
-void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM, glm::vec3 playerPosition, Light &lights) {
+void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM, glm::vec3 playerPosition, Light lights[], int numberOfLights) {
 	//W³¹czenie programu cieniuj¹cego, który ma zostaæ u¿yty do rysowania
 	//W tym programie wystarczy³oby wywo³aæ to raz, w setupShaders, ale chodzi o pokazanie,
 	//¿e mozna zmieniaæ program cieniuj¹cy podczas rysowania jednej sceny
@@ -290,12 +290,15 @@ void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV,
 
 	glUniform4f(shaderProgram->getUniformLocation("viewPos"), playerPosition.x, playerPosition.y, playerPosition.z ,1);
 
-	glUniform4f(shaderProgram->getUniformLocation("light.position"), lights.position.x, lights.position.y, lights.position.z, lights.position.w);
-	glUniform4f(shaderProgram->getUniformLocation("light.ambient"), lights.ambient.x, lights.ambient.y, lights.ambient.z, lights.ambient.w);
-	glUniform4f(shaderProgram->getUniformLocation("light.diffuse"), lights.diffuse.x, lights.diffuse.y, lights.diffuse.z, lights.diffuse.w); // darken the light a bit to fit the scene
-	glUniform4f(shaderProgram->getUniformLocation("light.specular"), lights.specular.x, lights.specular.y, lights.specular.z, lights.specular.w);
-	glUniform4f(shaderProgram->getUniformLocation("light.color"), lights.lightColor.x, lights.lightColor.y, lights.lightColor.z, lights.lightColor.w);
 
+	for (int i = 0; i < numberOfLights; i++) {
+		glUniform4f(shaderProgram->getUniformLocation((std::string("light[")+std::to_string(i)+ std::string("].position")).c_str()), lights[i].position.x, lights[i].position.y, lights[i].position.z, lights[i].position.w);
+		glUniform4f(shaderProgram->getUniformLocation((std::string("light[") + std::to_string(i) + std::string("].ambient")).c_str()), lights[i].ambient.x, lights[i].ambient.y, lights[i].ambient.z, lights[i].ambient.w);
+		glUniform4f(shaderProgram->getUniformLocation((std::string("light[") + std::to_string(i) + std::string("].diffuse")).c_str()), lights[i].diffuse.x, lights[i].diffuse.y, lights[i].diffuse.z, lights[i].diffuse.w); // darken the light a bit to fit the scene
+		glUniform4f(shaderProgram->getUniformLocation((std::string("light[") + std::to_string(i) + std::string("].specular")).c_str()), lights[i].specular.x, lights[i].specular.y, lights[i].specular.z, lights[i].specular.w);
+		glUniform4f(shaderProgram->getUniformLocation((std::string("light[") + std::to_string(i) + std::string("].color")).c_str()), lights[i].lightColor.x, lights[i].lightColor.y, lights[i].lightColor.z, lights[i].lightColor.w);
+		glUniform1i(shaderProgram->getUniformLocation("numberOfLights"), numberOfLights);
+	}
 
 	//Przypisz tekstury do jednostek teksturuj¹cych
 	glActiveTexture(GL_TEXTURE0);

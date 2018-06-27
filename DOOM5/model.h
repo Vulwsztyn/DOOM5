@@ -11,6 +11,7 @@
 #include <iostream>
 #include "lodepng.h"
 #include "Lights.h"
+#include <string.h>
 class Model
 {
 private:
@@ -50,7 +51,7 @@ public:
 	void assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attributeName, GLuint bufVBO, int vertexSize);
 	void prepareObject(ShaderProgram *shaderProgram, char* diff, char* normal, char* height, char* spec, glm::vec4 mambient, float mshininess, float mroughness);
 	GLuint getVao() { return vao; }
-	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM, glm::vec3 playerPosition,Light &lights);
+	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM, glm::vec3 playerPosition, Light lights[], int numberOfLights);
 	GLuint Model::readTexture(char* filename);
 	void computeTangentBasis();
 };

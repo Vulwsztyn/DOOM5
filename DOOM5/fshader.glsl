@@ -17,23 +17,24 @@ struct Light {
 	vec4 lightColor;
 };
 
-uniform Light light;  
+uniform Light light[2];  
 uniform vec4 viewPos; 
 uniform Material material;
+uniform int numberOfLights;
 
 out vec4 pixelColor; //Zmienna wyjsciowa fragment shadera. Zapisuje sie do niej ostateczny (prawie) kolor piksela
 
 in vec4 FragPos; 
 in vec4 Normal; 
 in vec2 iTexCoord0; //wspolrzedne teksturowania
-in vec4 TangentLightPos;
+in vec4 TangentLightPos[2];
 in vec4 TangentViewPos;
 in vec4 TangentFragPos;
 
 vec2 ParallaxMapping(vec2 texCoords, vec4 viewDir)
 { 
     // number of depth layers
-    const float numLayers = 200;
+    const float numLayers = 100;
     // calculate the size of each layer
     float layerDepth = 1.0 / numLayers;
     // depth of current layer
@@ -55,31 +56,25 @@ while(currentLayerDepth < currentDepthMapValue)
 }
 //return currentTexCoords;
 // get texture coordinates before collision (reverse operations)
-vec2 prevTexCoords = currentTexCoords + deltaTexCoords;
+//vec2 prevTexCoords = currentTexCoords + deltaTexCoords;
 
 // get depth after and before collision for linear interpolation
-float afterDepth  = currentDepthMapValue - currentLayerDepth;
-float beforeDepth = texture(material.heightMap, prevTexCoords).r - currentLayerDepth + layerDepth;
+//float afterDepth  = currentDepthMapValue - currentLayerDepth;
+//float beforeDepth = texture(material.heightMap, prevTexCoords).r - currentLayerDepth + layerDepth;
  
 // interpolation of texture coordinates
-float weight = afterDepth / (afterDepth - beforeDepth);
-vec2 finalTexCoords = prevTexCoords * weight + currentTexCoords * (1.0 - weight);
+//float weight = afterDepth / (afterDepth - beforeDepth);
+//vec2 finalTexCoords = prevTexCoords * weight + currentTexCoords * (1.0 - weight);
 
-return finalTexCoords; 
+return currentTexCoords; 
       
 } 
 
-void main(void) {
-	//ambient
+vec4 calcLight(vec4 viewDir,vec2 newiTexCoord0,vec4 normal,Light light,vec4 TangentLightPos){
+//ambient
 	vec4 ambient  = light.ambient * material.ambient;
 
-	vec4 viewDir    = normalize(TangentViewPos - TangentFragPos);
-	vec2 newiTexCoord0=ParallaxMapping(iTexCoord0,  viewDir);
-
 	// diffuse 
-	vec4 normal = vec4(texture(material.normalMap, newiTexCoord0).rgb,1);
-    normal = normalize(normal * 2.0 - 1.0);
-	//normal=normalize(Normal);
 	vec4 lightDir   = normalize(TangentLightPos - TangentFragPos);
 	float diff = max(dot(normal, lightDir), 0.0);
     vec4 diffuse = light.diffuse * (diff * texture(material.diffuseMap,newiTexCoord0));
@@ -87,10 +82,23 @@ void main(void) {
 	// specular
 	viewDir    = normalize(viewPos - FragPos);
 	lightDir   = normalize(light.position - FragPos);
-	vec4 halfwayDir = normalize(lightDir + viewDir);
 	normal=normalize(Normal);
+	vec4 halfwayDir = normalize(lightDir + viewDir);
 	float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
 	vec4 specular = light.specular * (spec * texture(material.specMap,newiTexCoord0)); 
+	return (specular+ambient+diffuse);
+	}
 
-	pixelColor=specular+ambient+diffuse;
+void main(void) {
+	vec4 viewDir    = normalize(TangentViewPos - TangentFragPos);
+	vec2 newiTexCoord0=ParallaxMapping(iTexCoord0,  viewDir);
+	vec4 normal = vec4(texture(material.normalMap, newiTexCoord0).rgb,1);
+    normal = normalize(normal * 2.0 - 1.0);
+
+	
+	vec4 result=vec4(0,0,0,0);
+	for(int i =0;i<numberOfLights;i++){
+		result+=calcLight(viewDir,newiTexCoord0,normal,light[i],TangentLightPos[i]);
+	}
+	pixelColor=result;
 }

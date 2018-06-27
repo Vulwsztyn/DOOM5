@@ -47,7 +47,8 @@ GLuint vao;
 GLuint bufVertices;
 GLuint bufColors;
 GLuint bufNormals;
-Light lights ={ vec4(5,2, 0,1),vec4 (0.1f, 0.1f, 0.1f,1),vec4 (1, 1, 1,1),vec4( 1.0f, 1.0f, 1.0f,1),vec4(1.0f, 1.0f, 1.0f, 1)};
+Light lights[2] ={ vec4(5,2, 0,1),vec4 (0.1f, 0.1f, 0.1f,1),vec4 (1, 1, 1,1),vec4( 1.0f, 1.0f, 1.0f,1),vec4(1.0f, 1.0f, 1.0f, 1),vec4(22,2, 0,1),vec4(0.1f, 0.1f, 0.1f,1),vec4(1, 1, 1,1),vec4(1.0f, 1.0f, 1.0f,1),vec4(1.0f, 1.0f, 1.0f, 1) };
+int numberOfLights = 2;
 
 Model map[2];
 Model lightsObj;
@@ -182,7 +183,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 	map[0].loader("e1m1_walls.obj");
 	map[1].loader("e1m1_floor.obj");
 	lightsObj.loader("light.obj");
-	map[0].prepareObject(shaderProgram,"Textures/CliffJagged004_COL_VAR1_1K.png","Textures/CliffJagged004_NRM_1K.png","Textures/CliffJagged004_DISP_VAR1_1K.png","Textures/CliffJagged004_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.05);
+	map[0].prepareObject(shaderProgram,"Textures/CliffJagged004_COL_VAR1_1K.png","Textures/CliffJagged004_NRM_1K.png","Textures/CliffJagged004_DISP_VAR1_1K.png","Textures/CliffJagged004_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.1);
 	map[1].prepareObject(shaderProgram, "Textures/GroundClay002_COL_VAR1_1K.png", "Textures/GroundClay002_NRM_1K.png", "Textures/GroundClay002_DISP_1K.png", "Textures/GroundClay002_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.02);
 	lightsObj.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png",vec4(1,1,1,1),1,1);
 }
@@ -228,10 +229,13 @@ void drawScene(GLFWwindow* window) {
 	
 
 	//Narysuj obiekt
-	map[0].drawObject(shaderProgram,P,V,M, gracz.getPosition(),lights);
-	map[1].drawObject(shaderProgram, P, V, M, gracz.getPosition(), lights);
+	map[0].drawObject(shaderProgram,P,V,M, gracz.getPosition(),lights,numberOfLights);
+	map[1].drawObject(shaderProgram, P, V, M, gracz.getPosition(), lights, numberOfLights);
 	M = glm::translate(M, vec3(5, 2, 0));
-	lightsObj.drawObject(lightShader, P, V, M, gracz.getPosition(), lights);
+	lightsObj.drawObject(lightShader, P, V, M, gracz.getPosition(), lights, numberOfLights);
+	M = glm::mat4(1.0f);
+	M = glm::translate(M, vec3(22, 2, 0));
+	lightsObj.drawObject(lightShader, P, V, M, gracz.getPosition(), lights, numberOfLights);
 
 	//Przerzuć tylny bufor na przedni
 

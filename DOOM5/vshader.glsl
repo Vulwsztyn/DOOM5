@@ -11,8 +11,9 @@ struct Light {
     vec4 specular;
 	vec4 lightColor;
 };
-uniform Light light;  
+uniform Light light[2];  
 uniform vec4 viewPos; 
+uniform int numberOfLights;
 
 
 //Atrybuty
@@ -27,7 +28,7 @@ in vec4 c3; //Trzecia kolumna macierzy TBN^-1 (na razie ignorowana)
 out vec4 FragPos; 
 out vec4 Normal; 
 out vec2 iTexCoord0; //wspolrzedne teksturowania
-out vec4 TangentLightPos;
+out vec4 TangentLightPos[2];
 out vec4 TangentViewPos;
 out vec4 TangentFragPos;
 
@@ -38,7 +39,9 @@ void main(void) {
    vec4 N = normalize(vec4(M * c3));
    mat4 TBN = transpose(mat4(T, B, N,vec4(0,0,0,1)));
 
-   TangentLightPos = TBN * light.position;
+	for(int i =0; i < numberOfLights;i++){
+	TangentLightPos[i] = TBN * light[i].position;
+	}
     TangentViewPos  = TBN * viewPos;
     TangentFragPos  = TBN * M * vertex;
 
