@@ -98,7 +98,7 @@ void main(void) {
 	
 	vec4 result=vec4(0,0,0,0);
 	for(int i =0;i<numberOfLights;i++){
-		result+=calcLight(viewDir,newiTexCoord0,normal,light[i],TangentLightPos[i]);
+		if(distance(viewPos,light[i].position)<50)result+=(min(20/(1.8*distance(viewPos,light[i].position)),1))*calcLight(viewDir,newiTexCoord0,normal,light[i],TangentLightPos[i]);
 	}
 	pixelColor=result;
 }

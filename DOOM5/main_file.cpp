@@ -94,8 +94,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			break;
 		
 		case GLFW_KEY_P:
-			wypiszvec3(gracz.getPosition());
-			wypiszvec2(gracz.getAngle());
+			std::cout << "dist1: " << glm::distance(glm::vec4(gracz.getPosition(), 1), lights[0].position) << std::endl;
+			std::cout << "dist2: " << glm::distance(glm::vec4(gracz.getPosition(), 1), lights[1].position) << std::endl;
 			break;
 		}
 	}
