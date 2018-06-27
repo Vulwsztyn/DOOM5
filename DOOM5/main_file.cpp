@@ -47,11 +47,11 @@ GLuint vao;
 GLuint bufVertices;
 GLuint bufColors;
 GLuint bufNormals;
-Light lights[2] ={ vec4(5,2, 0,1),vec4 (0.1f, 0.1f, 0.1f,1),vec4 (1, 1, 1,1),vec4( 1.0f, 1.0f, 1.0f,1),vec4(1.0f, 1.0f, 1.0f, 1),vec4(22,2, 0,1),vec4(0.1f, 0.1f, 0.1f,1),vec4(1, 1, 1,1),vec4(1.0f, 1.0f, 1.0f,1),vec4(1.0f, 1.0f, 1.0f, 1) };
-int numberOfLights = 2;
+Light lights[3] ={ vec4(5,2, 0,1),vec4 (0.1f, 0.1f, 0.1f,1),vec4 (1, 1, 1,1),vec4( 1.0f, 1.0f, 1.0f,1),vec4(1.0f, 1.0f, 1.0f, 1),vec4(22,2, 0,1),vec4(0.1f, 0.1f, 0.1f,1),vec4(1, 1, 1,1),vec4(1.0f, 1.0f, 1.0f,1),vec4(1.0f, 1.0f, 1.0f, 1),vec4(-20,2, -8,1),vec4(0.1f, 0.1f, 0.1f,1),vec4(1, 1, 1,1),vec4(1.0f, 1.0f, 1.0f,1),vec4(1.0f, 1.0f, 1.0f, 1), };
+int numberOfLights = 3;
 
 Model bullet;
-Model map[2];
+Model map[5];
 Model lightsObj;
 vec3 bulletMeme[2];
 int bulletTTL;
@@ -195,17 +195,25 @@ void initOpenGLProgram(GLFWwindow* window) {
 	lightShader = new ShaderProgram("vshader.glsl", NULL, "lightfshader.glsl"); //Wczytaj program cieniujący
 
 	map[0].loader("e1m1_walls.obj");
-	map[1].loader("e1m1_floor.obj");
+	map[1].loader("e1m1_walls2.obj");
+	map[2].loader("e1m1_floor.obj");
+	map[3].loader("e1m1_floor2.obj");
+	map[4].loader("e1m1_celing.obj");
 	lightsObj.loader("light.obj");
-	map[0].prepareObject(shaderProgram,"Textures/MetalGrime011_COL_VAR1_3K.png","Textures/MetalGrime011_NRM_3K.png","MetalGrime011_DISP_VAR1_3K.png","Textures/MetalGrime011_GLOSS_3K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.1,0.7);
-	map[1].prepareObject(shaderProgram, "Textures/TilesOnyxOpaloHexagonalBlack001_COL_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_NRM_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_DISP_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_GLOSS_4K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.02,1);
+	map[0].prepareObject(shaderProgram,"Textures/MetalGrime011_COL_VAR1_3K.png","Textures/MetalGrime011_NRM_3K.png","Textures/MetalGrime011_DISP_VAR1_3K.png","Textures/MetalGrime011_GLOSS_3K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.1,0.6);
+	map[1].prepareObject(shaderProgram, "Textures/CliffJagged004_COL_VAR1_1K.png", "Textures/CliffJagged004_NRM_1K.png", "Textures/CliffJagged004_DISP_VAR1_1K.png", "Textures/CliffJagged004_GLOSS_1K.png", vec4(0.2, 0.2, 0.2, 1), 32, 0.1, 0.6);
+
+	map[2].prepareObject(shaderProgram, "Textures/TilesOnyxOpaloHexagonalBlack001_COL_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_NRM_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_DISP_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_GLOSS_4K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.02,1);
+	map[3].prepareObject(shaderProgram, "Textures/GroundClay002_COL_VAR1_1K.png", "Textures/GroundClay002_NRM_1K.png", "Textures/GroundClay002_DISP_1K.png", "Textures/GroundClay002_GLOSS_1K.png", vec4(0.2, 0.2, 0.2, 1), 32, 0.02, 1);
+
+	map[4].prepareObject(shaderProgram, "Textures/Plaster17_COL_VAR1_3K.png", "Textures/Plaster17_NRM_3K.png", "Plaster17_DISP_VAR1_3K.png", "Textures/Plaster17_GLOSS_3K.png", vec4(0.2, 0.2, 0.2, 1), 32, 0.1, 1.3);
 	lightsObj.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png",vec4(1,1,1,1),1,1,1);
 	bullet.loader("light.obj");
 	bullet.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png", vec4(1, 1, 1, 1), 1, 1,1);
 	bulletTTL = 0;
 }
 
-//Zwolnienie zasobów zajętych przez program
+//Zwolnienie zasobów zajętych przez program````````````````
 void freeOpenGLProgram() {
 	delete shaderProgram; //Usunięcie programu cieniującego
 }
@@ -248,12 +256,19 @@ void drawScene(GLFWwindow* window) {
 	//Narysuj obiekt
 	map[0].drawObject(shaderProgram,P,V,M, gracz.getPosition(),lights,numberOfLights);
 	map[1].drawObject(shaderProgram, P, V, M, gracz.getPosition(), lights, numberOfLights);
+	map[2].drawObject(shaderProgram, P, V, M, gracz.getPosition(), lights, numberOfLights);
+	map[3].drawObject(shaderProgram, P, V, M, gracz.getPosition(), lights, numberOfLights);
+	map[4].drawObject(shaderProgram, P, V, M, gracz.getPosition(), lights, numberOfLights);
+
 
 	M = glm::translate(M, vec3(5, 2, 0));
 	lightsObj.drawObject(lightShader, P, V, M, gracz.getPosition(), lights, numberOfLights);
 
 	M = glm::mat4(1.0f);
 	M = glm::translate(M, vec3(22, 2, 0));
+	lightsObj.drawObject(lightShader, P, V, M, gracz.getPosition(), lights, numberOfLights);
+	M = glm::mat4(1.0f);
+	M = glm::translate(M, vec3(-20, 2, -8));
 	lightsObj.drawObject(lightShader, P, V, M, gracz.getPosition(), lights, numberOfLights);
 	if (bulletTTL>0) {
 		M = glm::mat4(1.0f);
@@ -303,7 +318,8 @@ int main(void)
 	glfwSetTime(0); //Wyzeruj licznik czasu
 	
 	//debuguj tutaj jeśli jednorazowo
-
+	gracz.setTrojkat(map[2].getVertices());
+	gracz.setTrojkat(map[3].getVertices());
 
 	//Główna pętla
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte

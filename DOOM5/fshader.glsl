@@ -18,7 +18,7 @@ struct Light {
 	vec4 lightColor;
 };
 
-uniform Light light[2];  
+uniform Light light[3];  
 uniform vec4 viewPos; 
 uniform Material material;
 uniform int numberOfLights;
@@ -28,7 +28,7 @@ out vec4 pixelColor; //Zmienna wyjsciowa fragment shadera. Zapisuje sie do niej 
 in vec4 FragPos; 
 in vec4 Normal; 
 in vec2 iTexCoord0; //wspolrzedne teksturowania
-in vec4 TangentLightPos[2];
+in vec4 TangentLightPos[3];
 in vec4 TangentViewPos;
 in vec4 TangentFragPos;
 
@@ -102,6 +102,4 @@ void main(void) {
 		if(distance(viewPos,light[i].position)<50)result+=(min(20/(1.8*distance(viewPos,light[i].position)),1))*calcLight(viewDir,newiTexCoord0,normal,light[i],TangentLightPos[i]);
 	}
 	pixelColor=result;
-	viewDir = normalize(viewPos - FragPos);
-	if(viewDir.x>0 && viewDir.x<0.5 && viewDir.y>0 && viewDir.y<0.5)pixelColor=vec4(0,0,0,1);
 }

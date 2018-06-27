@@ -11,7 +11,7 @@ struct Light {
     vec4 specular;
 	vec4 lightColor;
 };
-uniform Light light[2];  
+uniform Light light[3];  
 uniform vec4 viewPos; 
 uniform int numberOfLights;
 
@@ -28,7 +28,7 @@ in vec4 c3; //Trzecia kolumna macierzy TBN^-1 (na razie ignorowana)
 out vec4 FragPos; 
 out vec4 Normal; 
 out vec2 iTexCoord0; //wspolrzedne teksturowania
-out vec4 TangentLightPos[2];
+out vec4 TangentLightPos[3];
 out vec4 TangentViewPos;
 out vec4 TangentFragPos;
 

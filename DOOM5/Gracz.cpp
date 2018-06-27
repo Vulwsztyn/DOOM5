@@ -1,4 +1,4 @@
-#include "Gracz.h"
+ï»¿#include "Gracz.h"
 #include "debugFunctions.h"
 #include "naszaMatematyka.h"
 
@@ -12,7 +12,6 @@ Gracz::Gracz()
 	normalisedMovement = vec3(0, 0, 0);
 	speed = vec3(0, 0, 0);
 	rotationSpeed = vec2(0.0f, 0.0f);
-	minWysokosc = 0.75f;
 }
 
 
@@ -26,20 +25,39 @@ void Gracz::skocz() {
 }
 
 
-void Gracz::rusz(Model map[2], double czas)
+bool Gracz::setTrojkat(std::vector<float> a) {
+	for (int i = 0; i < a.size(); i = i + 12) {
+		vec2 triangle[3];
+		for (int j = 0; j < 3; j++) {
+			triangle[j].x = a[i + 4 * j];
+			triangle[j].y = a[i + 4 * j + 2];
+		}
+		if (PointInTriangle(vec2(position.x, position.z), triangle)) {
+			cout << i << endl;
+			for (int j = 0; j < 3; j++) {
+				trojkat[j] = triangle[j];
+			}
+			minWysokosc = maxZvec3(vec3(a[i + 1], a[i + 5], a[i + 9]));
+			return true;
+		}
+	}
+	return false;
+}
+
+void Gracz::rusz(Model map[5], double czas)
 {
-	
-	//je¿eli nie leci
-	//if (1||!speed.y) {
+
+	//jeï¿½eli nie leci
+	if (1 || !speed.y) {
 		normalisedMovement = normalize(vec3(movement.x*sin(angle.x + PI / 2) + movement.z*sin(angle.x), 0.0f, movement.z*cos(angle.x) + movement.x*cos(angle.x + PI / 2)));
 		if (normalisedMovement.x != normalisedMovement.x || normalisedMovement.y != normalisedMovement.y || normalisedMovement.z != normalisedMovement.z) {
 			normalisedMovement = vec3(0, 0, 0);
 		}
 		speed += vec3((normalisedMovement.x - speed.x)*czas / czasPrzyspieszania, 0, (normalisedMovement.z - speed.z)*czas / czasPrzyspieszania);
-	//}
+	}
 
 	speed.y -= czas * gravitationalConstant;
-	if (position.y+sign(speed.y)*1.5>minWysokosc) {
+	if (position.y + sign(speed.y)*1.5>minWysokosc) {
 		position.y += speed.y*czas;
 	}
 	else {
@@ -47,13 +65,16 @@ void Gracz::rusz(Model map[2], double czas)
 	}
 
 	vec3 move = vec3(czas*playerMovementSpeed*speed.x, 0.0f, czas*playerMovementSpeed*speed.z);
-	
-	
+
+
 	//opuszczamTrojkat(map[1], );
-	
-	position += move;
-	
+	if (PointInTriangle(vec2(position.x + sign(speed.x) / 3, position.z + sign(speed.z) / 3), trojkat)) {
+		position += move;
+	}
+	else if (setTrojkat(map[2].getVertices()) || setTrojkat(map[3].getVertices())) {
+		position += move;
+	}
+	else position -= move;
 }
 
 
-	

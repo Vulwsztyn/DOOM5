@@ -40,7 +40,7 @@ private:
 public:
 	Gracz();
 	~Gracz();
-	void rusz(Model map[2], double czas);
+	void rusz(Model map[5], double czas);
 	void skocz();
 
 	void setPositon(vec3 p) {
