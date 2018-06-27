@@ -197,18 +197,12 @@ void initOpenGLProgram(GLFWwindow* window) {
 	map[0].loader("e1m1_walls.obj");
 	map[1].loader("e1m1_floor.obj");
 	lightsObj.loader("light.obj");
-<<<<<<< HEAD
 	map[0].prepareObject(shaderProgram,"Textures/MetalGrime011_COL_VAR1_3K.png","Textures/MetalGrime011_NRM_3K.png","MetalGrime011_DISP_VAR1_3K.png","Textures/MetalGrime011_GLOSS_3K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.1,0.7);
 	map[1].prepareObject(shaderProgram, "Textures/TilesOnyxOpaloHexagonalBlack001_COL_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_NRM_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_DISP_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_GLOSS_4K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.02,1);
 	lightsObj.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png",vec4(1,1,1,1),1,1,1);
-=======
 	bullet.loader("light.obj");
-	map[0].prepareObject(shaderProgram,"Textures/CliffJagged004_COL_VAR1_1K.png","Textures/CliffJagged004_NRM_1K.png","Textures/CliffJagged004_DISP_VAR1_1K.png","Textures/CliffJagged004_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.1);
-	map[1].prepareObject(shaderProgram, "Textures/GroundClay002_COL_VAR1_1K.png", "Textures/GroundClay002_NRM_1K.png", "Textures/GroundClay002_DISP_1K.png", "Textures/GroundClay002_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.02);
-	bullet.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png", vec4(1, 1, 1, 1), 1, 1);
-	lightsObj.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png",vec4(1,1,1,1),1,1);
+	bullet.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png", vec4(1, 1, 1, 1), 1, 1,1);
 	bulletTTL = 0;
->>>>>>> 650e8687496c65b5856f82bb13b5392ee26d4bef
 }
 
 //Zwolnienie zasobów zajętych przez program
@@ -310,23 +304,7 @@ int main(void)
 	
 	//debuguj tutaj jeśli jednorazowo
 
-<<<<<<< HEAD
-	glm::vec3 a[3];
-	glm::vec3 b[2];
-	//a[0] = glm::vec3(0, 0, 0);
-	//a[1] = glm::vec3(0, 1, 1);
-	//a[2] = glm::vec3(1, 1, 0);
-	//b[0] = glm::vec3(0.5, 0, 0.5);
-	//b[1] = glm::vec3(0, 1, 0);
-	a[0] = glm::vec3(0, 0, 2);
-	a[1] = glm::vec3(2, 200, -6);
-	a[2] = glm::vec3(3, 900, -10);
-	b[0] = glm::vec3(-1, 5, 1);
-	b[1] = glm::vec3(3, 5, 2);
-	//cout << triangleSegmentIntersection(a, b) << endl;
-	gracz.setTrojkat(map[1].getVertices());	
-=======
->>>>>>> 650e8687496c65b5856f82bb13b5392ee26d4bef
+
 	//Główna pętla
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
