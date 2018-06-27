@@ -8,6 +8,7 @@ struct Material {
 	sampler2D heightMap;
     float shininess;
 	float roughness;
+	float gamma;
 }; 
 struct Light {
     vec4 position;
@@ -86,7 +87,7 @@ vec4 calcLight(vec4 viewDir,vec2 newiTexCoord0,vec4 normal,Light light,vec4 Tang
 	vec4 halfwayDir = normalize(lightDir + viewDir);
 	float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess);
 	vec4 specular = light.specular * (spec * texture(material.specMap,newiTexCoord0)); 
-	return (specular+ambient+diffuse);
+	return material.gamma*(specular+ambient+diffuse);
 	}
 
 void main(void) {
@@ -101,4 +102,6 @@ void main(void) {
 		if(distance(viewPos,light[i].position)<50)result+=(min(20/(1.8*distance(viewPos,light[i].position)),1))*calcLight(viewDir,newiTexCoord0,normal,light[i],TangentLightPos[i]);
 	}
 	pixelColor=result;
+	viewDir = normalize(viewPos - FragPos);
+	if(viewDir.x>0 && viewDir.x<0.5 && viewDir.y>0 && viewDir.y<0.5)pixelColor=vec4(0,0,0,1);
 }

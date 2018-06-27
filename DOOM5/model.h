@@ -25,6 +25,7 @@ private:
 	glm::vec4 ambient;
 	float shininess;
 	float roughness;
+	float gamma;
 	GLuint diffTex; //Zmienna reprezentujaca teksturê
 	GLuint normalTex; //Zmienna reprezentujaca teksturê
 	GLuint heightTex; //Zmienna reprezentuj¹ca teksturê
@@ -49,7 +50,7 @@ public:
 	std::vector <float> getBitangents() { return bitangents; }
 	GLuint makeBuffer(void *data, int vertexCount, int vertexSize);
 	void assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attributeName, GLuint bufVBO, int vertexSize);
-	void prepareObject(ShaderProgram *shaderProgram, char* diff, char* normal, char* height, char* spec, glm::vec4 mambient, float mshininess, float mroughness);
+	void prepareObject(ShaderProgram *shaderProgram, char* diff, char* normal, char* height, char* spec, glm::vec4 mambient, float mshininess, float mroughness, float mgamma);
 	GLuint getVao() { return vao; }
 	void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV, glm::mat4 mM, glm::vec3 playerPosition, Light lights[], int numberOfLights);
 	GLuint Model::readTexture(char* filename);

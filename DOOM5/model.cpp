@@ -230,7 +230,7 @@ void Model::assignVBOtoAttribute(ShaderProgram *shaderProgram, const char* attri
 	glEnableVertexAttribArray(location); //W³¹cz u¿ywanie atrybutu o numerze slotu zapisanym w zmiennej location
 	glVertexAttribPointer(location, vertexSize, GL_FLOAT, GL_FALSE, 0, NULL); //Dane do slotu location maj¹ byæ brane z aktywnego VBO
 }
-void Model::prepareObject(ShaderProgram *shaderProgram,char* diff, char* normal, char* height,char* spec,glm::vec4 mambient, float mshininess, float mroughness) {
+void Model::prepareObject(ShaderProgram *shaderProgram,char* diff, char* normal, char* height,char* spec,glm::vec4 mambient, float mshininess, float mroughness, float mgamma) {
 	//Zbuduj VBO z danymi obiektu do narysowania
 	computeTangentBasis();
 	bufVertices = makeBuffer(&getVertices()[0], getVertices().size() / 4, sizeof(float) * 4); //VBO ze wspó³rzêdnymi wierzcho³ków
@@ -255,6 +255,7 @@ void Model::prepareObject(ShaderProgram *shaderProgram,char* diff, char* normal,
 	ambient = mambient;
 	shininess = mshininess;
 	roughness = mroughness;
+	gamma = mgamma;
 	diffTex = readTexture(diff);
 	normalTex = readTexture(normal);
 	heightTex = readTexture(height);
@@ -287,6 +288,7 @@ void Model::drawObject(ShaderProgram *shaderProgram, glm::mat4 mP, glm::mat4 mV,
 	glUniform4f(shaderProgram->getUniformLocation("material.ambient"), ambient.x, ambient.y, ambient.z, ambient.w);
 	glUniform1f(shaderProgram->getUniformLocation("material.shininess"), shininess);
 	glUniform1f(shaderProgram->getUniformLocation("material.roughness"), roughness);
+	glUniform1f(shaderProgram->getUniformLocation("material.gamma"), gamma);
 
 	glUniform4f(shaderProgram->getUniformLocation("viewPos"), playerPosition.x, playerPosition.y, playerPosition.z ,1);
 
