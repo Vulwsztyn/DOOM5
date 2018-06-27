@@ -80,7 +80,7 @@ bool Model::loader(const char * path) {
 	// For each vertex of each triangle
 	for (int i = 0; i < vertexIndices.size(); i++) {
 		int vertexIndex = vertexIndices[i];
-		glm::vec3 vertex = temp_vertices[vertexIndex - 1];
+		glm::vec3 vertex = temp_vertices[vertexIndex-1];
 		vertices.push_back(vertex.x);
 		vertices.push_back(vertex.y);
 		vertices.push_back(vertex.z);
@@ -186,9 +186,6 @@ void Model::computeTangentBasis() {
 		normals.push_back(0);
 		j += 6;
 	}
-	
-
-
 }
 
 GLuint Model::readTexture(char* filename) {
