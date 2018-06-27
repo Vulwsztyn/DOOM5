@@ -200,13 +200,13 @@ void initOpenGLProgram(GLFWwindow* window) {
 	map[3].loader("e1m1_floor2.obj");
 	map[4].loader("e1m1_celing.obj");
 	lightsObj.loader("light.obj");
-	map[0].prepareObject(shaderProgram,"Textures/MetalGrime011_COL_VAR1_3K.png","Textures/MetalGrime011_NRM_3K.png","Textures/MetalGrime011_DISP_VAR1_3K.png","Textures/MetalGrime011_GLOSS_3K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.1,0.6);
+	map[0].prepareObject(shaderProgram,"Textures/MetalGrime011_COL_VAR1_1K.png","Textures/MetalGrime011_NRM_1K.png","Textures/MetalGrime011_DISP_VAR1_1K.png","Textures/MetalGrime011_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.1,0.6);
 	map[1].prepareObject(shaderProgram, "Textures/CliffJagged004_COL_VAR1_1K.png", "Textures/CliffJagged004_NRM_1K.png", "Textures/CliffJagged004_DISP_VAR1_1K.png", "Textures/CliffJagged004_GLOSS_1K.png", vec4(0.2, 0.2, 0.2, 1), 32, 0.1, 0.6);
 
-	map[2].prepareObject(shaderProgram, "Textures/TilesOnyxOpaloHexagonalBlack001_COL_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_NRM_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_DISP_4K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_GLOSS_4K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.02,1);
+	map[2].prepareObject(shaderProgram, "Textures/TilesOnyxOpaloHexagonalBlack001_COL_1K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_NRM_1K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_DISP_1K.png", "Textures/TilesOnyxOpaloHexagonalBlack001_GLOSS_1K.png",vec4(0.2, 0.2, 0.2, 1), 32, 0.02,1);
 	map[3].prepareObject(shaderProgram, "Textures/GroundClay002_COL_VAR1_1K.png", "Textures/GroundClay002_NRM_1K.png", "Textures/GroundClay002_DISP_1K.png", "Textures/GroundClay002_GLOSS_1K.png", vec4(0.2, 0.2, 0.2, 1), 32, 0.02, 1);
 
-	map[4].prepareObject(shaderProgram, "Textures/Plaster17_COL_VAR1_3K.png", "Textures/Plaster17_NRM_3K.png", "Plaster17_DISP_VAR1_3K.png", "Textures/Plaster17_GLOSS_3K.png", vec4(0.2, 0.2, 0.2, 1), 32, 0.1, 1.3);
+	map[4].prepareObject(shaderProgram, "Textures/Plaster17_COL_VAR1_1K.png", "Textures/Plaster17_NRM_1K.png", "Plaster17_DISP_VAR1_1K.png", "Textures/Plaster17_GLOSS_1K.png", vec4(0.2, 0.2, 0.2, 1), 32, 0.1, 1.3);
 	lightsObj.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png",vec4(1,1,1,1),1,1,1);
 	bullet.loader("light.obj");
 	bullet.prepareObject(lightShader, "light.png", "light.png", "light.png", "light.png", vec4(1, 1, 1, 1), 1, 1,1);
